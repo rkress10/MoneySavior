@@ -4,8 +4,32 @@
 <title>Hello World</title>
 <link rel="stylesheet" type="text/css" href="style.css">
 <script src="popup.js"></script>
-</head>
+
 <body>
+
+<div id="app">
+    <div id="appHeader">
+        <div id="title">Money Savior</div>
+        <div id="closeButtonArea">
+            <!-- placeholder for close button -->
+            <button id="closeButton">x</button>
+        </div> 
+    </div>
+    <div id="appBody">
+        <div id="addButton"> <button id="changeColor">+</button></div>
+        <div id="appBodyContent">
+            <!-- contains content to show the user like "Welcome to Money Savior" -->
+            <div id="welcomePage">
+                Welcome to Money Savior. Do you have any current streaming subscriptions
+                <div id="yesButtonDiv"><button id="yesButton">Yes</button></div>
+                <div id="noButtonDiv"><button id="noButton">No</button></div>
+            </div>
+
+            <div id="subscriptionServiceListDiv"></div>
+        </div>
+        
+    </div>
+</div>
 <h1 id="headingText">Hello World!</h1>
 <input type="text" id="inputText">
 </body>

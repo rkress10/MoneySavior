@@ -68,3 +68,11 @@ button.current {
     border: none;
     border-radius: 2px;
 }
+
+.showbutton {
+    background-color: aquamarine;
+    height: 70px;
+    width: 70px;
+    margin: 10px;
+}
+

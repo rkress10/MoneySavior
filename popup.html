@@ -3,6 +3,8 @@
 <head>
 <title>Hello World</title>
 <link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 <script src="popup.js"></script>
 
 
@@ -13,26 +15,56 @@
         <div id="title">Money Savior</div>
         <div id="closeButtonArea">
             <!-- placeholder for close button -->
-            <button id="closeButton">x</button>
+            <img src="baseline_close_white_24dp.png" id="closeButton">
         </div> 
     </div>
     <div id="appBody">
-        <div id="addButtonDiv"> <button id="addButton">+</button></div>
+        <div id="addButtonDiv"> +<button id="addButton" class="optionsButton">
+            
+        </button></div>
         <div id="appBodyContent">
-            <!-- contains content to show the user like "Welcome to Money Savior" -->
-            <div id="messageContainer"></div>
-            <div id="optionsContainer"></div>
+            
+            <div id="messageContainer">
+                <!-- contains content to show the user like "Welcome to Money Savior" -->
+            </div>
+            <div id="optionsContainer">
+                <!-- contains options of streaming services for the user to choose -->
+            </div>
 
-            <button id="showDataGoog" class="showbutton">Show Number of Google Visits</button>
-            <div id="showDataGoogle" ></div>
+            <div id="subscriptionServiceListDiv">
+                <!-- contains options of streaming services for the user to choose -->
+                
+                <div class="netflixDiv">
+                    <!-- template for what is contained in a subscription service div  -->
+                    <!-- just a rough idea, can change depending on how to implement the javascript for it -->
+                    <div id="netflixPrice"></div>
+                    <div id="netflixInfo"></div>
+                    <div id="netflixCancel"></div>
 
-            <button id="showDataNetf" class="showbutton">Show Number of Netflix Visits</button>
-            <div id="showDataNetflix"></div>
 
-            <button id="showDataHulu" class="showbutton">Show Number of Hulu Visits</button>
-            <div id="showDataHuluText"></div>
+                </div>
 
-            <div id="subscriptionServiceListDiv"></div>
+                <div class="huluDiv">
+                    <!-- template for what is contained in a subscription service div  -->
+                    <!-- just a rough idea, can change depending on how to implement the javascript for it -->
+                    <div id="huluPrice"></div>
+                    <div id="huluInfo"></div>
+                    <div id="huluCancel"></div>
+
+
+                </div>
+                
+                <button id="showDataGoog" class="showbutton">Show Number of Google Visits</button>
+                <div id="showDataGoogle" ></div>
+
+                <button id="showDataNetf" class="showbutton">Show Number of Netflix Visits</button>
+                <div id="showDataNetflix"></div>
+
+                <button id="showDataHulu" class="showbutton">Show Number of Hulu Visits</button>
+                <div id="showDataHuluText"></div>
+            </div>
+
+            
         </div>
         
     </div>

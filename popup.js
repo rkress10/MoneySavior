@@ -14,7 +14,7 @@ function welcomeMessage() {
             if(data["firstTime"]) {
                 var welcomeDivStr = "<div id='welcomeMessage'>";
                 welcomeDivStr += "Welcome to Money Savior. Do you have any current streaming subscriptions";
-                welcomeDivStr += "<div id='yesButtonDiv'><button id='yesButton'>Yes</button></div>";
+                welcomeDivStr += "<div id='yesButtonDiv'><button id='yesButton' class='optionsButton'>Yes</button></div>";
                 welcomeDivStr += "<div id='noButtonDiv'><button id='noButton'>No</button></div>";
                 welcomeDivStr += "</div>";
                 document.getElementById('messageContainer').innerHTML = welcomeDivStr;
@@ -96,6 +96,7 @@ function yesButtonFunc() {
         // removes the welcomeMessage div when clicked
         document.getElementById('welcomeMessage').remove();
         // TODO: implement checkbox option for lists of streaming services to choose
+        
 
     }
     );

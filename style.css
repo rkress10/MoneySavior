@@ -42,8 +42,12 @@ button.current {
 
 }
 
+
+
 #closeButton {
     /* TODO: add closeButton attributes */
+    padding: 3px;
+    margin: 3px;
 
 }
 

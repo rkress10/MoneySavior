@@ -19,49 +19,67 @@
         </div> 
     </div>
     <div id="appBody">
-        <div id="addButtonDiv"> +<button id="addButton" class="optionsButton">
-            
-        </button></div>
+        <div id="addButtonDiv">
+            <button id="addButton" class="optionsButton">+</button>
+        </div>
+
+        <div id="addServiceDiv">
+            <button id="addNetflix">Add Netflix</button> <br>
+            <button id="addHulu">Add Hulu</button> <br>
+            <button id="addPeacock">Add Peacock</button> <br>
+            <button id="addHbo">Add HBO Max</button> <br>
+        </div>
         <div id="appBodyContent">
             
             <div id="messageContainer">
                 <!-- contains content to show the user like "Welcome to Money Savior" -->
             </div>
-            <div id="optionsContainer">
-                <!-- contains options of streaming services for the user to choose -->
-            </div>
 
             <div id="subscriptionServiceListDiv">
                 <!-- contains options of streaming services for the user to choose -->
                 
-                <div class="netflixDiv">
+                <div id="netflixDiv" class="infodiv">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
-                    <div id="netflixPrice"></div>
-                    <div id="netflixInfo"></div>
-                    <div id="netflixCancel"></div>
+                    <div id="netflixPrice">Netflix Price: $idk</div>
+                    <div id="netflixInfo">Netflix Visits</div>
+                    <div id="netflixCancel">Cancel Netflix</div>
+
+
+                </div>
+                <br><br>
+                <div id="huluDiv" class="infodiv">
+                    <!-- template for what is contained in a subscription service div  -->
+                    <!-- just a rough idea, can change depending on how to implement the javascript for it -->
+                    <div id="huluPrice">Hulu Price: $idk</div>
+                    <div id="huluInfo">Hulu Visits</div>
+                    <div id="huluCancel">Cancel Hulu</div>
+
+
+                </div>
+                <br><br>
+
+                <div id="peacockDiv" class="infodiv">
+                    <!-- template for what is contained in a subscription service div  -->
+                    <!-- just a rough idea, can change depending on how to implement the javascript for it -->
+                    <div id="peacockPrice">Peacock Price: $idk</div>
+                    <div id="peacockInfo">Peacock Visits</div>
+                    <div id="peacockCancel">Cancel Peacock</div>
 
 
                 </div>
 
-                <div class="huluDiv">
+                <br><br>
+
+                <div id="hboDiv" class="infodiv">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
-                    <div id="huluPrice"></div>
-                    <div id="huluInfo"></div>
-                    <div id="huluCancel"></div>
+                    <div id="hboPrice">HBO Max Price: $idk</div>
+                    <div id="hboInfo">HBO max Visits</div>
+                    <div id="hboCancel">Cancel HBO Max</div>
 
 
                 </div>
-                
-                <button id="showDataGoog" class="showbutton">Show Number of Google Visits</button>
-                <div id="showDataGoogle" ></div>
-
-                <button id="showDataNetf" class="showbutton">Show Number of Netflix Visits</button>
-                <div id="showDataNetflix"></div>
-
-                <button id="showDataHulu" class="showbutton">Show Number of Hulu Visits</button>
-                <div id="showDataHuluText"></div>
             </div>
 
             

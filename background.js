@@ -31,8 +31,19 @@ function GetCurrentTab() {
     )
 }
 
+
+
 chrome.tabs.onUpdated.addListener (function (tabID, changeInfo, tab) {
     if (changeInfo.status == 'complete') {
         GetCurrentTab();
     }
 })
+
+chrome.runtime.onInstalled.addListener(details => {
+    
+    if (details.reason === "install") {
+        chrome.storage.sync.set({"firstTime": true}, function() {
+        }
+        );
+    }
+});

@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <script src="popup.js"></script>
 
+
 <body>
 
 <div id="app">
@@ -16,22 +17,19 @@
         </div> 
     </div>
     <div id="appBody">
-        <div id="addButton"> <button id="changeColor">+</button></div>
+        <div id="addButtonDiv"> <button id="addButton">+</button></div>
         <div id="appBodyContent">
             <!-- contains content to show the user like "Welcome to Money Savior" -->
-            <div id="welcomePage">
-                Welcome to Money Savior. Do you have any current streaming subscriptions
-                <div id="yesButtonDiv"><button id="yesButton">Yes</button></div>
-                <div id="noButtonDiv"><button id="noButton">No</button></div>
-            </div>
+            <div id="messageContainer"></div>
+            <div id="optionsContainer"></div>
 
-            <button id="showDataGoog" class="showbutton">Number of Google Visits</button>
+            <button id="showDataGoog" class="showbutton">Show Number of Google Visits</button>
             <div id="showDataGoogle" ></div>
 
-            <button id="showDataNetf" class="showbutton">Number of Netflix Visits</button>
+            <button id="showDataNetf" class="showbutton">Show Number of Netflix Visits</button>
             <div id="showDataNetflix"></div>
 
-            <button id="showDataHulu" class="showbutton">Number of Hulu Visits</button>
+            <button id="showDataHulu" class="showbutton">Show Number of Hulu Visits</button>
             <div id="showDataHuluText"></div>
 
             <div id="subscriptionServiceListDiv"></div>

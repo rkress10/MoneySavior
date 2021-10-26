@@ -1,13 +1,30 @@
-window.addEventListener('load', (event) => {
-    
-});
-
 window.onload=function() {
     here();
     here2();
     here3();
     deleteButton();
     closeButton();
+    welcomeMessage();
+    
+
+}
+
+function welcomeMessage() {
+    chrome.storage.sync.get(["firstTime"], function(data) {
+            if(data["firstTime"]) {
+                var welcomeDivStr = "<div id='welcomeMessage'>";
+                welcomeDivStr += "Welcome to Money Savior. Do you have any current streaming subscriptions";
+                welcomeDivStr += "<div id='yesButtonDiv'><button id='yesButton'>Yes</button></div>";
+                welcomeDivStr += "<div id='noButtonDiv'><button id='noButton'>No</button></div>";
+                welcomeDivStr += "</div>";
+                document.getElementById('messageContainer').innerHTML = welcomeDivStr;
+                chrome.storage.sync.set({"firstTime": false}, function() {});
+                noButtonFunc();
+                yesButtonFunc();
+
+            }
+            
+        });
 }
 
 
@@ -46,7 +63,7 @@ function here3() {
 function deleteButton() {
     document.getElementById('deleteData').addEventListener('click',
     function () {
-        chrome.storage.sync.remove(['google_visits', "www.google.com"], function() {
+        chrome.storage.sync.remove(["www.google.com", "www.hulu.com", "www.netflix.com"], function() {
             alert("Deleted Stored Data");
         })
     }
@@ -58,6 +75,28 @@ function closeButton() {
     document.getElementById('closeButton').addEventListener("click",
     function() {
         window.close();
+    }
+    );
+}
+
+// adds functionality to the no button
+function noButtonFunc() {
+    document.getElementById('noButton').addEventListener("click",
+    function() {
+        // removes the welcomeMessage div when clicked
+        document.getElementById('welcomeMessage').remove();
+    }
+    );
+}
+
+// adds functionality to the yes button
+function yesButtonFunc() {
+    document.getElementById('yesButton').addEventListener("click",
+    function() {
+        // removes the welcomeMessage div when clicked
+        document.getElementById('welcomeMessage').remove();
+        // TODO: implement checkbox option for lists of streaming services to choose
+
     }
     );
 }

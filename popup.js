@@ -42,7 +42,7 @@ function here3() {
 function deleteButton() {
     document.getElementById('deleteData').addEventListener('click',
     function () {
-        chrome.storage.sync.remove(['google_visits', "www.google.com"], function() {
+        chrome.storage.sync.remove(["www.google.com", "www.hulu.com", "www.netflix.com"], function() {
             alert("Deleted Stored Data");
         })
     }

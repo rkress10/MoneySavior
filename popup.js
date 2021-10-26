@@ -1,7 +1,3 @@
-window.addEventListener('load', (event) => {
-    
-});
-
 window.onload=function() {
     here();
     here2();

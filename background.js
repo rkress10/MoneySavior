@@ -12,7 +12,7 @@ setInterval(function() {
                         break;
                     case 'www.hulu.com':
                         chrome.storage.sync.get({"huluTime": 0}, function(data) {
-                            chrome.storage.sync.set("{huluTime": data["huluTime"] + 1}, function() {});
+                            chrome.storage.sync.set({"huluTime": data["huluTime"] + 1}, function() {});
                         });
                         break;
                     case 'www.peacocktv.com':
@@ -28,13 +28,13 @@ setInterval(function() {
                         break;
                     default:
                         alert('Somethings Wrong');
-                }
+                    }
                 }
         })
         
         }
     )
-});
+
 }, 1000); // Test with one seconds, should be one minute
 
 function GetCurrentTab() {

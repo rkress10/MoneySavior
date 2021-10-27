@@ -1,9 +1,14 @@
 // A function that check if the user opens a streaming website every minute
 setInterval(function() {
    chrome.tabs.query({active:true, currentWindow: true}, function(tabs){
+        let websiteInFile = false;
         let taburl = new URL(tabs[0].url);
+        chrome.storage.sync.get({"hostnames":[]}, function(data) {
+            websiteInFile = data["hostnames"].includes(taburl.hostname);
+        });
+
         chrome.storage.sync.get({"usingTime":[]}, function(data) {
-            if (data["hostnames"].includes(taburl.hostname)) {
+            if (websiteInFile) {
                 switch (taburl.hostname) {
                     case 'www.netflix.com':
                         chrome.storage.sync.get({"netflixTime": 0}, function(data) {

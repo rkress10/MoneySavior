@@ -47,16 +47,19 @@ function addStreamingService() {
         function(data) {
             if (!data["hostnames"].includes("www.netflix.com")) {
                 data["hostnames"].push("www.netflix.com");
-                data["usingTime"].push("netflixTime");
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    time["usingTime"].push("netflixTime");
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById("netflixTime").innerHTML = 'Minutes of Netflix Visits: 0';
+                    });
+                });
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
                     alert('added netflix');
                     document.getElementById('netflixDiv').style.display = 'inline';
                     document.getElementById("netflixInfo").innerHTML = 'Number of Netflix Visits: 0';
                 });
                 
-                chrome.storage.sync.set({"usingTime": data["usingTime"]}, function (){
-                    document.getElementById("netflixTime").innerHTML = 'Minutes of Netflix Visits: 0';
-                });
+             
             }
         })
     })
@@ -66,15 +69,18 @@ function addStreamingService() {
         function(data) {
             if (!data["hostnames"].includes("www.hulu.com")) {
                 data["hostnames"].push("www.hulu.com");
-                data["usingTime"].push("huluTime");
+                
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
                     alert('added hulu');
                     document.getElementById('huluDiv').style.display = 'inline';
                     document.getElementById("huluInfo").innerHTML = 'Number of Hulu Visits: 0';
                 });
                 
-                chrome.storage.sync.set({"usingTime": data["usingTime"]}, function (){
-                    document.getElementById("huluTime").innerHTML = 'Minutes of Hulu Visits: 0';
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    time["usingTime"].push("huluTime");
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById("huluTime").innerHTML = 'Minutes of Hulu Visits: 0';
+                    });
                 });
             }
         })
@@ -85,15 +91,18 @@ function addStreamingService() {
         function(data) {
             if (!data["hostnames"].includes("www.peacocktv.com")) {
                 data["hostnames"].push("www.peacocktv.com");
-                data["usingTime"].push("peacockTime");
+                
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
                     alert('added peacock');
                     document.getElementById('peacockDiv').style.display = 'inline';
                     document.getElementById("peacockInfo").innerHTML = 'Number of Peacock Visits: 0';
                 });
                 
-                chrome.storage.sync.set({"usingTime": data["usingTime"]}, function (){
-                    document.getElementById("peacockTime").innerHTML = 'Minutes of Peacock Visits: 0';
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    time["usingTime"].push("peacockTime");
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById("peacockTime").innerHTML = 'Minutes of Peacock Visits: 0';
+                    });
                 });
             }
         })
@@ -104,15 +113,18 @@ function addStreamingService() {
         function(data) {
             if (!data["hostnames"].includes("www.hbomax.com")) {
                 data["hostnames"].push("www.hbomax.com");
-                data["usingTime"].push("hboTime");
+                
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
                     alert('added hbo max');
                     document.getElementById('hboDiv').style.display = 'inline';
                     document.getElementById("hboInfo").innerHTML = 'Number of HBO Max Visits: 0';
                 });
                 
-                chrome.storage.sync.set({"usingTime": data["usingTime"]}, function (){
-                    document.getElementById("hboTime").innerHTML = 'Minutes of HBO Max Visits: 0';
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    time["usingTime"].push("hboTime");
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById("hboTime").innerHTML = 'Minutes of HBO Max Visits: 0';
+                    });
                 });
             }
         })

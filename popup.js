@@ -131,11 +131,11 @@ function addStreamingService() {
     })
 }
 
-function showTimeData() {
-    chrome.storage.sync.get({"usingTime":[]}, function(data) {
-        for (var i = 0; i < data["usingTime"].length; i++) {
-            switch (data["usingTime"][i]) {
-                case "netflixTime":
+function showVisitData() {
+    chrome.storage.sync.get({"hostnames":[]}, function(data) {
+        for (var i = 0; i < data["hostnames"].length; i++) {
+            switch (data["hostnames"][i]) {
+                case "www.netflix.com":
                     netflixData();
                     break;
                 case "www.hulu.com":
@@ -147,34 +147,32 @@ function showTimeData() {
                 case "www.hbomax.com":
                     hboData();
                     break;
-                default:
-                    alert('problem');
-                    break;
+                
             }
         }
     })
 }
 
-function showVisitData() {
-    chrome.storage.sync.get({"hostnames":[]}, function(data) {
-        for (var i = 0; i < data["hostnames"].length; i++) {
-            switch (data["hostnames"][i]) {
-                case "www.netflix.com":
+function showTimeData() {
+    chrome.storage.sync.get({"usingTime":[]}, function(data) {
+        for (var i = 0; i < data["usingTime"].length; i++) {
+            switch (data["usingTime"][i]) {
+                case "netflixTime":
                     chrome.storage.sync.get({"netflixTime": 0}, function(data) {
                         document.getElementById('netflixTime').innerHTML = "Minutes of Netflix Visits: " + data["netflixTime"];
                     });
                     break;
-                case "www.hulu.com":
+                case "huluTime":
                     chrome.storage.sync.get({"huluTime": 0}, function(data) {
                         document.getElementById('huluTime').innerHTML = "Minutes of Hulu Visits: " + data["huluTime"];
                     });
                     break;
-                case "www.peacocktv.com":
+                case "peacockTime":
                     chrome.storage.sync.get({"peacockTime": 0}, function(data) {
                         document.getElementById('peacockTime').innerHTML = "Minutes of Peacock Visits: " + data["peacockTime"];
                     });
                     break;
-                case "www.hbomax.com":
+                case "hboTime":
                     chrome.storage.sync.get({"hboTime": 0}, function(data) {
                         document.getElementById('hboTime').innerHTML = "Minutes of HBO Max Visits: " + data["hboTime"];
                     });

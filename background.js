@@ -1,7 +1,41 @@
 // A function that check if the user opens a streaming website every minute
 setInterval(function() {
-    // TODO
-}, 60000);
+   chrome.tabs.query({active:true, currentWindow: true}, function(tabs){
+        let taburl = new URL(tabs[0].url);
+        chrome.storage.sync.get({"usingTime":[]}, function(data) {
+            if (data["hostnames"].includes(taburl.hostname)) {
+                switch (taburl.hostname) {
+                    case 'www.netflix.com':
+                        chrome.storage.sync.get({"netflixTime": 0}, function(data) {
+                            chrome.storage.sync.set({"netflixTime": data["netflixTime"] + 1}, function() {});
+                        });
+                        break;
+                    case 'www.hulu.com':
+                        chrome.storage.sync.get({"huluTime": 0}, function(data) {
+                            chrome.storage.sync.set("{huluTime": data["huluTime"] + 1}, function() {});
+                        });
+                        break;
+                    case 'www.peacocktv.com':
+                        chrome.storage.sync.get({"peacockTime": 0}, function(data) {
+                            chrome.storage.sync.set({"peacockTime": data["peacockTime"] + 1}, function() {});
+                        });
+                        break;
+                    case 'www.hbomax.com':
+                        alert("Streaming website: hbo max");
+                        chrome.storage.sync.get({"hboTime": 0}, function(data) {
+                            chrome.storage.sync.set({"hboTime": data["hboTime"] + 1}, function() {});
+                        });
+                        break;
+                    default:
+                        alert('Somethings Wrong');
+                }
+                }
+        })
+        
+        }
+    )
+});
+}, 1000); // Test with one seconds, should be one minute
 
 function GetCurrentTab() {
     chrome.tabs.query({active:true, currentWindow: true}, function(tabs){

@@ -1,3 +1,8 @@
+// A function that check if the user opens a streaming website every minute
+setInterval(function() {
+    // TODO
+}, 60000);
+
 function GetCurrentTab() {
     chrome.tabs.query({active:true, currentWindow: true}, function(tabs){
         let taburl = new URL(tabs[0].url);

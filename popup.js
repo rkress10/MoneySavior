@@ -26,16 +26,18 @@ function welcomeMessage() {
 }
 
 function addStreamingService() {
-    document.getElementById("addButtonDiv").addEventListener("click", 
+    document.getElementById("addButton").addEventListener("click", 
     function() {
         if (document.getElementById("addButton").innerHTML === '+') {
             document.getElementById("addButton").innerHTML = '-';
             document.getElementById("addServiceDiv").style.display = 'inline';
             document.getElementById("messageContainer").style.display = 'none';
+            document.getElementById("subscriptionServiceListDiv").style.display = 'none';
         }
        else {
             document.getElementById("addButton").innerHTML = '+';
             document.getElementById("addServiceDiv").style.display = 'none';
+            document.getElementById("subscriptionServiceListDiv").style.display = 'block';
        } 
     });
 

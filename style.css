@@ -59,6 +59,7 @@ button.current {
     background-color: #6200EE;
     color: white;
     text-align: center;
+    padding: 5px;
 
 }
 
@@ -105,3 +106,58 @@ button.current {
     margin: 10px;
 }
 
+#subscriptionServiceListDiv {
+    position: relative;
+    left: 20px;
+    
+}
+
+.infodiv {
+    width: 80%;
+    height: 100px;
+    
+    position: relative;
+    background-color:seashell;
+    font-size: 20px;
+    
+    
+}
+
+.infoSpace {
+    position: relative;
+    left: 10px;
+}
+
+
+.services {
+    width: 80px;
+    height: 40px;
+    background-color: wheat;
+}
+
+.serviceHeader {
+    width: 80%;
+    height: 30px;
+    background-color: #87d7e9;
+    font-size: 20px;
+    font-weight: bold;
+    position: relative;
+    
+}
+
+.serviceTitle {
+    position: relative;
+    left: 10px;
+}
+
+#deleteData {
+    background-color: red;
+    color: white;
+    height: 40px;
+    width: 50px;
+}
+
+#messageContainer {
+    color: #6200EE;
+    font-size: 30px;
+}

@@ -20,20 +20,17 @@
         </div> 
     </div>
     <div id="appBody">
-<<<<<<< HEAD
-        <div id="addButtonDiv"> <button id="addButton" class="optionsButton">+</button></div>
-=======
+        
         <div id="addButtonDiv">
             <button id="addButton" class="optionsButton">+</button>
         </div>
 
         <div id="addServiceDiv">
-            <button id="addNetflix">Add Netflix</button> <br>
-            <button id="addHulu">Add Hulu</button> <br>
-            <button id="addPeacock">Add Peacock</button> <br>
-            <button id="addHbo">Add HBO Max</button> <br>
+            <button id="addNetflix" class="services">Add Netflix</button> <br>
+            <button id="addHulu" class="services">Add Hulu</button> <br>
+            <button id="addPeacock" class="services">Add Peacock</button> <br>
+            <button id="addHbo" class="services">Add HBO Max</button> <br>
         </div>
->>>>>>> 95afd54038aab976118d73bc1fba4f4f39a5e091
         <div id="appBodyContent">
             
             <div id="messageContainer">
@@ -43,51 +40,70 @@
             <div id="subscriptionServiceListDiv">
                 <!-- contains options of streaming services for the user to choose -->
                 
-                <div id="netflixDiv" class="infodiv">
+                <div id="netflixDiv">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
-                    <div id="netflixPrice">Netflix Price: $idk</div>
-                    <div id="netflixInfo">Netflix Visits</div>
-                    <div id="netflixCancel">Cancel Netflix</div>
+                    <div class="serviceHeader"><span class="serviceTitle">Netflix</span></div>
+                    <div class="infodiv">
+                        <div id="netflixPrice" class="infoSpace">Netflix Price: $idk</div>
+                        <div id="netflixInfo" class="infoSpace">Netflix Visits</div>
+                        <div id="netflixCancel" class="infoSpace">
+                            <a href="https://help.netflix.com/en/node/407" target="_blank">Cancel Netflix</a>
+                        </div>
+                    </div>
+                    
 
 
                 </div>
                 <br><br>
-                <div id="huluDiv" class="infodiv">
+                <div id="huluDiv">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
-                    <div id="huluPrice">Hulu Price: $idk</div>
-                    <div id="huluInfo">Hulu Visits</div>
-                    <div id="huluCancel">Cancel Hulu</div>
+                    <div class="serviceHeader"><span class="serviceTitle">Hulu</span></div>
+                    <div class="infodiv">
+                        <div id="huluPrice" class="infoSpace">Hulu Price: $idk</div>
+                        <div id="huluInfo" class="infoSpace">Hulu Visits</div>
+                        <div id="huluCancel" class="infoSpace">
+                            <a href="https://help.hulu.com/s/article/cancel-hulu-subscription" target="_blank">Cancel Hulu</a>
+                        </div>
+                    </div>
+                    
 
 
                 </div>
                 <br><br>
 
-                <div id="peacockDiv" class="infodiv">
+                <div id="peacockDiv">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
-                    <div id="peacockPrice">Peacock Price: $idk</div>
-                    <div id="peacockInfo">Peacock Visits</div>
-                    <div id="peacockCancel">Cancel Peacock</div>
+                    <div class="serviceHeader" ><span class="serviceTitle">Peacock</span></div>
+                    <div class="infodiv">
+                        <div id="peacockPrice" class="infoSpace">Peacock Price: $idk</div>
+                        <div id="peacockInfo" class="infoSpace">Peacock Visits</div>
+                        <div id="peacockCancel" class="infoSpace">
+                            <a href="https://www.peacocktv.com/help/article/cancellation" target="_blank">Cancel Peacock</a>
+
+                        </div>
+                    </div>
+                    
 
 
                 </div>
-<<<<<<< HEAD
-
-                <button id="showDataGoog" class="showbutton">Show Number of Google Visits</button>
-                <div id="showDataGoogle" ></div>
-=======
->>>>>>> 95afd54038aab976118d73bc1fba4f4f39a5e091
 
                 <br><br>
 
-                <div id="hboDiv" class="infodiv">
+                <div id="hboDiv">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
-                    <div id="hboPrice">HBO Max Price: $idk</div>
-                    <div id="hboInfo">HBO max Visits</div>
-                    <div id="hboCancel">Cancel HBO Max</div>
+                    <div class="serviceHeader"><span class="serviceTitle">HBO Max</span></div>
+                    <div class="infodiv">
+                        <div id="hboPrice" class="infoSpace">HBO Max Price: $idk</div>
+                        <div id="hboInfo" class="infoSpace">HBO max Visits</div>
+                        <div id="hboCancel" class="infoSpace">
+                            <a href="https://help.hbomax.com/us/Answer/Detail/000001191" target="_blank">Cancel HBO Max</a>
+                        </div>
+                    </div>
+                    
 
 
                 </div>
@@ -95,10 +111,11 @@
 
             
         </div>
-        
+        <button id="deleteData">Erase Data</button>    
     </div>
+    
 </div>
 
-<button id="deleteData">Erase Data</button>
+
 </body>
 </html>

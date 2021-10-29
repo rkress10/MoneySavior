@@ -40,7 +40,7 @@ setInterval(function() {
         }
     )
 
-}, 1000); // Test with one seconds, should be one minute
+}, 60000); // Test with one seconds, should be one minute
 
 function GetCurrentTab() {
     chrome.tabs.query({active:true, currentWindow: true}, function(tabs){

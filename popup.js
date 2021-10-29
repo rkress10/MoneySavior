@@ -10,7 +10,7 @@ window.onload=function() {
     closeButton();
     welcomeMessage();
     addStreamingService();
-    update();
+    
 }
 
 

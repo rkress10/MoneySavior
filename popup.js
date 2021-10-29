@@ -10,7 +10,10 @@ window.onload=function() {
     closeButton();
     welcomeMessage();
     addStreamingService();
+    update();
 }
+
+
 
 function welcomeMessage() {
     chrome.storage.sync.get(["firstTime"], function(data) {
@@ -58,8 +61,18 @@ function addStreamingService() {
                     document.getElementById('netflixDiv').style.display = 'inline';
                     document.getElementById("netflixInfo").innerHTML = 'Number of Netflix Visits: 0';
                 });
-                
+
+                // add price for netflix
+                var select = document.getElementById('netflixSelect');
+				var option = select.options[select.selectedIndex];
+
+                chrome.storage.sync.set({"netflixPrice": option.text}, function (){
+                    document.getElementById('netflixPrice').innerHTML = option.text; 
+                });
              
+            }
+            else {
+                alert('already added Netflix');
             }
         })
     })
@@ -82,6 +95,17 @@ function addStreamingService() {
                         document.getElementById("huluTime").innerHTML = 'Minutes of Hulu Visits: 0';
                     });
                 });
+
+                // add price for hulu
+                var select = document.getElementById('huluSelect');
+				var option = select.options[select.selectedIndex];
+
+                chrome.storage.sync.set({"huluPrice": option.text}, function (){
+                    document.getElementById('huluPrice').innerHTML = option.text; 
+                });
+            }
+            else {
+                alert('already added Hulu');
             }
         })
     })
@@ -104,6 +128,17 @@ function addStreamingService() {
                         document.getElementById("peacockTime").innerHTML = 'Minutes of Peacock Visits: 0';
                     });
                 });
+
+                // add price for peacock
+                var select = document.getElementById('peacockSelect');
+				var option = select.options[select.selectedIndex];
+
+                chrome.storage.sync.set({"peacockPrice": option.text}, function (){
+                    document.getElementById('peacockPrice').innerHTML = option.text; 
+                });
+            }
+            else {
+                alert('already added Peacock');
             }
         })
     })
@@ -126,10 +161,24 @@ function addStreamingService() {
                         document.getElementById("hboTime").innerHTML = 'Minutes of HBO Max Visits: 0';
                     });
                 });
+
+                // add price for hbo
+                var select = document.getElementById('hboSelect');
+				var option = select.options[select.selectedIndex];
+
+                chrome.storage.sync.set({"hboPrice": option.text}, function (){
+                    document.getElementById('hboPrice').innerHTML = option.text; 
+                });
+            }
+            else {
+                alert('already added HBO Max');
             }
         })
     })
 }
+
+
+
 
 function showVisitData() {
     chrome.storage.sync.get({"hostnames":[]}, function(data) {
@@ -137,15 +186,30 @@ function showVisitData() {
             switch (data["hostnames"][i]) {
                 case "www.netflix.com":
                     netflixData();
+                    
+                    // added price set here for convinience of not adding new function.
+                    // can change if it's cluttering this function
+                    chrome.storage.sync.get(["netflixPrice"], function (price){
+                        document.getElementById('netflixPrice').innerHTML = price["netflixPrice"]; 
+                    });
                     break;
                 case "www.hulu.com":
                     huluData();
+                    chrome.storage.sync.get(["huluPrice"], function (price){
+                        document.getElementById('huluPrice').innerHTML = price["huluPrice"]; 
+                    });
                     break;
                 case "www.peacocktv.com":
                     peacockData();
+                    chrome.storage.sync.get(["peacockPrice"], function (price){
+                        document.getElementById('peacockPrice').innerHTML = price["peacockPrice"]; 
+                    });
                     break;
                 case "www.hbomax.com":
                     hboData();
+                    chrome.storage.sync.get(["hboPrice"], function (price){
+                        document.getElementById('hboPrice').innerHTML = price["hboPrice"]; 
+                    });
                     break;
                 
             }

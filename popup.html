@@ -26,10 +26,47 @@
         </div>
 
         <div id="addServiceDiv">
-            <button id="addNetflix" class="services">Add Netflix</button> <br>
-            <button id="addHulu" class="services">Add Hulu</button> <br>
-            <button id="addPeacock" class="services">Add Peacock</button> <br>
-            <button id="addHbo" class="services">Add HBO Max</button> <br>
+            <div>
+                <label for="netflixSelect">Netflix:</label>  
+                <select id="netflixSelect">
+                    <option value="netBase">Netflix Base: $8.99</option>
+                    <option value="netStd">Netflix Standard: $13.99</option>
+                    <option value="netPremium">Netflix Premium: $17.99</option>
+                </select>
+                <button id="addNetflix" class="services">Add Netflix</button> <br>
+            </div>
+            
+            <div>
+                <label for="huluSelect">Hulu:</label>  
+                <select id="huluSelect">
+                    <option value="hulu">Hulu: $6.99</option>
+                    <option value="huluNoAd">Hulu (No Ads): $12.99</option>
+                    <option value="huluLiveTv">Hulu + Live TV: $64.99</option>
+                    <option value="huluStudent">Hulu (Student Discount): $1.99</option>
+                </select>
+                <button id="addHulu" class="services">Add Hulu</button> <br>
+            </div>
+
+            <div>
+                <label for="peacockSelect">Peacock:</label>  
+                <select id="peacockSelect">
+                    <option value="peacockPremium">Peacock Premium: $4.99</option>
+                    <option value="huluNoAd">Peacock Premium Plus: $9.99</option>
+                    
+                </select>
+                <button id="addPeacock" class="services">Add Peacock</button> <br>
+            </div>
+
+            <div>
+                <label for="hboSelect">HBO Max:</label>  
+                <select id="hboSelect">
+                    <option value="hboBase">HBO Max: $9.99</option>
+                    <option value="huluNoAd">HBO Max (No-Ads): $14.99</option>
+                    
+                </select>
+                <button id="addHbo" class="services">Add HBO Max</button> <br>
+            </div>
+            
         </div>
         <div id="appBodyContent">
             
@@ -45,7 +82,7 @@
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
                     <div class="serviceHeader"><span class="serviceTitle">Netflix</span></div>
                     <div class="infodiv">
-                        <div id="netflixPrice" class="infoSpace">Netflix Price: $idk</div>
+                        <div class="infoSpace"><span id="netflixPrice"></span></div>
                         <div id="netflixInfo" class="infoSpace">Netflix Visits</div>
                         <div id="netflixTime" class="infoSpace"></div>
                         <div id="netflixCancel" class="infoSpace">

@@ -221,7 +221,8 @@ function hboData() {
 function deleteButton() {
     document.getElementById('deleteData').addEventListener('click',
     function () {
-        chrome.storage.sync.remove(["www.google.com", "www.hulu.com", "www.netflix.com", "www.peacocktv.com", "www.hbomax.com", "hostnames"], function() {
+        chrome.storage.sync.remove(["www.google.com", "www.hulu.com", "www.netflix.com", "www.peacocktv.com", "www.hbomax.com", "hostnames",
+                                    "netflixTime", "HuluTime", "hboTime", "peacockTime"], function() {
             alert("Deleted Stored Data");
         });
         chrome.storage.sync.set({"firstTime": true}, function(){});

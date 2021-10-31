@@ -40,7 +40,7 @@ setInterval(function() {
         }
     )
 
-}, 60000); // Test with one seconds, should be one minute
+}, 1000); // Test with one seconds, should be one minute
 
 function GetCurrentTab() {
     chrome.tabs.query({active:true, currentWindow: true}, function(tabs){
@@ -81,8 +81,6 @@ function GetCurrentTab() {
         }
     )
 }
-
-
 
 chrome.tabs.onUpdated.addListener (function (tabID, changeInfo, tab) {
     if (changeInfo.status == 'complete') {

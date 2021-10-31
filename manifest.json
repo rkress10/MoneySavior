@@ -19,7 +19,9 @@
     }],
     "permissions": [
         "storage",
-        "tabs"
+        "tabs",
+        "notifications",
+        "alarms"
     ],
     "background": {
         "scripts": ["background.js"],

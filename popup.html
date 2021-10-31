@@ -9,7 +9,6 @@
 
 
 <body>
-
 <div id="app">
     <div id="appHeader">
 
@@ -74,10 +73,13 @@
                 <!-- contains content to show the user like "Welcome to Money Savior" -->
             </div>
 
+            <button id="sortByTimeButton">Sort By Time</button>
+            <button id="sortByNumberButton">Sort By Number of Visits</button>
+
             <div id="subscriptionServiceListDiv">
                 <!-- contains options of streaming services for the user to choose -->
                 
-                <div id="netflixDiv">
+                <div id="netflixDiv" data-time="0" data-num="0" class="sort">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
                     <div class="serviceHeader"><span class="serviceTitle">Netflix</span></div>
@@ -89,12 +91,9 @@
                             <a href="https://help.netflix.com/en/node/407" target="_blank">Cancel Netflix</a>
                         </div>
                     </div>
-                    
-
-
                 </div>
-                <br><br>
-                <div id="huluDiv">
+
+                <div id="huluDiv" data-time="0" data-num="0" class="sort">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
                     <div class="serviceHeader"><span class="serviceTitle">Hulu</span></div>
@@ -106,13 +105,9 @@
                             <a href="https://help.hulu.com/s/article/cancel-hulu-subscription" target="_blank">Cancel Hulu</a>
                         </div>
                     </div>
-                    
-
-
                 </div>
-                <br><br>
 
-                <div id="peacockDiv">
+                <div id="peacockDiv" data-time="0" data-num="0" class="sort">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
                     <div class="serviceHeader" ><span class="serviceTitle">Peacock</span></div>
@@ -125,14 +120,9 @@
 
                         </div>
                     </div>
-                    
-
-
                 </div>
 
-                <br><br>
-
-                <div id="hboDiv">
+                <div id="hboDiv" data-time="0" data-num="0" class="sort">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
                     <div class="serviceHeader"><span class="serviceTitle">HBO Max</span></div>
@@ -144,13 +134,8 @@
                             <a href="https://help.hbomax.com/us/Answer/Detail/000001191" target="_blank">Cancel HBO Max</a>
                         </div>
                     </div>
-                    
-
-
                 </div>
-            </div>
-
-            
+            </div> 
         </div>
         <button id="deleteData">Erase Data</button>    
     </div>

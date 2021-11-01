@@ -31,7 +31,7 @@ setInterval(function() {
                         });
                         break;
                     default:
-                        alert('Somethings Wrong');
+                        // alert('Somethings Wrong');
                     }
                 }
         })

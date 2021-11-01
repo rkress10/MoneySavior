@@ -153,11 +153,67 @@ button.current {
 #deleteData {
     background-color: red;
     color: white;
-    height: 40px;
-    width: 50px;
+    height: 60px;
+    width: 100px;
 }
 
 #messageContainer {
     color: #6200EE;
     font-size: 30px;
 }
+
+.sortButton {
+    background-color: #87d7e9;
+    
+    height: 60px;
+    width: 100px;
+}
+
+#sortButtonContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+#addServiceDiv {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+
+#allService {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+#studentDiscountService {
+    display: none;
+    flex-direction: column;
+}
+
+#chooseAll {
+    background-color: #87d7e9;
+    border-color: #87d7e9;
+    color: white;
+    
+}
+
+#chooseStudent {
+    background-color: white;
+    border-color: #87d7e9;
+    color: black;
+    
+}
+
+.btn {
+    border: 2px solid ;
+    background-color: white;
+    color: black;
+    padding: 14px 28px;
+    font-size: 16px;
+    height: 60px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

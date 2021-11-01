@@ -4,6 +4,7 @@ window.onload=function() {
     document.getElementById('huluDiv').style.display = 'none';
     document.getElementById('peacockDiv').style.display = 'none';
     document.getElementById('hboDiv').style.display = 'none';
+
     showVisitData();
     showTimeData();
     deleteButton();
@@ -56,17 +57,45 @@ function welcomeMessage() {
 }
 
 function addStreamingService() {
+    document.getElementById("chooseAll").addEventListener("click", 
+    function() {
+        document.getElementById("allService").style.display = 'flex';
+        document.getElementById("studentDiscountService").style.display = 'none';
+        document.getElementById("chooseAll").style.color = "white";
+        document.getElementById("chooseAll").style.backgroundColor = "#87d7e9";
+        document.getElementById("chooseAll").style.borderColor = "#87d7e9";
+        document.getElementById("chooseStudent").style.color = "black";
+        document.getElementById("chooseStudent").style.backgroundColor = "white";
+        document.getElementById("chooseStudent").style.borderColor = "#87d7e9";
+    });
+
+    document.getElementById("chooseStudent").addEventListener("click", 
+    function() {
+        document.getElementById("allService").style.display = 'none';
+        document.getElementById("studentDiscountService").style.display = 'flex';
+        document.getElementById("chooseStudent").style.color = "white";
+        document.getElementById("chooseStudent").style.backgroundColor = "#87d7e9";
+        document.getElementById("chooseStudent").style.borderColor = "#87d7e9";
+        document.getElementById("chooseAll").style.color = "black";
+        document.getElementById("chooseAll").style.backgroundColor = "white";
+        document.getElementById("chooseAll").style.borderColor = "#87d7e9";
+    });
+
     document.getElementById("addButton").addEventListener("click", 
     function() {
         if (document.getElementById("addButton").innerHTML === '+') {
             document.getElementById("addButton").innerHTML = '-';
-            document.getElementById("addServiceDiv").style.display = 'inline';
+            document.getElementById("buttonChoice").style.display = 'flex';
+            document.getElementById("addServiceDiv").style.display = 'flex';
             document.getElementById("messageContainer").style.display = 'none';
+            document.getElementById("sortButtonContainer").style.display = 'none';
             document.getElementById("subscriptionServiceListDiv").style.display = 'none';
         }
        else {
+            document.getElementById("sortButtonContainer").style.display = 'flex';
             document.getElementById("addButton").innerHTML = '+';
             document.getElementById("addServiceDiv").style.display = 'none';
+            document.getElementById("buttonChoice").style.display = 'none';
             document.getElementById("subscriptionServiceListDiv").style.display = 'block';
        } 
     });
@@ -124,6 +153,39 @@ function addStreamingService() {
 
                 // add price for hulu
                 var select = document.getElementById('huluSelect');
+				var option = select.options[select.selectedIndex];
+
+                chrome.storage.sync.set({"huluPrice": option.text}, function (){
+                    document.getElementById('huluPrice').innerHTML = option.text; 
+                });
+            }
+            else {
+                alert('already added Hulu');
+            }
+        })
+    })
+
+    document.getElementById("addHuluStudent").addEventListener("click", function() {
+        chrome.storage.sync.get({"hostnames":[]}, 
+        function(data) {
+            if (!data["hostnames"].includes("www.hulu.com")) {
+                data["hostnames"].push("www.hulu.com");
+                
+                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
+                    alert('added hulu');
+                    document.getElementById('huluDiv').style.display = 'inline';
+                    document.getElementById("huluInfo").innerHTML = 'Number of Hulu Visits: 0';
+                });
+                
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    time["usingTime"].push("huluTime");
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById("huluTime").innerHTML = 'Minutes of Hulu Visits: 0';
+                    });
+                });
+
+                // add price for hulu
+                var select = document.getElementById('huluSelectStudent');
 				var option = select.options[select.selectedIndex];
 
                 chrome.storage.sync.set({"huluPrice": option.text}, function (){

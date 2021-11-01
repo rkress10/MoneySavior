@@ -13,22 +13,33 @@ window.onload=function() {
     addStreamingService();
     sortByTimeButton();
     sortByNumberButton();
+    document.getElementById("app").onmouseenter=function() {
+        chrome.storage.sync.get({"sortedBy": "none"}, function(data) {
+            if (data["sortedBy"] !== "none") {
+                orderDivs(data["sortedBy"]);
+            }
+        })
+    }
 }
+
+
 
 function sortByTimeButton() {
     document.getElementById("sortByTimeButton").addEventListener("click", function() {
+        chrome.storage.sync.set({"sortedBy": "time"}, function() {console.log("time sort saved")});
         orderDivs("time");
     });
 }
 
 function sortByNumberButton() {
     document.getElementById("sortByNumberButton").addEventListener("click", function() {
+        chrome.storage.sync.set({"sortedBy": "num"}, function() {console.log("number sort saved")});
         orderDivs("num");
     });
 }
 
 function orderDivs(sortedBy) {
-    alert(sortedBy);
+    console.log("time");
     var parentNode = document.getElementById('subscriptionServiceListDiv');
     var div = document.getElementById('subscriptionServiceListDiv').children;
     console.log(div);

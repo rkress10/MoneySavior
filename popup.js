@@ -189,7 +189,7 @@ function addStreamingService() {
                     });
                 });
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                    alert('added netflix');
+                    // alert('added netflix');
                     document.getElementById('netflixDiv').style.display = 'inline';
                     document.getElementById("netflixInfo").innerHTML = 'Number of Netflix Visits: 0';
                 });
@@ -204,7 +204,7 @@ function addStreamingService() {
              
             }
             else {
-                alert('already added Netflix');
+                // alert('already added Netflix');
             }
         })
     })
@@ -216,7 +216,7 @@ function addStreamingService() {
                 data["hostnames"].push("www.hulu.com");
                 
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                    alert('added hulu');
+                    // alert('added hulu');
                     document.getElementById('huluDiv').style.display = 'inline';
                     document.getElementById("huluInfo").innerHTML = 'Number of Hulu Visits: 0';
                 });
@@ -237,7 +237,7 @@ function addStreamingService() {
                 });
             }
             else {
-                alert('already added Hulu');
+                // alert('already added Hulu');
             }
         })
     })
@@ -249,7 +249,7 @@ function addStreamingService() {
                 data["hostnames"].push("www.hulu.com");
                 
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                    alert('added hulu');
+                    // alert('added hulu');
                     document.getElementById('huluDiv').style.display = 'inline';
                     document.getElementById("huluInfo").innerHTML = 'Number of Hulu Visits: 0';
                 });
@@ -270,7 +270,7 @@ function addStreamingService() {
                 });
             }
             else {
-                alert('already added Hulu');
+                // alert('already added Hulu');
             }
         })
     })
@@ -282,7 +282,7 @@ function addStreamingService() {
                 data["hostnames"].push("www.peacocktv.com");
                 
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                    alert('added peacock');
+                    // alert('added peacock');
                     document.getElementById('peacockDiv').style.display = 'inline';
                     document.getElementById("peacockInfo").innerHTML = 'Number of Peacock Visits: 0';
                 });
@@ -303,7 +303,7 @@ function addStreamingService() {
                 });
             }
             else {
-                alert('already added Peacock');
+                // alert('already added Peacock');
             }
         })
     })
@@ -315,7 +315,7 @@ function addStreamingService() {
                 data["hostnames"].push("www.hbomax.com");
                 
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                    alert('added hbo max');
+                    // alert('added hbo max');
                     document.getElementById('hboDiv').style.display = 'inline';
                     document.getElementById("hboInfo").innerHTML = 'Number of HBO Max Visits: 0';
                 });
@@ -336,7 +336,7 @@ function addStreamingService() {
                 });
             }
             else {
-                alert('already added HBO Max');
+                // alert('already added HBO Max');
             }
         })
     })
@@ -412,7 +412,7 @@ function showTimeData() {
                     });
                     break;
                 default:
-                    alert('problem');
+                    // alert('problem');
                     break;
             }
         };
@@ -458,7 +458,7 @@ function deleteButton() {
     function () {
         chrome.storage.sync.remove(["www.google.com", "www.hulu.com", "www.netflix.com", "www.peacocktv.com", "www.hbomax.com", "hostnames",
                                     "usingTime", "netflixTime", "huluTime", "hboTime", "peacockTime"], function() {
-            alert("Deleted Stored Data");
+            // alert("Deleted Stored Data");
         });
         chrome.storage.sync.set({"firstTime": true}, function(){});
         window.location.reload();

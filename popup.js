@@ -4,6 +4,12 @@ window.onload=function() {
     document.getElementById('huluDiv').style.display = 'none';
     document.getElementById('peacockDiv').style.display = 'none';
     document.getElementById('hboDiv').style.display = 'none';
+    document.getElementById('deleteMessageContainer').style.display = 'none';
+    document.getElementById("deleteNetflixDiv").style.display = 'none';
+    document.getElementById("deleteHuluDiv").style.display = 'none';
+    document.getElementById("deletePeacockDiv").style.display = 'none';
+    document.getElementById("deleteHboDiv").style.display = 'none';
+
 
     showVisitData();
     showTimeData();
@@ -19,10 +25,65 @@ window.onload=function() {
                 orderDivs(data["sortedBy"]);
             }
         })
-    }
+    };
+    netflixDeleteHandler();
+    huluDeleteHandler();
+    peacockDeleteHandler();
+    hboDeleteHandler();
+
 }
 
+function netflixDeleteHandler() {
+    document.getElementById("netflixCancel").addEventListener("click", function() {
+        document.getElementById("sortButtonContainer").style.display = 'none';
+        document.getElementById("subscriptionServiceListDiv").style.display = 'none';
+        document.getElementById('deleteMessageContainer').style.display = 'flex';
+        document.getElementById("deleteNetflixDiv").style.display = 'flex';
+    });
+    document.getElementById("deleteNetflixNo").addEventListener("click", function() {
+        window.location.reload();
+    });
+    document.getElementById("deleteNetflixYes").addEventListener("click", deleteNetflix);
+}
 
+function huluDeleteHandler() {
+    document.getElementById("huluCancel").addEventListener("click", function() {
+        document.getElementById("sortButtonContainer").style.display = 'none';
+        document.getElementById("subscriptionServiceListDiv").style.display = 'none';
+        document.getElementById('deleteMessageContainer').style.display = 'flex';
+        document.getElementById("deleteHuluDiv").style.display = 'flex';
+    });
+    document.getElementById("deleteHuluNo").addEventListener("click", function() {
+        window.location.reload();
+    });
+    document.getElementById("deleteHuluYes").addEventListener("click", deleteHulu);
+}
+
+function peacockDeleteHandler() {
+    document.getElementById("peacockCancel").addEventListener("click", function() {
+        document.getElementById("sortButtonContainer").style.display = 'none';
+        document.getElementById("subscriptionServiceListDiv").style.display = 'none';
+        document.getElementById('deleteMessageContainer').style.display = 'flex';
+        document.getElementById("deletePeacockDiv").style.display = 'flex';
+    });
+    document.getElementById("deletePeacockNo").addEventListener("click", function() {
+        window.location.reload();
+    });
+    document.getElementById("deletePeacockYes").addEventListener("click", deletePeacock);
+}
+
+function hboDeleteHandler() {
+    document.getElementById("hboCancel").addEventListener("click", function() {
+        document.getElementById("sortButtonContainer").style.display = 'none';
+        document.getElementById("subscriptionServiceListDiv").style.display = 'none';
+        document.getElementById('deleteMessageContainer').style.display = 'flex';
+        document.getElementById("deleteHboDiv").style.display = 'flex';
+    });
+    document.getElementById("deleteHboNo").addEventListener("click", function() {
+        window.location.reload();
+    });
+    document.getElementById("deleteHboYes").addEventListener("click", deleteHbo);
+}
 
 function sortByTimeButton() {
     document.getElementById("sortByTimeButton").addEventListener("click", function() {
@@ -101,6 +162,11 @@ function addStreamingService() {
             document.getElementById("messageContainer").style.display = 'none';
             document.getElementById("sortButtonContainer").style.display = 'none';
             document.getElementById("subscriptionServiceListDiv").style.display = 'none';
+            document.getElementById('deleteMessageContainer').style.display = 'none';
+            document.getElementById("deleteNetflixDiv").style.display = 'none';
+            document.getElementById("deleteHuluDiv").style.display = 'none';
+            document.getElementById("deletePeacockDiv").style.display = 'none';
+            document.getElementById("deleteHboDiv").style.display = 'none';
         }
        else {
             document.getElementById("sortButtonContainer").style.display = 'flex';
@@ -398,6 +464,139 @@ function deleteButton() {
         window.location.reload();
     }
     );
+
+}
+
+function deleteNetflix() {
+    chrome.storage.sync.get({"hostnames":[]}, 
+    function(data) {
+        if (data["hostnames"].includes("www.netflix.com")) {
+            console.log(data["hostnames"]);
+            for (var i = 0; i < data["hostnames"].length; i++){
+                if (data["hostnames"][i] == "www.netflix.com") {
+                    data["hostnames"].splice(i, 1);
+                    console.log(data["hostnames"]);
+                    chrome.storage.sync.set({"hostnames":data["hostnames"]}, function(){});
+                }
+            }
+
+            chrome.storage.sync.get({"usingTime":[]}, function(data) {
+                for (var i = 0; i < data["usingTime"].length; i++) {
+                    if (data["usingTime"][i] == "netflixTime") {
+                        data["usingTime"].splice(i, 1);
+                        console.log(data["usingTime"]);
+                        chrome.storage.sync.set({"usingTime":data["usingTime"]}, function(){});
+                    }
+                }
+            });
+            document.getElementById('netflixDiv').style.display = 'none';
+            window.open("https://help.netflix.com/en/node/407", "_blank");
+            chrome.storage.sync.set({"www.netflix.com":0}, function() {});
+            chrome.storage.sync.set({"netflixTime":0}, function() {});
+        }
+        else {
+            console.log("no netflix");
+        }
+    })
+}
+
+function deleteHulu() {
+    chrome.storage.sync.get({"hostnames":[]}, 
+    function(data) {
+        if (data["hostnames"].includes("www.hulu.com")) {
+            console.log(data["hostnames"]);
+            for (var i = 0; i < data["hostnames"].length; i++){
+                if (data["hostnames"][i] == "www.hulu.com") {
+                    data["hostnames"].splice(i, 1);
+                    console.log(data["hostnames"]);
+                    chrome.storage.sync.set({"hostnames":data["hostnames"]}, function(){});
+                }
+            }
+
+            chrome.storage.sync.get({"usingTime":[]}, function(data) {
+                for (var i = 0; i < data["usingTime"].length; i++) {
+                    if (data["usingTime"][i] == "huluTime") {
+                        data["usingTime"].splice(i, 1);
+                        console.log(data["usingTime"]);
+                        chrome.storage.sync.set({"usingTime":data["usingTime"]}, function(){});
+                    }
+                }
+            });
+            document.getElementById('huluDiv').style.display = 'none';
+            window.open("https://help.hulu.com/s/article/cancel-hulu-subscription", "_blank");
+            chrome.storage.sync.set({"www.hulu.com":0}, function() {});
+            chrome.storage.sync.set({"huluTime":0}, function() {});
+        }
+        else {
+            console.log("no hulu");
+        }
+    })
+}
+
+function deletePeacock() {
+    chrome.storage.sync.get({"hostnames":[]}, 
+    function(data) {
+        if (data["hostnames"].includes("www.peacocktv.com")) {
+            console.log(data["hostnames"]);
+            for (var i = 0; i < data["hostnames"].length; i++){
+                if (data["hostnames"][i] == "www.peacocktv.com") {
+                    data["hostnames"].splice(i, 1);
+                    console.log(data["hostnames"]);
+                    chrome.storage.sync.set({"hostnames":data["hostnames"]}, function(){});
+                }
+            }
+
+            chrome.storage.sync.get({"usingTime":[]}, function(data) {
+                for (var i = 0; i < data["usingTime"].length; i++) {
+                    if (data["usingTime"][i] == "peacockTime") {
+                        data["usingTime"].splice(i, 1);
+                        console.log(data["usingTime"]);
+                        chrome.storage.sync.set({"usingTime":data["usingTime"]}, function(){});
+                    }
+                }
+            });
+            document.getElementById('peacockDiv').style.display = 'none';
+            window.open("https://www.peacocktv.com/help/article/cancellation", "_blank");
+            chrome.storage.sync.set({"www.peacocktv.com":0}, function() {});
+            chrome.storage.sync.set({"peacockTime":0}, function() {});
+        }
+        else {
+            console.log("no peacock");
+        }
+    })
+}
+
+function deleteHbo() {
+    chrome.storage.sync.get({"hostnames":[]}, 
+    function(data) {
+        if (data["hostnames"].includes("www.hbomax.com")) {
+            console.log(data["hostnames"]);
+            for (var i = 0; i < data["hostnames"].length; i++){
+                if (data["hostnames"][i] == "www.hbomax.com") {
+                    data["hostnames"].splice(i, 1);
+                    console.log(data["hostnames"]);
+                    chrome.storage.sync.set({"hostnames":data["hostnames"]}, function(){});
+                }
+            }
+
+            chrome.storage.sync.get({"usingTime":[]}, function(data) {
+                for (var i = 0; i < data["usingTime"].length; i++) {
+                    if (data["usingTime"][i] == "hboTime") {
+                        data["usingTime"].splice(i, 1);
+                        console.log(data["usingTime"]);
+                        chrome.storage.sync.set({"usingTime":data["usingTime"]}, function(){});
+                    }
+                }
+            });
+            document.getElementById('hboDiv').style.display = 'none';
+            window.open("https://help.hbomax.com/us/Answer/Detail/000001191", "_blank");
+            chrome.storage.sync.set({"www.hbomax.com":0}, function() {});
+            chrome.storage.sync.set({"hboTime":0}, function() {});
+        }
+        else {
+            console.log("no hbo");
+        }
+    })
 }
 
 // adds functionality to close button

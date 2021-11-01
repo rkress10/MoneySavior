@@ -162,13 +162,6 @@ button.current {
     font-size: 30px;
 }
 
-<<<<<<< HEAD
-.sortButton {
-    background-color: #87d7e9;
-    
-    height: 60px;
-    width: 100px;
-}
 
 #sortButtonContainer {
     display: flex;
@@ -218,7 +211,7 @@ button.current {
     justify-content: center;
     align-items: center;
   }
-=======
+
 .sortbutton {
     background-color: grey;
     font-size: 12px;
@@ -227,4 +220,3 @@ button.current {
     height: 20px;
     width: 96px;
 }
->>>>>>> refs/remotes/origin/main

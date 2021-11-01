@@ -161,3 +161,12 @@ button.current {
     color: #6200EE;
     font-size: 30px;
 }
+
+.sortbutton {
+    background-color: grey;
+    font-size: 12px;
+    margin: 10px;
+    padding: 5px;
+    height: 20px;
+    width: 96px;
+}

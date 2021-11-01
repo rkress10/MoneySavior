@@ -26,7 +26,6 @@ setInterval(function() {
                         });
                         break;
                     case 'www.hbomax.com':
-                        alert("Streaming website: hbo max");
                         chrome.storage.sync.get({"hboTime": 0}, function(data) {
                             chrome.storage.sync.set({"hboTime": data["hboTime"] + 1}, function() {});
                         });
@@ -49,31 +48,31 @@ function GetCurrentTab() {
             if (data["hostnames"].includes(taburl.hostname)) {
                 switch (taburl.hostname) {
                     case 'www.netflix.com':
-                        alert("Streaming website: Netflix");
+                        
                         chrome.storage.sync.get({"www.netflix.com": 0}, function(data) {
                             chrome.storage.sync.set({"www.netflix.com": data["www.netflix.com"] + 1}, function() {});
                         });
                         break;
                     case 'www.hulu.com':
-                        alert("Streaming website: Hulu");
+                        
                         chrome.storage.sync.get({"www.hulu.com": 0}, function(data) {
                             chrome.storage.sync.set({"www.hulu.com": data["www.hulu.com"] + 1}, function() {});
                         });
                         break;
                     case 'www.peacocktv.com':
-                        alert("Streaming website: peacock");
+                        
                         chrome.storage.sync.get({"www.peacocktv.com": 0}, function(data) {
                             chrome.storage.sync.set({"www.peacocktv.com": data["www.peacocktv.com"] + 1}, function() {});
                         });
                         break;
                     case 'www.hbomax.com':
-                        alert("Streaming website: hbo max");
+                        //alert("Streaming website: hbo max");
                         chrome.storage.sync.get({"www.hbomax.com": 0}, function(data) {
                             chrome.storage.sync.set({"www.hbomax.com": data["www.hbomax.com"] + 1}, function() {});
                         });
                         break;
                     default:
-                        alert('Somethings Wrong');
+                        //alert('Somethings Wrong');
                 }
                 }
         })

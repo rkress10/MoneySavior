@@ -227,3 +227,13 @@ button.current {
     height: 45px;
     width: 90px;
 }
+
+.otherService {
+    display:flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+
+.otherService label {
+    text-align:right;
+}

@@ -27,7 +27,8 @@
         <div id="addServiceDiv">
             <div id="buttonChoice">
                 <button id="chooseAll" class="btn">All</button>
-                <button id="chooseStudent" class="btn">Student Discount</button>
+                <button id="chooseOther" class="btn">Add a service</button>
+                <!-- <button id="chooseStudent" class="btn">Student Discount</button> -->
 
             </div>
             <div id="allService">
@@ -73,7 +74,7 @@
                 </div>
             </div>
 
-            <div id="studentDiscountService">
+            <!-- <div id="studentDiscountService">
                 <div>
                     <label for="huluSelect"><strong>Hulu</strong>:</label>  
                     <select id="huluSelectStudent">
@@ -83,6 +84,18 @@
                     <div> Not yet apply for Hulu student discount? Click <a href="https://www.hulu.com/student" target="_blank" >here</a></div>
                 </div>
 
+            </div> -->
+
+            <div id="otherService">
+                
+                <form action="">
+                    <div><label >NAME:</label> <input type="text" name="name" /> <br></div>
+                    <div><label >PRICE: $</label> <input type="text" name="price" /> </div>
+                    <div><label >MAIN URL:</label> <input type="text" name="main_url" /> </div>
+                    <div><label >CANCELLATION URL:</label> <input type="text" name="cancel_url" /> <br></div>
+                </form>
+                <div><button id="addOtherService" class="btn">Submit</button> </div>
+                
             </div>
             
             

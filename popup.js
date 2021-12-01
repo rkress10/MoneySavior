@@ -1,4 +1,5 @@
 window.onload=function() {
+    addCustomStreamingService();
     document.getElementById("addServiceDiv").style.display = 'none';
     document.getElementById('netflixDiv').style.display = 'none';
     document.getElementById('huluDiv').style.display = 'none';
@@ -9,6 +10,7 @@ window.onload=function() {
     document.getElementById("deleteHuluDiv").style.display = 'none';
     document.getElementById("deletePeacockDiv").style.display = 'none';
     document.getElementById("deleteHboDiv").style.display = 'none';
+    document.getElementById("otherService").style.display = 'none';
 
 
     showVisitData();
@@ -30,7 +32,44 @@ window.onload=function() {
     huluDeleteHandler();
     peacockDeleteHandler();
     hboDeleteHandler();
+    
+}
 
+function addCustomStreamingService() {
+    
+    chrome.storage.sync.get(["otherData"], function(data) {
+        if(data["otherData"]) {
+            console.log(data["otherData"]);
+            for(i in data["otherData"]){
+                
+                var tempDivId = data["otherData"][i].name +"Div";
+                var tempDivPrice = data["otherData"][i].name +"Price";
+                var tempDivInfo = data["otherData"][i].name +"Info";
+                var tempDivCancel = data["otherData"][i].name +"Cancel";
+                var tempNameTime =data["otherData"][i].name + "Time";
+                var tempOtherDiv = "<div id='" + tempDivId +"' data-time='0' data-num='0' class='sort'>";
+                tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + data["otherData"][i].name + "</span></div>";
+                tempOtherDiv += "<div class='infodiv'>";
+                tempOtherDiv +=  "<div id='" + tempDivPrice +"' class='infoSpace'></div>";
+                tempOtherDiv += "<div id='" + tempDivInfo +"' class='infoSpace'></div>";
+                tempOtherDiv += "<div id='" + tempNameTime +"' class='infoSpace'></div>";
+
+                tempOtherDiv += "<div class='infoSpace'>";
+                tempOtherDiv += "<button id='" + tempDivCancel +"'  class='cancelBtn'>Cancel " + data["otherData"][i].name +"</button>";
+                tempOtherDiv += "</div></div></div>";
+                
+
+                document.getElementById('subscriptionServiceListDiv').insertAdjacentHTML("beforeend",tempOtherDiv);
+                document.getElementById(tempDivId).style.display = 'inline';
+                document.getElementById(tempDivPrice).innerHTML = data["otherData"][i].name +": $" + data["otherData"][i].price; 
+                document.getElementById(tempDivInfo).innerHTML = "Number of " + data["otherData"][i].name +" Visits: 0";
+                document.getElementById(tempNameTime).innerHTML = "Minutes of " + data["otherData"][i].name +" Visits: 0";
+            }
+           
+
+        }
+            
+    });
 }
 
 function netflixDeleteHandler() {
@@ -116,38 +155,38 @@ function orderDivs(sortedBy) {
 
 function welcomeMessage() {
     chrome.storage.sync.get(["firstTime"], function(data) {
-            if(data["firstTime"]) {
-                var welcomeDivStr = "<div id='welcomeMessage'>";
-                welcomeDivStr += "Welcome to Money Savior. Click the plus button above to add your streaming services!";
-                welcomeDivStr += "</div>";
-                document.getElementById('messageContainer').innerHTML = welcomeDivStr;
-                chrome.storage.sync.set({"firstTime": false}, function() {});
+        if(data["firstTime"]) {
+            var welcomeDivStr = "<div id='welcomeMessage'>";
+            welcomeDivStr += "Welcome to Money Savior. Click the plus button above to add your streaming services!";
+            welcomeDivStr += "</div>";
+            document.getElementById('messageContainer').innerHTML = welcomeDivStr;
+            chrome.storage.sync.set({"firstTime": false}, function() {});
 
-            }
+        }
             
-        });
+    });
 }
 
 function addStreamingService() {
     document.getElementById("chooseAll").addEventListener("click", 
     function() {
         document.getElementById("allService").style.display = 'flex';
-        document.getElementById("studentDiscountService").style.display = 'none';
+        document.getElementById("otherService").style.display = 'none';
         document.getElementById("chooseAll").style.color = "white";
         document.getElementById("chooseAll").style.backgroundColor = "#87d7e9";
         document.getElementById("chooseAll").style.borderColor = "#87d7e9";
-        document.getElementById("chooseStudent").style.color = "black";
-        document.getElementById("chooseStudent").style.backgroundColor = "white";
-        document.getElementById("chooseStudent").style.borderColor = "#87d7e9";
+        document.getElementById("chooseOther").style.color = "black";
+        document.getElementById("chooseOther").style.backgroundColor = "white";
+        document.getElementById("chooseOther").style.borderColor = "#87d7e9";
     });
 
-    document.getElementById("chooseStudent").addEventListener("click", 
+    document.getElementById("chooseOther").addEventListener("click", 
     function() {
         document.getElementById("allService").style.display = 'none';
-        document.getElementById("studentDiscountService").style.display = 'flex';
-        document.getElementById("chooseStudent").style.color = "white";
-        document.getElementById("chooseStudent").style.backgroundColor = "#87d7e9";
-        document.getElementById("chooseStudent").style.borderColor = "#87d7e9";
+        document.getElementById("otherService").style.display = 'flex';
+        document.getElementById("chooseOther").style.color = "white";
+        document.getElementById("chooseOther").style.backgroundColor = "#87d7e9";
+        document.getElementById("chooseOther").style.borderColor = "#87d7e9";
         document.getElementById("chooseAll").style.color = "black";
         document.getElementById("chooseAll").style.backgroundColor = "white";
         document.getElementById("chooseAll").style.borderColor = "#87d7e9";
@@ -242,38 +281,6 @@ function addStreamingService() {
         })
     })
 
-    document.getElementById("addHuluStudent").addEventListener("click", function() {
-        chrome.storage.sync.get({"hostnames":[]}, 
-        function(data) {
-            if (!data["hostnames"].includes("www.hulu.com")) {
-                data["hostnames"].push("www.hulu.com");
-                
-                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                    // alert('added hulu');
-                    document.getElementById('huluDiv').style.display = 'inline';
-                    document.getElementById("huluInfo").innerHTML = 'Number of Hulu Visits: 0';
-                });
-                
-                chrome.storage.sync.get({"usingTime":[]}, function(time) {
-                    time["usingTime"].push("huluTime");
-                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
-                        document.getElementById("huluTime").innerHTML = 'Minutes of Hulu Visits: 0';
-                    });
-                });
-
-                // add price for hulu
-                var select = document.getElementById('huluSelectStudent');
-				var option = select.options[select.selectedIndex];
-
-                chrome.storage.sync.set({"huluPrice": option.text}, function (){
-                    document.getElementById('huluPrice').innerHTML = option.text; 
-                });
-            }
-            else {
-                // alert('already added Hulu');
-            }
-        })
-    })
 
     document.getElementById("addPeacock").addEventListener("click", function() {
         chrome.storage.sync.get({"hostnames":[]}, 
@@ -340,6 +347,90 @@ function addStreamingService() {
             }
         })
     })
+
+    document.getElementById("addOtherService").addEventListener("click", function() {
+        // TODO: print out error code if no input is received
+        // will get the inputted data from otherService div
+        var name= document.getElementsByName("name");
+        var price= document.getElementsByName("price");
+        var main_url= document.getElementsByName("main_url");
+        var cancel_url= document.getElementsByName("cancel_url");
+        var tempDivId = name[0].value +"Div";
+        var tempDivPrice = name[0].value +"Price";
+        var tempDivInfo = name[0].value +"Info";
+        var tempDivCancel = name[0].value +"Cancel";
+        var tempNameTime = name[0].value + "Time";
+        console.log(name[0].value);
+        chrome.storage.sync.get({"hostnames":[]}, 
+        function(data) {
+            if (!data["hostnames"].includes(main_url[0].value)) {
+                data["hostnames"].push(main_url[0].value);
+                
+                //create div for added custom service
+                chrome.storage.sync.get({"otherData": []}, function (data2){
+                    var tempDict = {
+                        "name": name[0].value,
+                        "price": price[0].value,
+                        "main_url": main_url[0].value,
+                        "cancel_url": cancel_url[0].value,
+                        "visitNum": 0,
+                        "timeNum": 0
+
+                    };
+                    if (!data2["otherData"].includes(tempDict)) {
+
+                        data2["otherData"].push(tempDict);
+                        console.log(data2["otherData"])
+                        
+                    }
+                    
+                    var tempOtherDiv = "<div id='" + tempDivId +"' data-time='0' data-num='0' class='sort'>";
+                    tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + name[0].value + "</span></div>";
+                    tempOtherDiv += "<div class='infodiv'>";
+                    tempOtherDiv +=  "<div id='" + tempDivPrice +"' class='infoSpace'></div>";
+                    tempOtherDiv += "<div id='" + tempDivInfo +"' class='infoSpace'></div>";
+                    tempOtherDiv += "<div id='" + tempNameTime +"' class='infoSpace'></div>";
+
+                    tempOtherDiv += "<div class='infoSpace'>";
+                    tempOtherDiv += "<button id='" + tempDivCancel +"'  class='cancelBtn'>Cancel " + name[0].value +"</button>";
+                    tempOtherDiv += "</div></div></div>";
+                    console.log(tempOtherDiv);
+
+                    document.getElementById('subscriptionServiceListDiv').insertAdjacentHTML("beforeend",tempOtherDiv);
+                    chrome.storage.sync.set({"otherData": data2["otherData"]}, function (){
+                        
+                    });
+                });
+
+
+                
+                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
+                    
+                    
+                    document.getElementById(tempDivId).style.display = 'inline';
+                    document.getElementById(tempDivInfo).innerHTML = "Number of " + name[0].value +" Visits: 0";
+                });
+                
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    
+                    time["usingTime"].push(tempNameTime);
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById(tempNameTime).innerHTML = "Minutes of " + name[0].value +" Visits: 0";
+                    });
+                });
+
+                // add price for custom service
+                
+
+                chrome.storage.sync.set({tempDivPrice: price[0].value}, function (){
+                    document.getElementById(tempDivPrice).innerHTML = name[0].value +": $" + price[0].value; 
+                });
+            }
+            else {
+                // alert('already added custom service');
+            }
+        })
+    })
 }
 
 function showVisitData() {
@@ -375,6 +466,17 @@ function showVisitData() {
                     break;
                 
             }
+        }
+    })
+
+    chrome.storage.sync.get({"otherData":[]}, function(data) {
+        for (i in data["otherData"]) {
+            var tempDivId = data["otherData"][i].name +"Div";
+            var tempDivInfo = data["otherData"][i].name +"Info";
+            document.getElementById(tempDivId).style.display = 'inline';
+            document.getElementById(tempDivInfo).innerHTML = "Number of " + data["otherData"][i].name + " Visits: " + data["otherData"][i].visitNum;
+            document.getElementById(tempDivId).dataset.num = (data["otherData"][i].visitNum).toString(); 
+            
         }
     })
 }
@@ -457,7 +559,7 @@ function deleteButton() {
     document.getElementById('deleteData').addEventListener('click',
     function () {
         chrome.storage.sync.remove(["www.google.com", "www.hulu.com", "www.netflix.com", "www.peacocktv.com", "www.hbomax.com", "hostnames",
-                                    "usingTime", "netflixTime", "huluTime", "hboTime", "peacockTime"], function() {
+                                    "usingTime", "netflixTime", "huluTime", "hboTime", "peacockTime", "otherData"], function() {
             // alert("Deleted Stored Data");
         });
         chrome.storage.sync.set({"firstTime": true}, function(){});

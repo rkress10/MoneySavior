@@ -102,7 +102,7 @@
         </div>
         <div id="appBodyContent">
             
-            <div id="messageContainer">
+            <div id="mainMessage" class="messageContainer">
                 <!-- contains content to show the user like "Welcome to Money Savior" -->
             </div>
 
@@ -175,8 +175,12 @@
                 </div>
             </div> 
         </div>
-        <div id="deleteMessageContainer">
-            <div> Cancelling this service will delete its data from the app. Make sure you cancel the subscription after clicking Yes. Proceed?</div>
+        <div id="deleteMessageContainer" class="messageAndButtons">
+            <div class="messageContainer"> 
+                Cancelling this service will delete its data from the app. Make sure you cancel the subscription after clicking Yes. 
+                <br>
+                Proceed?
+            </div>
             <div id="deleteNetflixDiv">
                 <button id="deleteNetflixYes" class="yesButton">Yes</button>
                 <button id="deleteNetflixNo" class="noButton" >No</button>
@@ -194,7 +198,21 @@
                 <button id="deleteHboNo" class="noButton">No</button>
             </div>
         </div>
-        <button id="deleteData">Erase Data</button>    
+        <button id="deleteData">Erase Data</button>
+
+        <div id="deleteAllContainer" class="messageAndButtons">
+            <div class="messageContainer"> 
+                This will delete all your saved streaming services. 
+                <br>
+                Proceed?
+            </div> 
+            <div>
+                <button id="deleteAllYes" class="yesButton">Yes</button>
+                <button id="deleteAllNo" class="noButton" >No</button>
+            </div>
+            
+            
+        </div>    
     </div>
     
 </div>

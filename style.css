@@ -153,13 +153,15 @@ button.current {
 #deleteData {
     background-color: red;
     color: white;
-    height: 60px;
-    width: 100px;
+    height: 30px;
+    width: 80px;
+    text-align: center;
 }
 
-#messageContainer {
+.messageContainer {
     color: #6200EE;
     font-size: 30px;
+    padding-left: 10px;
 }
 
 
@@ -180,10 +182,7 @@ button.current {
     
 }
 
-#studentDiscountService {
-    display: none;
-    flex-direction: column;
-}
+
 
 #chooseAll {
     background-color: #87d7e9;
@@ -236,4 +235,9 @@ button.current {
 
 .otherService label {
     text-align:right;
+}
+
+.messageAndButtons {
+    display: flex;
+    flex-direction: column;
 }

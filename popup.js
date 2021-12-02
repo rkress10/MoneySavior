@@ -11,8 +11,9 @@ window.onload=function() {
     document.getElementById("deletePeacockDiv").style.display = 'none';
     document.getElementById("deleteHboDiv").style.display = 'none';
     document.getElementById("otherService").style.display = 'none';
+    document.getElementById("deleteAllContainer").style.display = 'none';
 
-
+    showDeleteAllMessage();
     showVisitData();
     showTimeData();
     deleteButton();
@@ -78,6 +79,8 @@ function netflixDeleteHandler() {
         document.getElementById("subscriptionServiceListDiv").style.display = 'none';
         document.getElementById('deleteMessageContainer').style.display = 'flex';
         document.getElementById("deleteNetflixDiv").style.display = 'flex';
+        document.getElementById("deleteAllContainer").style.display = 'none';
+        document.getElementById("deleteData").style.display = 'none';
     });
     document.getElementById("deleteNetflixNo").addEventListener("click", function() {
         window.location.reload();
@@ -91,6 +94,8 @@ function huluDeleteHandler() {
         document.getElementById("subscriptionServiceListDiv").style.display = 'none';
         document.getElementById('deleteMessageContainer').style.display = 'flex';
         document.getElementById("deleteHuluDiv").style.display = 'flex';
+        document.getElementById("deleteAllContainer").style.display = 'none';
+        document.getElementById("deleteData").style.display = 'none';
     });
     document.getElementById("deleteHuluNo").addEventListener("click", function() {
         window.location.reload();
@@ -104,6 +109,8 @@ function peacockDeleteHandler() {
         document.getElementById("subscriptionServiceListDiv").style.display = 'none';
         document.getElementById('deleteMessageContainer').style.display = 'flex';
         document.getElementById("deletePeacockDiv").style.display = 'flex';
+        document.getElementById("deleteAllContainer").style.display = 'none';
+        document.getElementById("deleteData").style.display = 'none';
     });
     document.getElementById("deletePeacockNo").addEventListener("click", function() {
         window.location.reload();
@@ -117,6 +124,8 @@ function hboDeleteHandler() {
         document.getElementById("subscriptionServiceListDiv").style.display = 'none';
         document.getElementById('deleteMessageContainer').style.display = 'flex';
         document.getElementById("deleteHboDiv").style.display = 'flex';
+        document.getElementById("deleteAllContainer").style.display = 'none';
+        document.getElementById("deleteData").style.display = 'none';
     });
     document.getElementById("deleteHboNo").addEventListener("click", function() {
         window.location.reload();
@@ -159,7 +168,7 @@ function welcomeMessage() {
             var welcomeDivStr = "<div id='welcomeMessage'>";
             welcomeDivStr += "Welcome to Money Savior. Click the plus button above to add your streaming services!";
             welcomeDivStr += "</div>";
-            document.getElementById('messageContainer').innerHTML = welcomeDivStr;
+            document.getElementById('mainMessage').innerHTML = welcomeDivStr;
             chrome.storage.sync.set({"firstTime": false}, function() {});
 
         }
@@ -198,7 +207,7 @@ function addStreamingService() {
             document.getElementById("addButton").innerHTML = '-';
             document.getElementById("buttonChoice").style.display = 'flex';
             document.getElementById("addServiceDiv").style.display = 'flex';
-            document.getElementById("messageContainer").style.display = 'none';
+            document.getElementById("mainMessage").style.display = 'none';
             document.getElementById("sortButtonContainer").style.display = 'none';
             document.getElementById("subscriptionServiceListDiv").style.display = 'none';
             document.getElementById('deleteMessageContainer').style.display = 'none';
@@ -206,6 +215,8 @@ function addStreamingService() {
             document.getElementById("deleteHuluDiv").style.display = 'none';
             document.getElementById("deletePeacockDiv").style.display = 'none';
             document.getElementById("deleteHboDiv").style.display = 'none';
+            document.getElementById("deleteAllContainer").style.display = 'none';
+            document.getElementById("deleteData").style.display = 'none';
         }
        else {
             document.getElementById("sortButtonContainer").style.display = 'flex';
@@ -213,6 +224,8 @@ function addStreamingService() {
             document.getElementById("addServiceDiv").style.display = 'none';
             document.getElementById("buttonChoice").style.display = 'none';
             document.getElementById("subscriptionServiceListDiv").style.display = 'block';
+            
+            document.getElementById("deleteData").style.display = 'inline';
        } 
     });
 
@@ -243,7 +256,7 @@ function addStreamingService() {
              
             }
             else {
-                // alert('already added Netflix');
+                alert('already added Netflix');
             }
         })
     })
@@ -276,7 +289,7 @@ function addStreamingService() {
                 });
             }
             else {
-                // alert('already added Hulu');
+                alert('already added Hulu');
             }
         })
     })
@@ -310,7 +323,7 @@ function addStreamingService() {
                 });
             }
             else {
-                // alert('already added Peacock');
+                alert('already added Peacock');
             }
         })
     })
@@ -343,7 +356,7 @@ function addStreamingService() {
                 });
             }
             else {
-                // alert('already added HBO Max');
+                alert('already added HBO Max');
             }
         })
     })
@@ -427,7 +440,7 @@ function addStreamingService() {
                 });
             }
             else {
-                // alert('already added custom service');
+                alert('already added the custom service ' + name[0].value);
             }
         })
     })
@@ -553,17 +566,41 @@ function hboData() {
     });
 }
 
-// deletes data from storage
-// TODO: add preventative measures to make sure user doesn't accidentally hit the button
-function deleteButton() {
+
+function showDeleteAllMessage() {
+    
     document.getElementById('deleteData').addEventListener('click',
     function () {
+        document.getElementById("sortButtonContainer").style.display = 'none';
+        document.getElementById("subscriptionServiceListDiv").style.display = 'none';
+        document.getElementById("deleteAllContainer").style.display = 'flex';
+        document.getElementById("deleteData").style.display = 'none';
+        
+    }
+    );
+
+}
+
+// deletes data from storage
+function deleteButton() {
+    document.getElementById('deleteAllYes').addEventListener('click',
+    function () {
+
         chrome.storage.sync.remove(["www.google.com", "www.hulu.com", "www.netflix.com", "www.peacocktv.com", "www.hbomax.com", "hostnames",
                                     "usingTime", "netflixTime", "huluTime", "hboTime", "peacockTime", "otherData"], function() {
-            // alert("Deleted Stored Data");
+            alert("Deleted Stored Data");
         });
         chrome.storage.sync.set({"firstTime": true}, function(){});
         window.location.reload();
+    }
+    );
+
+    document.getElementById('deleteAllNo').addEventListener('click',
+    function () {
+        document.getElementById("deleteAllContainer").style.display = 'none';
+        document.getElementById("sortButtonContainer").style.display = 'flex';
+        document.getElementById("subscriptionServiceListDiv").style.display = 'block';
+        document.getElementById("deleteData").style.display = 'inline';
     }
     );
 

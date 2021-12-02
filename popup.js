@@ -41,30 +41,50 @@ function addCustomStreamingService() {
     chrome.storage.sync.get(["otherData"], function(data) {
         if(data["otherData"]) {
             console.log(data["otherData"]);
+            console.log("look here");
             for(i in data["otherData"]){
-                
                 var tempDivId = data["otherData"][i].name +"Div";
                 var tempDivPrice = data["otherData"][i].name +"Price";
                 var tempDivInfo = data["otherData"][i].name +"Info";
                 var tempDivCancel = data["otherData"][i].name +"Cancel";
                 var tempNameTime =data["otherData"][i].name + "Time";
-                var tempOtherDiv = "<div id='" + tempDivId +"' data-time='0' data-num='0' class='sort'>";
-                tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + data["otherData"][i].name + "</span></div>";
-                tempOtherDiv += "<div class='infodiv'>";
-                tempOtherDiv +=  "<div id='" + tempDivPrice +"' class='infoSpace'></div>";
-                tempOtherDiv += "<div id='" + tempDivInfo +"' class='infoSpace'></div>";
-                tempOtherDiv += "<div id='" + tempNameTime +"' class='infoSpace'></div>";
+                var tmp = (data["otherData"][0].name + "Time");
+                console.log(tmp);
+                console.log('shit');
+                var objtmp = {};
+                objtmp[tmp] = 0;
 
-                tempOtherDiv += "<div class='infoSpace'>";
-                tempOtherDiv += "<button id='" + tempDivCancel +"'  class='cancelBtn'>Cancel " + data["otherData"][i].name +"</button>";
-                tempOtherDiv += "</div></div></div>";
+                var tmpUrl = "www." + data["otherData"][0].name + ".com";
+                chrome.storage.sync.get(tmpUrl, function(data3) {
+                    console.log('shitbitch');
+                    console.log(data3);
+                    console.log(data3[tmpUrl]);
+                    chrome.storage.sync.get(objtmp, function(data2) {
+                        console.log('bitch');
+                        console.log(data2);
+                        
+                        var tempOtherDiv = "<div id='" + tempDivId +"' data-time='0' data-num='0' class='sort'>";
+                        tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + data["otherData"][i].name + "</span></div>";
+                        tempOtherDiv += "<div class='infodiv'>";
+                        tempOtherDiv +=  "<div id='" + tempDivPrice +"' class='infoSpace'></div>";
+                        tempOtherDiv += "<div id='" + tempDivInfo +"' class='infoSpace'></div>";
+                        tempOtherDiv += "<div id='" + tempNameTime +"' class='infoSpace'></div>";
+        
+                        tempOtherDiv += "<div class='infoSpace'>";
+                        tempOtherDiv += "<button id='" + tempDivCancel +"'  class='cancelBtn'>Cancel " + data["otherData"][i].name +"</button>";
+                        tempOtherDiv += "</div></div></div>";
+                        
+        
+                        document.getElementById('subscriptionServiceListDiv').insertAdjacentHTML("beforeend",tempOtherDiv);
+                        document.getElementById(tempDivId).style.display = 'inline';
+                        document.getElementById(tempDivPrice).innerHTML = data["otherData"][i].name +": $" + data["otherData"][i].price; 
+                        document.getElementById(tempDivInfo).innerHTML = "Number of " + data["otherData"][i].name +" Visits: " + data3[tmpUrl];
+                        document.getElementById(tempNameTime).innerHTML = "Minutes of " + data["otherData"][i].name +" Visits: " + data2[tempNameTime];
+                });
                 
-
-                document.getElementById('subscriptionServiceListDiv').insertAdjacentHTML("beforeend",tempOtherDiv);
-                document.getElementById(tempDivId).style.display = 'inline';
-                document.getElementById(tempDivPrice).innerHTML = data["otherData"][i].name +": $" + data["otherData"][i].price; 
-                document.getElementById(tempDivInfo).innerHTML = "Number of " + data["otherData"][i].name +" Visits: 0";
-                document.getElementById(tempNameTime).innerHTML = "Minutes of " + data["otherData"][i].name +" Visits: 0";
+                })
+                
+                
             }
            
 
@@ -481,17 +501,20 @@ function showVisitData() {
             }
         }
     })
-
+    /*
     chrome.storage.sync.get({"otherData":[]}, function(data) {
         for (i in data["otherData"]) {
             var tempDivId = data["otherData"][i].name +"Div";
             var tempDivInfo = data["otherData"][i].name +"Info";
+            console.log('balls');
+            console.log(tempDivId);
             document.getElementById(tempDivId).style.display = 'inline';
             document.getElementById(tempDivInfo).innerHTML = "Number of " + data["otherData"][i].name + " Visits: " + data["otherData"][i].visitNum;
             document.getElementById(tempDivId).dataset.num = (data["otherData"][i].visitNum).toString(); 
             
         }
     })
+    */
 }
 
 function showTimeData() {
@@ -585,9 +608,8 @@ function showDeleteAllMessage() {
 function deleteButton() {
     document.getElementById('deleteAllYes').addEventListener('click',
     function () {
-
-        chrome.storage.sync.remove(["www.google.com", "www.hulu.com", "www.netflix.com", "www.peacocktv.com", "www.hbomax.com", "hostnames",
-                                    "usingTime", "netflixTime", "huluTime", "hboTime", "peacockTime", "otherData"], function() {
+        
+        chrome.storage.sync.clear(function() {
             alert("Deleted Stored Data");
         });
         chrome.storage.sync.set({"firstTime": true}, function(){});

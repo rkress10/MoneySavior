@@ -9,30 +9,16 @@ setInterval(function() {
 
         chrome.storage.sync.get({"usingTime":[]}, function(data) {
             if (websiteInFile) {
-                switch (taburl.hostname) {
-                    case 'www.netflix.com':
-                        chrome.storage.sync.get({"netflixTime": 0}, function(data) {
-                            chrome.storage.sync.set({"netflixTime": data["netflixTime"] + 1}, function() {});
-                        });
-                        break;
-                    case 'www.hulu.com':
-                        chrome.storage.sync.get({"huluTime": 0}, function(data) {
-                            chrome.storage.sync.set({"huluTime": data["huluTime"] + 1}, function() {});
-                        });
-                        break;
-                    case 'www.peacocktv.com':
-                        chrome.storage.sync.get({"peacockTime": 0}, function(data) {
-                            chrome.storage.sync.set({"peacockTime": data["peacockTime"] + 1}, function() {});
-                        });
-                        break;
-                    case 'www.hbomax.com':
-                        chrome.storage.sync.get({"hboTime": 0}, function(data) {
-                            chrome.storage.sync.set({"hboTime": data["hboTime"] + 1}, function() {});
-                        });
-                        break;
-                    default:
-                        // alert('Somethings Wrong');
-                    }
+                var timeString = taburl.hostname.replace("www.","");
+                timeString = timeString.replace(".com","");
+                timeString = timeString + 'Time';
+                var obj = {};
+                obj[timeString] = 0;
+                chrome.storage.sync.get(obj, function(data) {
+                    var obj2 = {};
+                    obj2[timeString] = data[timeString] + 1;
+                    chrome.storage.sync.set(obj2, function() {});
+                });
                 }
         })
         
@@ -46,34 +32,14 @@ function GetCurrentTab() {
         let taburl = new URL(tabs[0].url);
         chrome.storage.sync.get({"hostnames":[]}, function(data) {
             if (data["hostnames"].includes(taburl.hostname)) {
-                switch (taburl.hostname) {
-                    case 'www.netflix.com':
-                        
-                        chrome.storage.sync.get({"www.netflix.com": 0}, function(data) {
-                            chrome.storage.sync.set({"www.netflix.com": data["www.netflix.com"] + 1}, function() {});
-                        });
-                        break;
-                    case 'www.hulu.com':
-                        
-                        chrome.storage.sync.get({"www.hulu.com": 0}, function(data) {
-                            chrome.storage.sync.set({"www.hulu.com": data["www.hulu.com"] + 1}, function() {});
-                        });
-                        break;
-                    case 'www.peacocktv.com':
-                        
-                        chrome.storage.sync.get({"www.peacocktv.com": 0}, function(data) {
-                            chrome.storage.sync.set({"www.peacocktv.com": data["www.peacocktv.com"] + 1}, function() {});
-                        });
-                        break;
-                    case 'www.hbomax.com':
-                        //alert("Streaming website: hbo max");
-                        chrome.storage.sync.get({"www.hbomax.com": 0}, function(data) {
-                            chrome.storage.sync.set({"www.hbomax.com": data["www.hbomax.com"] + 1}, function() {});
-                        });
-                        break;
-                    default:
-                        //alert('Somethings Wrong');
-                }
+
+                var obj = {};
+                obj[taburl.hostname] = 0;
+                chrome.storage.sync.get(obj, function(data) {
+                    var obj2 = {};
+                    obj2[taburl.hostname] = data[taburl.hostname] + 1;
+                    chrome.storage.sync.set(obj2, function() {});
+                });
                 }
         })
         

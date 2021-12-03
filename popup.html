@@ -33,6 +33,16 @@
             </div>
             <div id="allService">
                 <div>
+                    <label for="amazonSelect"><strong>Amazon Prime</strong>:</label>  
+                    <select id="amazonSelect">
+                        <option value="amazonPrimeVideo">Prime Video: $8.99</option>
+                        <option value="amazonPrime">Prime Video + Amazon Prime: $13.99</option>
+                        
+                    </select>
+                    <button id="addAmazon" class="services">Add Amazon Prime</button> <br>
+                </div>
+
+                <div>
                     <label for="netflixSelect"><strong>Netflix</strong>:</label>  
                     <select id="netflixSelect">
                         <option value="netBase">Netflix Base: $8.99</option>
@@ -88,12 +98,16 @@
 
             <div id="otherService">
                 
-                <form action="">
-                    <div><label >NAME:</label> <input type="text" name="name" /> <br></div>
-                    <div><label >PRICE: $</label> <input type="text" name="price" /> </div>
-                    <div><label >MAIN URL:</label> <input type="text" name="main_url" /> </div>
-                    <div><label >CANCELLATION URL:</label> <input type="text" name="cancel_url" /> <br></div>
-                </form>
+                <div>
+                    <form action="">
+                        <div><label >NAME:</label> <input type="text" name="name" /> <br></div>
+                        <div><label >PRICE: $</label> <input type="text" name="price" /> </div>
+                        
+                        <div><label >MAIN URL:</label> <input type="text" name="main_url" /> </div>
+                        <div><label >CANCELLATION URL:</label> <input type="text" name="cancel_url" /> <br></div>
+                    </form>
+                </div>
+                <p>Format of main url: "www.NAME.com" where NAME must be similar as NAME above for this to work</p>
                 <div><button id="addOtherService" class="btn">Submit</button> </div>
                 
             </div>
@@ -113,7 +127,21 @@
             
             <div id="subscriptionServiceListDiv">
                 <!-- contains options of streaming services for the user to choose -->
-                
+                <div id="amazonDiv" data-time="0" data-num="0" class="sort">
+                    <!-- template for what is contained in a subscription service div  -->
+                    <!-- just a rough idea, can change depending on how to implement the javascript for it -->
+                    <div class="serviceHeader"><span class="serviceTitle">Amazon Prime Video</span></div>
+                    <div class="infodiv">
+                        <div class="infoSpace"><span id="amazonPrice"></span></div>
+                        <div id="amazonInfo" class="infoSpace"></div>
+                        <div id="amazonTime" class="infoSpace"></div>
+                        <div class="infoSpace">
+                            <button id="amazonCancel" class="cancelBtn">Cancel Amazon Prime Video</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
                 <div id="netflixDiv" data-time="0" data-num="0" class="sort">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
@@ -144,31 +172,31 @@
                     </div>
                 </div>
 
-                <div id="peacockDiv" data-time="0" data-num="0" class="sort">
+                <div id="peacocktvDiv" data-time="0" data-num="0" class="sort">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
                     <div class="serviceHeader" ><span class="serviceTitle">Peacock</span></div>
                     <div class="infodiv">
-                        <div id="peacockPrice" class="infoSpace">Peacock Price: $idk</div>
-                        <div id="peacockInfo" class="infoSpace">Peacock Visits</div>
-                        <div id="peacockTime" class="infoSpace"></div>
+                        <div id="peacocktvPrice" class="infoSpace">Peacock Price: $idk</div>
+                        <div id="peacocktvInfo" class="infoSpace">Peacock Visits</div>
+                        <div id="peacocktvTime" class="infoSpace"></div>
                         <div class="infoSpace">
-                            <button  id="peacockCancel" class="cancelBtn">Cancel Peacock</button>
+                            <button  id="peacocktvCancel" class="cancelBtn">Cancel Peacock</button>
                             
                         </div>
                     </div>
                 </div>
 
-                <div id="hboDiv" data-time="0" data-num="0" class="sort">
+                <div id="hbomaxDiv" data-time="0" data-num="0" class="sort">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
                     <div class="serviceHeader"><span class="serviceTitle">HBO Max</span></div>
                     <div class="infodiv">
-                        <div id="hboPrice" class="infoSpace">HBO Max Price: $idk</div>
-                        <div id="hboInfo" class="infoSpace">HBO max Visits</div>
-                        <div id="hboTime" class="infoSpace"></div>
+                        <div id="hbomaxPrice" class="infoSpace">HBO Max Price: $idk</div>
+                        <div id="hbomaxInfo" class="infoSpace">HBO max Visits</div>
+                        <div id="hbomaxTime" class="infoSpace"></div>
                         <div  class="infoSpace">
-                            <button  id="hboCancel" class="cancelBtn">Cancel HBO Max</button>
+                            <button  id="hbomaxCancel" class="cancelBtn" >Cancel HBO Max</button>
                             
                         </div>
                     </div>
@@ -181,21 +209,25 @@
                 <br>
                 Proceed?
             </div>
-            <div id="deleteNetflixDiv">
-                <button id="deleteNetflixYes" class="yesButton">Yes</button>
-                <button id="deleteNetflixNo" class="noButton" >No</button>
+            <div id="deleteamazonDiv">
+                <button id="deleteamazonYes" class="yesButton">Yes</button>
+                <button id="deleteamazonNo" class="noButton" >No</button>
             </div>
-            <div id="deleteHuluDiv">
-                <button id="deleteHuluYes" class="yesButton">Yes</button>
-                <button id="deleteHuluNo" class="noButton">No</button>
+            <div id="deletenetflixDiv">
+                <button id="deletenetflixYes" class="yesButton">Yes</button>
+                <button id="deletenetflixNo" class="noButton" >No</button>
             </div>
-            <div id="deletePeacockDiv">
-                <button id="deletePeacockYes" class="yesButton">Yes</button>
-                <button id="deletePeacockNo" class="noButton">No</button>
+            <div id="deletehuluDiv">
+                <button id="deletehuluYes" class="yesButton">Yes</button>
+                <button id="deletehuluNo" class="noButton">No</button>
             </div>
-            <div id="deleteHboDiv">
-                <button id="deleteHboYes" class="yesButton">Yes</button>
-                <button id="deleteHboNo" class="noButton">No</button>
+            <div id="deletepeacocktvDiv">
+                <button id="deletepeacocktvYes" class="yesButton">Yes</button>
+                <button id="deletepeacocktvNo" class="noButton">No</button>
+            </div>
+            <div id="deletehbomaxDiv">
+                <button id="deletehbomaxYes" class="yesButton">Yes</button>
+                <button id="deletehbomaxNo" class="noButton">No</button>
             </div>
         </div>
         <button id="deleteData">Erase Data</button>

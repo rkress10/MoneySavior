@@ -661,9 +661,9 @@ function showTimeData() {
 
 function amazonData() {
     document.getElementById('amazonDiv').style.display = 'inline';
-    chrome.storage.sync.get({"www.netflix.com": 0}, function(data) {
-        document.getElementById('amazonInfo').innerHTML = "Number of Netflix Visits: " + data["www.netflix.com"];
-        document.getElementById('amazonDiv').dataset.num = (data["www.netflix.com"]).toString();
+    chrome.storage.sync.get({"www.amazon.com": 0}, function(data) {
+        document.getElementById('amazonInfo').innerHTML = "Number of Amazon Visits: " + data["www.amazon.com"];
+        document.getElementById('amazonDiv').dataset.num = (data["www.amazon.com"]).toString();
     });
 }
 

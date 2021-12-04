@@ -1,13 +1,14 @@
 window.onload=function() {
+    
     addCustomStreamingService();
     document.getElementById("addServiceDiv").style.display = 'none';
-    document.getElementById('netflixDiv').style.display = 'none';
+    // document.getElementById('netflixDiv').style.display = 'none';
     document.getElementById('huluDiv').style.display = 'none';
     document.getElementById('peacocktvDiv').style.display = 'none';
     document.getElementById('hbomaxDiv').style.display = 'none';
     document.getElementById('amazonDiv').style.display = 'none';
     document.getElementById('deleteMessageContainer').style.display = 'none';
-    document.getElementById("deletenetflixDiv").style.display = 'none';
+    // document.getElementById("deletenetflixDiv").style.display = 'none';
     document.getElementById("deletehuluDiv").style.display = 'none';
     document.getElementById("deletepeacocktvDiv").style.display = 'none';
     document.getElementById("deletehbomaxDiv").style.display = 'none';
@@ -46,11 +47,13 @@ window.onload=function() {
     
 }
 
+
+
 function addCustomStreamingService() {
-    
+
     chrome.storage.sync.get(["otherData"], function(data) {
         if(data["otherData"]) {
-            console.log(data["otherData"]);
+            console.log(data["disneyplusTime"]);
             console.log("look here");
             for(i in data["otherData"]){
 
@@ -68,7 +71,7 @@ function addCustomStreamingService() {
                 var tmpUrl = "www." + data["otherData"][0].name + ".com";
                 chrome.storage.sync.get(tmpUrl, function(data3) {
                     console.log('shitbitch');
-                    console.log(data3);
+                    console.log(tmpUrl);
                     console.log(data3[tmpUrl]);
                     chrome.storage.sync.get(objtmp, function(data2) {
                         console.log('bitch');
@@ -89,7 +92,7 @@ function addCustomStreamingService() {
                         document.getElementById('subscriptionServiceListDiv').insertAdjacentHTML("beforeend",tempOtherDiv);
                         document.getElementById(tempDivId).style.display = 'inline';
                         
-                        document.getElementById(tempDivPrice).innerHTML = data["otherData"][i].name +": $" + data["otherData"][i].price; 
+                        document.getElementById(tempDivPrice).innerHTML = data["otherData"][i].price; 
                         document.getElementById(tempDivInfo).innerHTML = "Number of " + data["otherData"][i].name +" Visits: " + data3[tmpUrl];
                         document.getElementById(tempNameTime).innerHTML = "Minutes of " + data["otherData"][i].name +" Visits: " + data2[tempNameTime];
 
@@ -102,6 +105,7 @@ function addCustomStreamingService() {
                         document.getElementById('deleteMessageContainer').insertAdjacentHTML("beforeend",tempDeleteNameDiv);
                         document.getElementById("delete" + data["otherData"][i].name +"Div").style.display = 'none';
                         document.getElementById(tempDivCancel).addEventListener("mouseenter", cancelButtonHandler);
+                        
 
                     });
                 
@@ -285,33 +289,116 @@ function addStreamingService() {
         function(data) {
             if (!data["hostnames"].includes("www.netflix.com")) {
                 data["hostnames"].push("www.netflix.com");
-                chrome.storage.sync.get({"usingTime":[]}, function(time) {
-                    time["usingTime"].push("netflixTime");
-                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
-                        document.getElementById("netflixTime").innerHTML = 'Minutes of Netflix Visits: 0';
-                    });
-                });
-                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                    // alert('added netflix');
-                    document.getElementById('netflixDiv').style.display = 'inline';
-                    document.getElementById("netflixInfo").innerHTML = 'Number of Netflix Visits: 0';
-                });
+                // chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                //     time["usingTime"].push("netflixTime");
+                //     chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                //         document.getElementById("netflixTime").innerHTML = 'Minutes of Netflix Visits: 0';
+                //     });
+                // });
+                // chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
+                //     alert('added netflix');
+                //     document.getElementById('netflixDiv').style.display = 'inline';
+                //     document.getElementById("netflixInfo").innerHTML = 'Number of Netflix Visits: 0';
+                // });
 
                 // add cancellation url for netflix
-                chrome.storage.sync.get({"cancelUrlDict": {}}, function (d){
+                // chrome.storage.sync.get({"cancelUrlDict": {}}, function (d){
                     
-                    if (!d["cancelUrlDict"]["netflixCancel"]) {
-                        d["cancelUrlDict"]["netflixCancel"] = ("https://help.netflix.com/en/node/407");
-                        chrome.storage.sync.set({"cancelUrlDict": d["cancelUrlDict"]}, function (){});
-                    }
-                });
+                //     if (!d["cancelUrlDict"]["netflixCancel"]) {
+                //         d["cancelUrlDict"]["netflixCancel"] = ("https://help.netflix.com/en/node/407");
+                //         chrome.storage.sync.set({"cancelUrlDict": d["cancelUrlDict"]}, function (){});
+                //     }
+                // });
 
                 // add price for netflix
                 var select = document.getElementById('netflixSelect');
 				var option = select.options[select.selectedIndex];
 
+                // chrome.storage.sync.set({"netflixPrice": option.text}, function (){
+                //     document.getElementById('netflixPrice').innerHTML = option.text; 
+                // });
+
+                //testing
+                chrome.storage.sync.get({"otherData": []}, function (data2){
+                    var tempDict = {
+                        "name": "netflix",
+                        "price": option.text,
+                        "main_url": "www.netflix.com",
+                        "cancel_url": "https://help.netflix.com/en/node/407",
+                        "visitNum": 0,
+                        "timeNum": 0
+
+                    };
+                    if (!data2["otherData"].includes(tempDict)) {
+
+                        data2["otherData"].push(tempDict);
+                        console.log(data2["otherData"])
+                        
+                    }
+                    chrome.storage.sync.get({"cancelUrlDict": {}}, function (d){
+                    
+                        if (!d["cancelUrlDict"]["netflixCancel"]) {
+                            d["cancelUrlDict"]["netflixCancel"] = "https://help.netflix.com/en/node/407";
+                            chrome.storage.sync.set({"cancelUrlDict": d["cancelUrlDict"]}, function (){});
+                        }
+                    });
+                    
+                    var tempOtherDiv = "<div id='" + "netflixDiv" +"' data-time='0' data-num='0' class='sort'>";
+                    tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + "Netflix" + "</span></div>";
+                    tempOtherDiv += "<div class='infodiv'>";
+                    tempOtherDiv +=  "<div id='" + "netflixPrice" +"' class='infoSpace'></div>";
+                    tempOtherDiv += "<div id='" + "netflixInfo" +"' class='infoSpace'></div>";
+                    tempOtherDiv += "<div id='" + "netflixTime" +"' class='infoSpace'></div>";
+
+                    tempOtherDiv += "<div class='infoSpace'>";
+                    tempOtherDiv += "<button id='" + "netflixCancel" +"'  class='cancelBtn'>Cancel " + "netflix" +"</button>";
+                    tempOtherDiv += "</div></div></div>";
+                    console.log(tempOtherDiv);
+
+                    document.getElementById('subscriptionServiceListDiv').insertAdjacentHTML("beforeend",tempOtherDiv);
+
+                    // add custom service delete button confirmation div
+
+                    var tempDeleteNameDiv = "<div id='delete" + "netflix" +"Div'>";
+                    tempDeleteNameDiv += "<button id='delete" + "netflix" + "Yes' class='yesButton'>Yes</button>"
+                    tempDeleteNameDiv += "<button id='delete" + "netflix" + "No' class='noButton'>No</button>"
+                    tempDeleteNameDiv += "</div>"
+                    document.getElementById('deleteMessageContainer').insertAdjacentHTML("beforeend",tempDeleteNameDiv);
+                    document.getElementById("delete" + "netflix" +"Div").style.display = 'none';
+                    document.getElementById("netflixCancel").addEventListener("mouseenter", cancelButtonHandler);
+                    
+                    chrome.storage.sync.set({"otherData": data2["otherData"]}, function (){
+                        
+                    });
+                });
+
+
+                
+                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
+                    
+                    
+                    document.getElementById("netflixDiv").style.display = 'inline';
+                    document.getElementById("netflixInfo").innerHTML = "Number of " + "netflix" +" Visits: 0";
+                });
+                
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    
+                    time["usingTime"].push("netflixTime");
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById("netflixTime").innerHTML = "Minutes of " + "netflix" +" Visits: 0";
+                    });
+                });
+
+                // add price for custom service
+                
+
                 chrome.storage.sync.set({"netflixPrice": option.text}, function (){
-                    document.getElementById('netflixPrice').innerHTML = option.text; 
+                    document.getElementById("netflixPrice").innerHTML = option.text; 
+                });
+
+                chrome.storage.sync.set({"www.netflix.com":0}, function() {
+                    
+                    
                 });
              
             }
@@ -328,7 +415,7 @@ function addStreamingService() {
                 data["hostnames"].push("www.hulu.com");
                 
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                    // alert('added hulu');
+                    alert('added hulu');
                     document.getElementById('huluDiv').style.display = 'inline';
                     document.getElementById("huluInfo").innerHTML = 'Number of Hulu Visits: 0';
                 });
@@ -371,7 +458,7 @@ function addStreamingService() {
                 data["hostnames"].push("www.peacocktv.com");
                 
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                    // alert('added peacock');
+                    alert('added POeacock tv');
                     document.getElementById('peacocktvDiv').style.display = 'inline';
                     document.getElementById("peacocktvInfo").innerHTML = 'Number of Peacock Visits: 0';
                 });
@@ -412,7 +499,7 @@ function addStreamingService() {
                 data["hostnames"].push("www.hbomax.com");
                 
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                    // alert('added hbo max');
+                    alert('added HBO Max');
                     document.getElementById('hbomaxDiv').style.display = 'inline';
                     document.getElementById("hbomaxInfo").innerHTML = 'Number of HBO Max Visits: 0';
                 });
@@ -471,7 +558,7 @@ function addStreamingService() {
                 chrome.storage.sync.get({"otherData": []}, function (data2){
                     var tempDict = {
                         "name": name,
-                        "price": price[0].value,
+                        "price": name +": $" + price[0].value,
                         "main_url": main_url[0].value,
                         "cancel_url": cancel_url[0].value,
                         "visitNum": 0,
@@ -521,7 +608,15 @@ function addStreamingService() {
                     });
                 });
 
-
+                // add info for visit data update later
+                var save = {};
+                main_url = main_url[0].value
+                save[main_url] = 0;
+                chrome.storage.sync.set(save, function() {});
+                save = {};
+                save[tempNameTime] = 0;
+                chrome.storage.sync.set(save, function() {});
+                
                 
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
                     
@@ -546,7 +641,7 @@ function addStreamingService() {
                 });
             }
             else {
-                alert('already added the custom service ' + name[0].value);
+                alert('already added the custom service ' + main_url[0].value);
             }
         })
     })
@@ -566,13 +661,13 @@ function showVisitData() {
                     });
                     break;
                 case "www.netflix.com":
-                    netflixData();
+                    // netflixData();
                     
-                    // added price set here for convinience of not adding new function.
-                    // can change if it's cluttering this function
-                    chrome.storage.sync.get(["netflixPrice"], function (price){
-                        document.getElementById('netflixPrice').innerHTML = price["netflixPrice"]; 
-                    });
+                    // // added price set here for convinience of not adding new function.
+                    // // can change if it's cluttering this function
+                    // chrome.storage.sync.get(["netflixPrice"], function (price){
+                    //     document.getElementById('netflixPrice').innerHTML = price["netflixPrice"]; 
+                    // });
                     break;
                 case "www.hulu.com":
                     huluData();
@@ -624,12 +719,12 @@ function showTimeData() {
                     });
                     break;
                 case "netflixTime":
-                    chrome.storage.sync.get({"netflixTime": 0}, function(data) {
-                        document.getElementById('netflixTime').innerHTML = "Minutes of Netflix Visits: " + data["netflixTime"];
-                        document.getElementById('netflixDiv').dataset.time = (data["netflixTime"]).toString();
-                        console.log(document.getElementById('netflixDiv').dataset.time);
-                    });
-                    break;
+                    // chrome.storage.sync.get({"netflixTime": 0}, function(data) {
+                    //     document.getElementById('netflixTime').innerHTML = "Minutes of Netflix Visits: " + data["netflixTime"];
+                    //     document.getElementById('netflixDiv').dataset.time = (data["netflixTime"]).toString();
+                    //     console.log(document.getElementById('netflixDiv').dataset.time);
+                    // });
+                    // break;
                 case "huluTime":
                     chrome.storage.sync.get({"huluTime": 0}, function(data) {
                         document.getElementById('huluTime').innerHTML = "Minutes of Hulu Visits: " + data["huluTime"];
@@ -667,13 +762,13 @@ function amazonData() {
     });
 }
 
-function netflixData() {
-    document.getElementById('netflixDiv').style.display = 'inline';
-    chrome.storage.sync.get({"www.netflix.com": 0}, function(data) {
-        document.getElementById('netflixInfo').innerHTML = "Number of Netflix Visits: " + data["www.netflix.com"];
-        document.getElementById('netflixDiv').dataset.num = (data["www.netflix.com"]).toString();
-    });
-}
+// function netflixData() {
+//     document.getElementById('netflixDiv').style.display = 'inline';
+//     chrome.storage.sync.get({"www.netflix.com": 0}, function(data) {
+//         document.getElementById('netflixInfo').innerHTML = "Number of Netflix Visits: " + data["www.netflix.com"];
+//         document.getElementById('netflixDiv').dataset.num = (data["www.netflix.com"]).toString();
+//     });
+// }
 
 function huluData() {
     document.getElementById('huluDiv').style.display = 'inline';
@@ -784,13 +879,21 @@ function deleteOneService(event) {
             document.getElementById(nameDiv).style.display = 'none';
             chrome.storage.sync.get({"cancelUrlDict":{}}, function(d) {
                 var tempUrlCancel = d["cancelUrlDict"][nameCancel]
-                console.log(tempUrlCancel)
+                console.log(hostname)
+                delete d["cancelUrlDict"][nameCancel];
+                console.log(nameTime)
+                chrome.storage.sync.set({"cancelUrlDict":d["cancelUrlDict"]}, function(){});
+                
+                
+                var save = {};
+                save[hostname] = 0;
+                chrome.storage.sync.set(save, function() {});
+                save = {};
+                save[nameTime] = 0;
+                chrome.storage.sync.set(save, function() {});
                 window.open(tempUrlCancel, "_blank");
                 
-                delete d["cancelUrlDict"][nameCancel];
-                chrome.storage.sync.set({"cancelUrlDict":d["cancelUrlDict"]}, function(){});
-                chrome.storage.sync.set({hostname:0}, function() {});
-                chrome.storage.sync.set({nameTime:0}, function() {});
+                
             });
             
             

@@ -57,18 +57,18 @@ function addCustomStreamingService() {
             console.log("look here");
             for(i in data["otherData"]){
 
-                var tempDivId = data["otherData"][i].name +"Div";
-                var tempDivPrice = data["otherData"][i].name +"Price";
-                var tempDivInfo = data["otherData"][i].name +"Info";
-                var tempDivCancel = data["otherData"][i].name +"Cancel";
-                var tempNameTime =data["otherData"][i].name + "Time";
-                var tmp = (data["otherData"][0].name + "Time");
+                var tempDivId = data["otherData"][i].name.toLowerCase() +"Div";
+                var tempDivPrice = data["otherData"][i].name.toLowerCase() +"Price";
+                var tempDivInfo = data["otherData"][i].name.toLowerCase() +"Info";
+                var tempDivCancel = data["otherData"][i].name.toLowerCase() +"Cancel";
+                var tempNameTime =data["otherData"][i].name.toLowerCase() + "Time";
+                var tmp = (data["otherData"][0].name.toLowerCase() + "Time");
                 console.log(tmp);
                 console.log('shit');
                 var objtmp = {};
                 objtmp[tmp] = 0;
 
-                var tmpUrl = "www." + data["otherData"][0].name + ".com";
+                var tmpUrl = "www." + data["otherData"][0].name.toLowerCase() + ".com";
                 chrome.storage.sync.get(tmpUrl, function(data3) {
                     console.log('shitbitch');
                     console.log(tmpUrl);
@@ -76,6 +76,7 @@ function addCustomStreamingService() {
                     chrome.storage.sync.get(objtmp, function(data2) {
                         console.log('bitch');
                         console.log(data2);
+                        console.log(typeof data2[tempNameTime]);
                         
                         var tempOtherDiv = "<div id='" + tempDivId +"' data-time='0' data-num='0' class='sort'>";
                         tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + data["otherData"][i].name + "</span></div>";
@@ -94,16 +95,18 @@ function addCustomStreamingService() {
                         
                         document.getElementById(tempDivPrice).innerHTML = data["otherData"][i].price; 
                         document.getElementById(tempDivInfo).innerHTML = "Number of " + data["otherData"][i].name +" Visits: " + data3[tmpUrl];
-                        document.getElementById(tempNameTime).innerHTML = "Minutes of " + data["otherData"][i].name +" Visits: " + data2[tempNameTime];
-
+                        document.getElementById(tempNameTime).innerHTML = "Minutes of " + data["otherData"][i].name +" Visits: " + data2[tmp];
+                        document.getElementById(tempDivId).dataset.time = (data2[tmp]).toString();
+                        document.getElementById(tempDivId).dataset.num = data3[tmpUrl].toString();
+                        console.log(document.getElementById(tempDivId).dataset.time);
                         // add custom service delete button confirmation div
 
-                        var tempDeleteNameDiv = "<div id='delete" + data["otherData"][i].name +"Div'>";
-                        tempDeleteNameDiv += "<button id='delete" + data["otherData"][i].name + "Yes' class='yesButton'>Yes</button>"
-                        tempDeleteNameDiv += "<button id='delete" + data["otherData"][i].name + "No' class='noButton'>No</button>"
+                        var tempDeleteNameDiv = "<div id='delete" + data["otherData"][i].name.toLowerCase() +"Div'>";
+                        tempDeleteNameDiv += "<button id='delete" + data["otherData"][i].name.toLowerCase() + "Yes' class='yesButton'>Yes</button>"
+                        tempDeleteNameDiv += "<button id='delete" + data["otherData"][i].name.toLowerCase() + "No' class='noButton'>No</button>"
                         tempDeleteNameDiv += "</div>"
                         document.getElementById('deleteMessageContainer').insertAdjacentHTML("beforeend",tempDeleteNameDiv);
-                        document.getElementById("delete" + data["otherData"][i].name +"Div").style.display = 'none';
+                        document.getElementById("delete" + data["otherData"][i].name.toLowerCase() +"Div").style.display = 'none';
                         document.getElementById(tempDivCancel).addEventListener("mouseenter", cancelButtonHandler);
                         
 
@@ -127,6 +130,7 @@ function cancelButtonHandler(event){
     var name = nameCancel.replace("Cancel","");
     var deleteNameDiv = "delete" + name + "Div";
     var deleteNameNo = "delete" + name + "No";
+    console.log(deleteNameNo)
     var deleteNameYes = "delete" + name + "Yes";
 
     document.getElementById(nameCancel).addEventListener("click", function() {
@@ -296,7 +300,7 @@ function addStreamingService() {
                 //     });
                 // });
                 // chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                //     alert('added netflix');
+                //     
                 //     document.getElementById('netflixDiv').style.display = 'inline';
                 //     document.getElementById("netflixInfo").innerHTML = 'Number of Netflix Visits: 0';
                 // });
@@ -321,7 +325,7 @@ function addStreamingService() {
                 //testing
                 chrome.storage.sync.get({"otherData": []}, function (data2){
                     var tempDict = {
-                        "name": "netflix",
+                        "name": "Netflix",
                         "price": option.text,
                         "main_url": "www.netflix.com",
                         "cancel_url": "https://help.netflix.com/en/node/407",
@@ -376,7 +380,7 @@ function addStreamingService() {
                 
                 chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
                     
-                    
+                    alert('added netflix');
                     document.getElementById("netflixDiv").style.display = 'inline';
                     document.getElementById("netflixInfo").innerHTML = "Number of " + "netflix" +" Visits: 0";
                 });
@@ -389,17 +393,13 @@ function addStreamingService() {
                     });
                 });
 
-                // add price for custom service
-                
-
+                // add price for Netflix
                 chrome.storage.sync.set({"netflixPrice": option.text}, function (){
                     document.getElementById("netflixPrice").innerHTML = option.text; 
                 });
 
-                chrome.storage.sync.set({"www.netflix.com":0}, function() {
-                    
-                    
-                });
+                chrome.storage.sync.set({"www.netflix.com":0}, function() {});
+                chrome.storage.sync.set({"netflixTime":0}, function() {});
              
             }
             else {
@@ -639,6 +639,7 @@ function addStreamingService() {
                 chrome.storage.sync.set({tempDivPrice: price[0].value}, function (){
                     document.getElementById(tempDivPrice).innerHTML = name +": $" + price[0].value; 
                 });
+                alert("adding custom service with main url " + main_url)
             }
             else {
                 alert('already added the custom service ' + main_url[0].value);
@@ -876,6 +877,7 @@ function deleteOneService(event) {
                 }
             });
 
+            console.log(nameDiv)
             document.getElementById(nameDiv).style.display = 'none';
             chrome.storage.sync.get({"cancelUrlDict":{}}, function(d) {
                 var tempUrlCancel = d["cancelUrlDict"][nameCancel]

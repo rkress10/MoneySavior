@@ -53,22 +53,25 @@ function addCustomStreamingService() {
 
     chrome.storage.sync.get(["otherData"], function(data) {
         if(data["otherData"]) {
-            console.log(data["disneyplusTime"]);
+            console.log(data["otherdata"]);
             console.log("look here");
             for(i in data["otherData"]){
-
-                var tempDivId = data["otherData"][i].name.toLowerCase() +"Div";
-                var tempDivPrice = data["otherData"][i].name.toLowerCase() +"Price";
-                var tempDivInfo = data["otherData"][i].name.toLowerCase() +"Info";
-                var tempDivCancel = data["otherData"][i].name.toLowerCase() +"Cancel";
-                var tempNameTime =data["otherData"][i].name.toLowerCase() + "Time";
-                var tmp = (data["otherData"][0].name.toLowerCase() + "Time");
+                var name = data["otherData"][i].main_url
+                name = name.replace("www.", "")
+                name = name.replace(".com", "")
+                console.log(name)
+                var tempDivId = name +"Div";
+                var tempDivPrice = name +"Price";
+                var tempDivInfo = name +"Info";
+                var tempDivCancel = name +"Cancel";
+                var tempNameTime = name + "Time";
+                var tmp = name + "Time";
                 console.log(tmp);
                 console.log('shit');
                 var objtmp = {};
                 objtmp[tmp] = 0;
 
-                var tmpUrl = "www." + data["otherData"][0].name.toLowerCase() + ".com";
+                var tmpUrl = data["otherData"][0].main_url;
                 chrome.storage.sync.get(tmpUrl, function(data3) {
                     console.log('shitbitch');
                     console.log(tmpUrl);
@@ -101,12 +104,12 @@ function addCustomStreamingService() {
                         console.log(document.getElementById(tempDivId).dataset.time);
                         // add custom service delete button confirmation div
 
-                        var tempDeleteNameDiv = "<div id='delete" + data["otherData"][i].name.toLowerCase() +"Div'>";
-                        tempDeleteNameDiv += "<button id='delete" + data["otherData"][i].name.toLowerCase() + "Yes' class='yesButton'>Yes</button>"
-                        tempDeleteNameDiv += "<button id='delete" + data["otherData"][i].name.toLowerCase() + "No' class='noButton'>No</button>"
+                        var tempDeleteNameDiv = "<div id='delete" + name +"Div'>";
+                        tempDeleteNameDiv += "<button id='delete" + name + "Yes' class='yesButton'>Yes</button>"
+                        tempDeleteNameDiv += "<button id='delete" + name + "No' class='noButton'>No</button>"
                         tempDeleteNameDiv += "</div>"
                         document.getElementById('deleteMessageContainer').insertAdjacentHTML("beforeend",tempDeleteNameDiv);
-                        document.getElementById("delete" + data["otherData"][i].name.toLowerCase() +"Div").style.display = 'none';
+                        document.getElementById("delete" + name +"Div").style.display = 'none';
                         document.getElementById(tempDivCancel).addEventListener("mouseenter", cancelButtonHandler);
                         
 
@@ -288,6 +291,102 @@ function addStreamingService() {
         })
     })
 
+    document.getElementById("addDisneyPlus").addEventListener("click", function() {
+        chrome.storage.sync.get({"hostnames":[]}, 
+        function(data) {
+            if (!data["hostnames"].includes("www.disneyplus.com")) {
+                data["hostnames"].push("www.disneyplus.com");
+                
+                // add price for disney plus
+                var select = document.getElementById('disneyplusSelect');
+				var option = select.options[select.selectedIndex];
+
+                
+                chrome.storage.sync.get({"otherData": []}, function (data2){
+                    var tempDict = {
+                        "name": "Disney Plus",
+                        "price": option.text,
+                        "main_url": "www.disneyplus.com",
+                        "cancel_url": "https://help.disneyplus.com/csp?id=csp_article_content&sys_kb_id=0c5ab5bddb0b3050dbc9c28d13961967",
+                        "visitNum": 0,
+                        "timeNum": 0
+
+                    };
+                    if (!data2["otherData"].includes(tempDict)) {
+
+                        data2["otherData"].push(tempDict);
+                        console.log(data2["otherData"])
+                        
+                    }
+                    chrome.storage.sync.get({"cancelUrlDict": {}}, function (d){
+                    
+                        if (!d["cancelUrlDict"]["disneyplusCancel"]) {
+                            d["cancelUrlDict"]["disneyplusCancel"] = "https://help.disneyplus.com/csp?id=csp_article_content&sys_kb_id=0c5ab5bddb0b3050dbc9c28d13961967";
+                            chrome.storage.sync.set({"cancelUrlDict": d["cancelUrlDict"]}, function (){});
+                        }
+                    });
+                    
+                    var tempOtherDiv = "<div id='" + "disneyplusDiv" +"' data-time='0' data-num='0' class='sort'>";
+                    tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + "Disney Plus" + "</span></div>";
+                    tempOtherDiv += "<div class='infodiv'>";
+                    tempOtherDiv +=  "<div id='" + "disneyplusPrice" +"' class='infoSpace'></div>";
+                    tempOtherDiv += "<div id='" + "disneyplusInfo" +"' class='infoSpace'></div>";
+                    tempOtherDiv += "<div id='" + "disneyplusTime" +"' class='infoSpace'></div>";
+
+                    tempOtherDiv += "<div class='infoSpace'>";
+                    tempOtherDiv += "<button id='" + "disneyplusCancel" +"'  class='cancelBtn'>Cancel " + "Disney Plus" +"</button>";
+                    tempOtherDiv += "</div></div></div>";
+                    console.log(tempOtherDiv);
+
+                    document.getElementById('subscriptionServiceListDiv').insertAdjacentHTML("beforeend",tempOtherDiv);
+
+                    // add custom service delete button confirmation div
+
+                    var tempDeleteNameDiv = "<div id='delete" + "disneyplus" +"Div'>";
+                    tempDeleteNameDiv += "<button id='delete" + "disneyplus" + "Yes' class='yesButton'>Yes</button>"
+                    tempDeleteNameDiv += "<button id='delete" + "disneyplus" + "No' class='noButton'>No</button>"
+                    tempDeleteNameDiv += "</div>"
+                    document.getElementById('deleteMessageContainer').insertAdjacentHTML("beforeend",tempDeleteNameDiv);
+                    document.getElementById("delete" + "disneyplus" +"Div").style.display = 'none';
+                    document.getElementById("disneyplusCancel").addEventListener("mouseenter", cancelButtonHandler);
+                    
+                    chrome.storage.sync.set({"otherData": data2["otherData"]}, function (){
+                        
+                    });
+                });
+
+
+                
+                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
+                    
+                    alert('added disneyplus');
+                    document.getElementById("disneyplusDiv").style.display = 'inline';
+                    document.getElementById("disneyplusInfo").innerHTML = "Number of " + "Disney Plus" +" Visits: 0";
+                });
+                
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    
+                    time["usingTime"].push("disneyplusTime");
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById("disneyplusTime").innerHTML = "Minutes of " + "Disney Plus" +" Visits: 0";
+                    });
+                });
+
+                // add price for Disney+
+                chrome.storage.sync.set({"disneyplusPrice": option.text}, function (){
+                    document.getElementById("disneyplusPrice").innerHTML = option.text; 
+                });
+
+                chrome.storage.sync.set({"www.disneyplus.com":0}, function() {});
+                chrome.storage.sync.set({"disneyplusTime":0}, function() {});
+             
+            }
+            else {
+                alert('already added Disney Plus');
+            }
+        })
+    })
+
     document.getElementById("addNetflix").addEventListener("click", function() {
         chrome.storage.sync.get({"hostnames":[]}, 
         function(data) {
@@ -355,7 +454,7 @@ function addStreamingService() {
                     tempOtherDiv += "<div id='" + "netflixTime" +"' class='infoSpace'></div>";
 
                     tempOtherDiv += "<div class='infoSpace'>";
-                    tempOtherDiv += "<button id='" + "netflixCancel" +"'  class='cancelBtn'>Cancel " + "netflix" +"</button>";
+                    tempOtherDiv += "<button id='" + "netflixCancel" +"'  class='cancelBtn'>Cancel " + "Netflix" +"</button>";
                     tempOtherDiv += "</div></div></div>";
                     console.log(tempOtherDiv);
 
@@ -382,14 +481,14 @@ function addStreamingService() {
                     
                     alert('added netflix');
                     document.getElementById("netflixDiv").style.display = 'inline';
-                    document.getElementById("netflixInfo").innerHTML = "Number of " + "netflix" +" Visits: 0";
+                    document.getElementById("netflixInfo").innerHTML = "Number of " + "Netflix" +" Visits: 0";
                 });
                 
                 chrome.storage.sync.get({"usingTime":[]}, function(time) {
                     
                     time["usingTime"].push("netflixTime");
                     chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
-                        document.getElementById("netflixTime").innerHTML = "Minutes of " + "netflix" +" Visits: 0";
+                        document.getElementById("netflixTime").innerHTML = "Minutes of " + "Netflix" +" Visits: 0";
                     });
                 });
 
@@ -538,16 +637,19 @@ function addStreamingService() {
         // TODO: print out error code if no input is received
         // will get the inputted data from otherService div
         var name= document.getElementsByName("name");
-        name = name[0].value.toLowerCase().replace(" ", "")
+        // name = name[0].value.toLowerCase().replace(" ", "")
         var price= document.getElementsByName("price");
         var main_url= document.getElementsByName("main_url");
+        var tempname = main_url[0].value
+        tempname = tempname.replace("www.", "")
+        tempname = tempname.replace(".com", "")
         var cancel_url= document.getElementsByName("cancel_url");
-        var tempDivId = name +"Div";
-        var tempDivPrice = name +"Price";
-        var tempDivInfo = name +"Info";
-        var tempDivCancel = name +"Cancel";
-        var tempNameTime = name + "Time";
-        console.log(name);
+        var tempDivId = tempname +"Div";
+        var tempDivPrice = tempname +"Price";
+        var tempDivInfo = tempname +"Info";
+        var tempDivCancel = tempname +"Cancel";
+        var tempNameTime = tempname + "Time";
+        console.log(tempname);
         chrome.storage.sync.get({"hostnames":[]}, 
         function(data) {
             if (!data["hostnames"].includes(main_url[0].value)) {
@@ -595,12 +697,12 @@ function addStreamingService() {
 
                     // add custom service delete button confirmation div
 
-                    var tempDeleteNameDiv = "<div id='delete" + name +"Div'>";
-                    tempDeleteNameDiv += "<button id='delete" + name + "Yes' class='yesButton'>Yes</button>"
-                    tempDeleteNameDiv += "<button id='delete" + name + "No' class='noButton'>No</button>"
+                    var tempDeleteNameDiv = "<div id='delete" + tempname +"Div'>";
+                    tempDeleteNameDiv += "<button id='delete" + tempname + "Yes' class='yesButton'>Yes</button>"
+                    tempDeleteNameDiv += "<button id='delete" + tempname + "No' class='noButton'>No</button>"
                     tempDeleteNameDiv += "</div>"
                     document.getElementById('deleteMessageContainer').insertAdjacentHTML("beforeend",tempDeleteNameDiv);
-                    document.getElementById("delete" + name +"Div").style.display = 'none';
+                    document.getElementById("delete" + tempname +"Div").style.display = 'none';
                     document.getElementById(tempDivCancel).addEventListener("mouseenter", cancelButtonHandler);
                     
                     chrome.storage.sync.set({"otherData": data2["otherData"]}, function (){
@@ -869,7 +971,9 @@ function deleteOneService(event) {
             // delete custom service if applicable
             chrome.storage.sync.get({"otherData":[]}, function(d) {
                 for (var i = 0; i < d["otherData"].length; i++) {
-                    if (d["otherData"][i].name.toLowerCase() == name) {
+                    var temp_main_url = d["otherData"][i].main_url.replace("www.", "").replace(".com", "")
+                    console.log(temp_main_url)
+                    if (temp_main_url == name) {
                         d["otherData"].splice(i, 1);
                         chrome.storage.sync.set({"otherData":d["otherData"]}, function(){});
                         

@@ -4,6 +4,7 @@ window.onload=function() {
     document.getElementById("addServiceDiv").style.display = 'none';
     // document.getElementById('netflixDiv').style.display = 'none';
     document.getElementById('huluDiv').style.display = 'none';
+    document.getElementById('intervalSettings').style.display = 'none';
     document.getElementById('peacocktvDiv').style.display = 'none';
     document.getElementById('hbomaxDiv').style.display = 'none';
     document.getElementById('amazonDiv').style.display = 'none';
@@ -218,6 +219,27 @@ function addStreamingService() {
         document.getElementById("chooseAll").style.color = "black";
         document.getElementById("chooseAll").style.backgroundColor = "white";
         document.getElementById("chooseAll").style.borderColor = "#87d7e9";
+    });
+
+    document.getElementById("changeReminderButton").addEventListener("click", function() {
+        document.getElementById("mainMessage").style.display = 'none';
+        document.getElementById("sortButtonContainer").style.display = 'none';
+        document.getElementById("subscriptionServiceListDiv").style.display = 'none';
+        document.getElementById('deleteMessageContainer').style.display = 'none';
+        document.getElementById("deleteAllContainer").style.display = 'none';
+        document.getElementById("deleteData").style.display = 'none';
+        document.getElementById("addButtonDiv").style.display = 'none';
+        document.getElementById("intervalSettings").style.display = "flex";
+    });
+
+    document.getElementById("backToMain").addEventListener("click", function() {
+        document.getElementById("intervalSettings").style.display = "none";
+        document.getElementById("sortButtonContainer").style.display = 'flex';
+        document.getElementById("addServiceDiv").style.display = 'none';
+        document.getElementById("buttonChoice").style.display = 'none';
+        document.getElementById("subscriptionServiceListDiv").style.display = 'block';
+        document.getElementById("addButtonDiv").style.display = 'flex';
+        document.getElementById("deleteData").style.display = 'inline';
     });
 
     document.getElementById("addButton").addEventListener("click", 

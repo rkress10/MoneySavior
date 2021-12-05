@@ -28,6 +28,9 @@ setInterval(function() {
 }, 1000); // Test with one seconds, should be one minute
 
 function GetCurrentTab() {
+    var services = ["www.netflix.com", "www.hulu.com", "www.peacocktv.com","www.disneyplus.com",
+"www.hbomax.com", "www.paramountplus.com","www.sling.com","www.pluto.tv", "www.fubo.tv",
+"tubitv.com","www.crunchyroll.com","www.sho.com","www.starz.com"];
     chrome.tabs.query({active:true, currentWindow: true}, function(tabs){
         let taburl = new URL(tabs[0].url);
         chrome.storage.sync.get({"hostnames":[]}, function(data) {
@@ -40,7 +43,16 @@ function GetCurrentTab() {
                     obj2[taburl.hostname] = data[taburl.hostname] + 1;
                     chrome.storage.sync.set(obj2, function() {});
                 });
-                }
+            }
+            else if (services.includes(taburl.hostname)) {
+                chrome.notifications.create(options={
+                    type: 'basic',
+                    iconUrl: 'icon16.png',
+                    title: 'Money Savior',
+                    message: 'Sign up for a new service? Don\'t forget to add it to your list!',
+                    priority: 1
+                });
+            }
         })
         
         }

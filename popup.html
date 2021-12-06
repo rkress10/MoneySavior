@@ -162,6 +162,21 @@
                     </div>
                 </div>
 
+                <div id="disneyplusDiv" data-time="0" data-num="0" class="sort">
+                    <!-- template for what is contained in a subscription service div  -->
+                    <!-- just a rough idea, can change depending on how to implement the javascript for it -->
+                    <div class="serviceHeader"><span class="serviceTitle">Disney Plus</span></div>
+                    <div class="infodiv">
+                        <div class="infoSpace"><span id="disneyplusPrice"></span></div>
+                        <div id="disneyplusInfo" class="infoSpace"></div>
+                        <div id="disneyplusTime" class="infoSpace"></div>
+                        <div class="infoSpace">
+                            <button id="disneyplusCancel" class="cancelBtn">Cancel Disney Plus</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
                 <div id="netflixDiv" data-time="0" data-num="0" class="sort">
                     
                     <div class="serviceHeader"><span class="serviceTitle">Netflix</span></div>
@@ -235,6 +250,10 @@
             <div id="deletenetflixDiv">
                 <button id="deletenetflixYes" class="yesButton">Yes</button>
                 <button id="deletenetflixNo" class="noButton" >No</button>
+            </div>
+            <div id="deletedisneyplusDiv">
+                <button id="deletedisneyplusYes" class="yesButton">Yes</button>
+                <button id="deletedisneyplusNo" class="noButton" >No</button>
             </div>
             <div id="deletehuluDiv">
                 <button id="deletehuluYes" class="yesButton">Yes</button>

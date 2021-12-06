@@ -2,14 +2,16 @@ window.onload=function() {
     
     addCustomStreamingService();
     document.getElementById("addServiceDiv").style.display = 'none';
-    // document.getElementById('netflixDiv').style.display = 'none';
+    document.getElementById('netflixDiv').style.display = 'none';
+    document.getElementById('disneyplusDiv').style.display = 'none';
     document.getElementById('huluDiv').style.display = 'none';
     document.getElementById('intervalSettings').style.display = 'none';
     document.getElementById('peacocktvDiv').style.display = 'none';
     document.getElementById('hbomaxDiv').style.display = 'none';
     document.getElementById('amazonDiv').style.display = 'none';
     document.getElementById('deleteMessageContainer').style.display = 'none';
-    // document.getElementById("deletenetflixDiv").style.display = 'none';
+    document.getElementById("deletenetflixDiv").style.display = 'none';
+    document.getElementById("deletedisneyplusDiv").style.display = 'none';
     document.getElementById("deletehuluDiv").style.display = 'none';
     document.getElementById("deletepeacocktvDiv").style.display = 'none';
     document.getElementById("deletehbomaxDiv").style.display = 'none';
@@ -56,70 +58,67 @@ function addCustomStreamingService() {
         if(data["otherData"]) {
             console.log(data["otherdata"]);
             console.log("look here");
-            for(i in data["otherData"]){
-                var name = data["otherData"][i].main_url
-                name = name.replace("www.", "")
-                name = name.replace(".com", "")
-                console.log(name)
-                var tempDivId = name +"Div";
-                var tempDivPrice = name +"Price";
-                var tempDivInfo = name +"Info";
-                var tempDivCancel = name +"Cancel";
-                var tempNameTime = name + "Time";
-                var tmp = name + "Time";
-                console.log(tmp);
-                console.log('shit');
-                var objtmp = {};
-                objtmp[tmp] = 0;
+            var name = data["otherData"][0].main_url
+            name = name.replace("www.", "")
+            name = name.replace(".com", "")
+            console.log(name)
+            var tempDivId = name +"Div";
+            var tempDivPrice = name +"Price";
+            var tempDivInfo = name +"Info";
+            var tempDivCancel = name +"Cancel";
+            var tempNameTime = name + "Time";
+            var tmp = name + "Time";
+            console.log(tmp);
+            console.log('shit');
+            var objtmp = {};
+            objtmp[tmp] = 0;
+            var objtmp2 = {};
+            var tmpUrl = data["otherData"][0].main_url;
+            objtmp2[tmpUrl] = 0;
+            chrome.storage.sync.get(objtmp2, function(data3) {
+                console.log('shitbitch');
+                console.log(tmpUrl);
+                console.log(data3[tmpUrl]);
+                chrome.storage.sync.get(objtmp, function(data2) {
+                    console.log('bitch');
+                    console.log(data2);
+                    console.log(typeof data2[tempNameTime]);
+                    
+                    var tempOtherDiv = "<div id='" + tempDivId +"' data-time='0' data-num='0' class='sort'>";
+                    tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + name + "</span></div>";
+                    tempOtherDiv += "<div class='infodiv'>";
+                    tempOtherDiv +=  "<div id='" + tempDivPrice +"' class='infoSpace'></div>";
+                    tempOtherDiv += "<div id='" + tempDivInfo +"' class='infoSpace'></div>";
+                    tempOtherDiv += "<div id='" + tempNameTime +"' class='infoSpace'></div>";
+    
+                    tempOtherDiv += "<div class='infoSpace'>";
+                    tempOtherDiv += "<button id='" + tempDivCancel +"'  class='cancelBtn'>Cancel " + name +"</button>";
+                    tempOtherDiv += "</div></div></div>";
+                    
+    
+                    document.getElementById('subscriptionServiceListDiv').insertAdjacentHTML("beforeend",tempOtherDiv);
+                    document.getElementById(tempDivId).style.display = 'inline';
+                    
+                    document.getElementById(tempDivPrice).innerHTML = data["otherData"][0].price; 
+                    document.getElementById(tempDivInfo).innerHTML = "Number of " + data["otherData"][0].name +" Visits: " + data3[tmpUrl];
+                    document.getElementById(tempNameTime).innerHTML = "Minutes of " + data["otherData"][0].name +" Visits: " + data2[tmp];
+                    document.getElementById(tempDivId).dataset.time = (data2[tmp]).toString();
+                    document.getElementById(tempDivId).dataset.num = data3[tmpUrl].toString();
+                    console.log(document.getElementById(tempDivId).dataset.time);
+                    // add custom service delete button confirmation div
 
-                var tmpUrl = data["otherData"][0].main_url;
-                chrome.storage.sync.get(tmpUrl, function(data3) {
-                    console.log('shitbitch');
-                    console.log(tmpUrl);
-                    console.log(data3[tmpUrl]);
-                    chrome.storage.sync.get(objtmp, function(data2) {
-                        console.log('bitch');
-                        console.log(data2);
-                        console.log(typeof data2[tempNameTime]);
-                        
-                        var tempOtherDiv = "<div id='" + tempDivId +"' data-time='0' data-num='0' class='sort'>";
-                        tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + data["otherData"][i].name + "</span></div>";
-                        tempOtherDiv += "<div class='infodiv'>";
-                        tempOtherDiv +=  "<div id='" + tempDivPrice +"' class='infoSpace'></div>";
-                        tempOtherDiv += "<div id='" + tempDivInfo +"' class='infoSpace'></div>";
-                        tempOtherDiv += "<div id='" + tempNameTime +"' class='infoSpace'></div>";
-        
-                        tempOtherDiv += "<div class='infoSpace'>";
-                        tempOtherDiv += "<button id='" + tempDivCancel +"'  class='cancelBtn'>Cancel " + data["otherData"][i].name +"</button>";
-                        tempOtherDiv += "</div></div></div>";
-                        
-        
-                        document.getElementById('subscriptionServiceListDiv').insertAdjacentHTML("beforeend",tempOtherDiv);
-                        document.getElementById(tempDivId).style.display = 'inline';
-                        
-                        document.getElementById(tempDivPrice).innerHTML = data["otherData"][i].price; 
-                        document.getElementById(tempDivInfo).innerHTML = "Number of " + data["otherData"][i].name +" Visits: " + data3[tmpUrl];
-                        document.getElementById(tempNameTime).innerHTML = "Minutes of " + data["otherData"][i].name +" Visits: " + data2[tmp];
-                        document.getElementById(tempDivId).dataset.time = (data2[tmp]).toString();
-                        document.getElementById(tempDivId).dataset.num = data3[tmpUrl].toString();
-                        console.log(document.getElementById(tempDivId).dataset.time);
-                        // add custom service delete button confirmation div
+                    var tempDeleteNameDiv = "<div id='delete" + name +"Div'>";
+                    tempDeleteNameDiv += "<button id='delete" + name + "Yes' class='yesButton'>Yes</button>"
+                    tempDeleteNameDiv += "<button id='delete" + name + "No' class='noButton'>No</button>"
+                    tempDeleteNameDiv += "</div>"
+                    document.getElementById('deleteMessageContainer').insertAdjacentHTML("beforeend",tempDeleteNameDiv);
+                    document.getElementById("delete" + name +"Div").style.display = 'none';
+                    document.getElementById(tempDivCancel).addEventListener("mouseenter", cancelButtonHandler);
+                    
 
-                        var tempDeleteNameDiv = "<div id='delete" + name +"Div'>";
-                        tempDeleteNameDiv += "<button id='delete" + name + "Yes' class='yesButton'>Yes</button>"
-                        tempDeleteNameDiv += "<button id='delete" + name + "No' class='noButton'>No</button>"
-                        tempDeleteNameDiv += "</div>"
-                        document.getElementById('deleteMessageContainer').insertAdjacentHTML("beforeend",tempDeleteNameDiv);
-                        document.getElementById("delete" + name +"Div").style.display = 'none';
-                        document.getElementById(tempDivCancel).addEventListener("mouseenter", cancelButtonHandler);
-                        
-
-                    });
-                
-                })
-                
-                
-            }
+                });
+            
+            })
            
 
         }
@@ -318,89 +317,34 @@ function addStreamingService() {
         function(data) {
             if (!data["hostnames"].includes("www.disneyplus.com")) {
                 data["hostnames"].push("www.disneyplus.com");
-                
-                // add price for disney plus
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    time["usingTime"].push("disneyplusTime");
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById("disneyplusTime").innerHTML = 'Minutes of Disney Plus Visits: 0';
+                    });
+                });
+                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
+                    alert('added disney plus');
+                    document.getElementById('disneyplusDiv').style.display = 'inline';
+                    document.getElementById("disneyplusInfo").innerHTML = 'Number of Disney Plus Visits: 0';
+                });
+
+                // add cancellation url for amazon
+                chrome.storage.sync.get({"cancelUrlDict": {}}, function (d){
+                    
+                    if (!d["cancelUrlDict"]["disneyplusCancel"]) {
+                        d["cancelUrlDict"]["disneyplusCancel"] = ("https://help.disneyplus.com/csp?id=csp_article_content&sys_kb_id=0c5ab5bddb0b3050dbc9c28d13961967");
+                        chrome.storage.sync.set({"cancelUrlDict": d["cancelUrlDict"]}, function (){});
+                    }
+                });
+
+                // add price for amazon
                 var select = document.getElementById('disneyplusSelect');
 				var option = select.options[select.selectedIndex];
 
-                
-                chrome.storage.sync.get({"otherData": []}, function (data2){
-                    var tempDict = {
-                        "name": "Disney Plus",
-                        "price": option.text,
-                        "main_url": "www.disneyplus.com",
-                        "cancel_url": "https://help.disneyplus.com/csp?id=csp_article_content&sys_kb_id=0c5ab5bddb0b3050dbc9c28d13961967",
-                        "visitNum": 0,
-                        "timeNum": 0
-
-                    };
-                    if (!data2["otherData"].includes(tempDict)) {
-
-                        data2["otherData"].push(tempDict);
-                        console.log(data2["otherData"])
-                        
-                    }
-                    chrome.storage.sync.get({"cancelUrlDict": {}}, function (d){
-                    
-                        if (!d["cancelUrlDict"]["disneyplusCancel"]) {
-                            d["cancelUrlDict"]["disneyplusCancel"] = "https://help.disneyplus.com/csp?id=csp_article_content&sys_kb_id=0c5ab5bddb0b3050dbc9c28d13961967";
-                            chrome.storage.sync.set({"cancelUrlDict": d["cancelUrlDict"]}, function (){});
-                        }
-                    });
-                    
-                    var tempOtherDiv = "<div id='" + "disneyplusDiv" +"' data-time='0' data-num='0' class='sort'>";
-                    tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + "Disney Plus" + "</span></div>";
-                    tempOtherDiv += "<div class='infodiv'>";
-                    tempOtherDiv +=  "<div id='" + "disneyplusPrice" +"' class='infoSpace'></div>";
-                    tempOtherDiv += "<div id='" + "disneyplusInfo" +"' class='infoSpace'></div>";
-                    tempOtherDiv += "<div id='" + "disneyplusTime" +"' class='infoSpace'></div>";
-
-                    tempOtherDiv += "<div class='infoSpace'>";
-                    tempOtherDiv += "<button id='" + "disneyplusCancel" +"'  class='cancelBtn'>Cancel " + "Disney Plus" +"</button>";
-                    tempOtherDiv += "</div></div></div>";
-                    console.log(tempOtherDiv);
-
-                    document.getElementById('subscriptionServiceListDiv').insertAdjacentHTML("beforeend",tempOtherDiv);
-
-                    // add custom service delete button confirmation div
-
-                    var tempDeleteNameDiv = "<div id='delete" + "disneyplus" +"Div'>";
-                    tempDeleteNameDiv += "<button id='delete" + "disneyplus" + "Yes' class='yesButton'>Yes</button>"
-                    tempDeleteNameDiv += "<button id='delete" + "disneyplus" + "No' class='noButton'>No</button>"
-                    tempDeleteNameDiv += "</div>"
-                    document.getElementById('deleteMessageContainer').insertAdjacentHTML("beforeend",tempDeleteNameDiv);
-                    document.getElementById("delete" + "disneyplus" +"Div").style.display = 'none';
-                    document.getElementById("disneyplusCancel").addEventListener("mouseenter", cancelButtonHandler);
-                    
-                    chrome.storage.sync.set({"otherData": data2["otherData"]}, function (){
-                        
-                    });
-                });
-
-
-                
-                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                    
-                    alert('added disneyplus');
-                    document.getElementById("disneyplusDiv").style.display = 'inline';
-                    document.getElementById("disneyplusInfo").innerHTML = "Number of " + "Disney Plus" +" Visits: 0";
-                });
-                
-                chrome.storage.sync.get({"usingTime":[]}, function(time) {
-                    
-                    time["usingTime"].push("disneyplusTime");
-                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
-                        document.getElementById("disneyplusTime").innerHTML = "Minutes of " + "Disney Plus" +" Visits: 0";
-                    });
-                });
-
-                // add price for Disney+
                 chrome.storage.sync.set({"disneyplusPrice": option.text}, function (){
-                    document.getElementById("disneyplusPrice").innerHTML = option.text; 
+                    document.getElementById('disneyplusPrice').innerHTML = option.text; 
                 });
-
-                chrome.storage.sync.set({"www.disneyplus.com":0}, function() {});
-                chrome.storage.sync.set({"disneyplusTime":0}, function() {});
              
             }
             else {
@@ -414,110 +358,38 @@ function addStreamingService() {
         function(data) {
             if (!data["hostnames"].includes("www.netflix.com")) {
                 data["hostnames"].push("www.netflix.com");
-                // chrome.storage.sync.get({"usingTime":[]}, function(time) {
-                //     time["usingTime"].push("netflixTime");
-                //     chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
-                //         document.getElementById("netflixTime").innerHTML = 'Minutes of Netflix Visits: 0';
-                //     });
-                // });
-                // chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                //     
-                //     document.getElementById('netflixDiv').style.display = 'inline';
-                //     document.getElementById("netflixInfo").innerHTML = 'Number of Netflix Visits: 0';
-                // });
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    time["usingTime"].push("netflixTime");
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById("netflixTime").innerHTML = 'Minutes of Netflix Visits: 0';
+                    });
+                });
+                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
+                    alert('added netflix');
+                    document.getElementById('netflixDiv').style.display = 'inline';
+                    document.getElementById("netflixInfo").innerHTML = 'Number of Netflix Visits: 0';
+                });
 
                 // add cancellation url for netflix
-                // chrome.storage.sync.get({"cancelUrlDict": {}}, function (d){
+                chrome.storage.sync.get({"cancelUrlDict": {}}, function (d){
                     
-                //     if (!d["cancelUrlDict"]["netflixCancel"]) {
-                //         d["cancelUrlDict"]["netflixCancel"] = ("https://help.netflix.com/en/node/407");
-                //         chrome.storage.sync.set({"cancelUrlDict": d["cancelUrlDict"]}, function (){});
-                //     }
-                // });
+                    if (!d["cancelUrlDict"]["netflixCancel"]) {
+                        d["cancelUrlDict"]["netflixCancel"] = ("https://help.netflix.com/en/node/407");
+                        chrome.storage.sync.set({"cancelUrlDict": d["cancelUrlDict"]}, function (){});
+                    }
+                });
 
                 // add price for netflix
                 var select = document.getElementById('netflixSelect');
 				var option = select.options[select.selectedIndex];
 
-                // chrome.storage.sync.set({"netflixPrice": option.text}, function (){
-                //     document.getElementById('netflixPrice').innerHTML = option.text; 
-                // });
-
-                //testing
-                chrome.storage.sync.get({"otherData": []}, function (data2){
-                    var tempDict = {
-                        "name": "Netflix",
-                        "price": option.text,
-                        "main_url": "www.netflix.com",
-                        "cancel_url": "https://help.netflix.com/en/node/407",
-                        "visitNum": 0,
-                        "timeNum": 0
-
-                    };
-                    if (!data2["otherData"].includes(tempDict)) {
-
-                        data2["otherData"].push(tempDict);
-                        console.log(data2["otherData"])
-                        
-                    }
-                    chrome.storage.sync.get({"cancelUrlDict": {}}, function (d){
-                    
-                        if (!d["cancelUrlDict"]["netflixCancel"]) {
-                            d["cancelUrlDict"]["netflixCancel"] = "https://help.netflix.com/en/node/407";
-                            chrome.storage.sync.set({"cancelUrlDict": d["cancelUrlDict"]}, function (){});
-                        }
-                    });
-                    
-                    var tempOtherDiv = "<div id='" + "netflixDiv" +"' data-time='0' data-num='0' class='sort'>";
-                    tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + "Netflix" + "</span></div>";
-                    tempOtherDiv += "<div class='infodiv'>";
-                    tempOtherDiv +=  "<div id='" + "netflixPrice" +"' class='infoSpace'></div>";
-                    tempOtherDiv += "<div id='" + "netflixInfo" +"' class='infoSpace'></div>";
-                    tempOtherDiv += "<div id='" + "netflixTime" +"' class='infoSpace'></div>";
-
-                    tempOtherDiv += "<div class='infoSpace'>";
-                    tempOtherDiv += "<button id='" + "netflixCancel" +"'  class='cancelBtn'>Cancel " + "Netflix" +"</button>";
-                    tempOtherDiv += "</div></div></div>";
-                    console.log(tempOtherDiv);
-
-                    document.getElementById('subscriptionServiceListDiv').insertAdjacentHTML("beforeend",tempOtherDiv);
-
-                    // add custom service delete button confirmation div
-
-                    var tempDeleteNameDiv = "<div id='delete" + "netflix" +"Div'>";
-                    tempDeleteNameDiv += "<button id='delete" + "netflix" + "Yes' class='yesButton'>Yes</button>"
-                    tempDeleteNameDiv += "<button id='delete" + "netflix" + "No' class='noButton'>No</button>"
-                    tempDeleteNameDiv += "</div>"
-                    document.getElementById('deleteMessageContainer').insertAdjacentHTML("beforeend",tempDeleteNameDiv);
-                    document.getElementById("delete" + "netflix" +"Div").style.display = 'none';
-                    document.getElementById("netflixCancel").addEventListener("mouseenter", cancelButtonHandler);
-                    
-                    chrome.storage.sync.set({"otherData": data2["otherData"]}, function (){
-                        
-                    });
-                });
-
-
-                
-                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
-                    
-                    alert('added netflix');
-                    document.getElementById("netflixDiv").style.display = 'inline';
-                    document.getElementById("netflixInfo").innerHTML = "Number of " + "Netflix" +" Visits: 0";
-                });
-                
-                chrome.storage.sync.get({"usingTime":[]}, function(time) {
-                    
-                    time["usingTime"].push("netflixTime");
-                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
-                        document.getElementById("netflixTime").innerHTML = "Minutes of " + "Netflix" +" Visits: 0";
-                    });
-                });
-
-                // add price for Netflix
                 chrome.storage.sync.set({"netflixPrice": option.text}, function (){
-                    document.getElementById("netflixPrice").innerHTML = option.text; 
+                    document.getElementById('netflixPrice').innerHTML = option.text; 
                 });
+
+
+                
+                
 
                 chrome.storage.sync.set({"www.netflix.com":0}, function() {});
                 chrome.storage.sync.set({"netflixTime":0}, function() {});
@@ -680,9 +552,11 @@ function addStreamingService() {
                 
                 //create div for added custom service
                 chrome.storage.sync.get({"otherData": []}, function (data2){
+                    main_url= document.getElementsByName("main_url");
+                    console.log(main_url[0].value)
                     var tempDict = {
-                        "name": name,
-                        "price": name +": $" + price[0].value,
+                        "name": name[0].value,
+                        "price": name[0].value +": $" + price[0].value,
                         "main_url": main_url[0].value,
                         "cancel_url": cancel_url[0].value,
                         "visitNum": 0,
@@ -704,14 +578,14 @@ function addStreamingService() {
                     });
                     
                     var tempOtherDiv = "<div id='" + tempDivId +"' data-time='0' data-num='0' class='sort'>";
-                    tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + name + "</span></div>";
+                    tempOtherDiv += "<div class='serviceHeader'><span class='serviceTitle'>" + name[0].value + "</span></div>";
                     tempOtherDiv += "<div class='infodiv'>";
                     tempOtherDiv +=  "<div id='" + tempDivPrice +"' class='infoSpace'></div>";
                     tempOtherDiv += "<div id='" + tempDivInfo +"' class='infoSpace'></div>";
                     tempOtherDiv += "<div id='" + tempNameTime +"' class='infoSpace'></div>";
 
                     tempOtherDiv += "<div class='infoSpace'>";
-                    tempOtherDiv += "<button id='" + tempDivCancel +"'  class='cancelBtn'>Cancel " + name +"</button>";
+                    tempOtherDiv += "<button id='" + tempDivCancel +"'  class='cancelBtn'>Cancel " + name[0].value +"</button>";
                     tempOtherDiv += "</div></div></div>";
                     console.log(tempOtherDiv);
 
@@ -735,7 +609,7 @@ function addStreamingService() {
                 // add info for visit data update later
                 var save = {};
                 main_url = main_url[0].value
-                save[main_url] = 0;
+                save[main_url[0].value] = 0;
                 chrome.storage.sync.set(save, function() {});
                 save = {};
                 save[tempNameTime] = 0;
@@ -746,14 +620,14 @@ function addStreamingService() {
                     
                     
                     document.getElementById(tempDivId).style.display = 'inline';
-                    document.getElementById(tempDivInfo).innerHTML = "Number of " + name +" Visits: 0";
+                    document.getElementById(tempDivInfo).innerHTML = "Number of " + name[0].value +" Visits: 0";
                 });
                 
                 chrome.storage.sync.get({"usingTime":[]}, function(time) {
                     
                     time["usingTime"].push(tempNameTime);
                     chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
-                        document.getElementById(tempNameTime).innerHTML = "Minutes of " + name +" Visits: 0";
+                        document.getElementById(tempNameTime).innerHTML = "Minutes of " + name[0].value +" Visits: 0";
                     });
                 });
 
@@ -761,7 +635,7 @@ function addStreamingService() {
                 
 
                 chrome.storage.sync.set({tempDivPrice: price[0].value}, function (){
-                    document.getElementById(tempDivPrice).innerHTML = name +": $" + price[0].value; 
+                    document.getElementById(tempDivPrice).innerHTML = name[0].value +": $" + price[0].value; 
                 });
                 alert("adding custom service with main url " + main_url)
             }
@@ -785,14 +659,23 @@ function showVisitData() {
                         document.getElementById('amazonPrice').innerHTML = price["amazonPrice"]; 
                     });
                     break;
-                case "www.netflix.com":
-                    // netflixData();
+                case "www.disneyplus.com":
+                    disneyplusData();
                     
-                    // // added price set here for convinience of not adding new function.
-                    // // can change if it's cluttering this function
-                    // chrome.storage.sync.get(["netflixPrice"], function (price){
-                    //     document.getElementById('netflixPrice').innerHTML = price["netflixPrice"]; 
-                    // });
+                    // added price set here for convinience of not adding new function.
+                    // can change if it's cluttering this function
+                    chrome.storage.sync.get(["disneyplusPrice"], function (price){
+                        document.getElementById('disneyplusPrice').innerHTML = price["disneyplusPrice"]; 
+                    });
+                    break;
+                case "www.netflix.com":
+                    netflixData();
+                    
+                    // added price set here for convinience of not adding new function.
+                    // can change if it's cluttering this function
+                    chrome.storage.sync.get(["netflixPrice"], function (price){
+                        document.getElementById('netflixPrice').innerHTML = price["netflixPrice"]; 
+                    });
                     break;
                 case "www.hulu.com":
                     huluData();
@@ -843,13 +726,20 @@ function showTimeData() {
                         console.log(document.getElementById('amazonDiv').dataset.time);
                     });
                     break;
+                case "disneyplusTime":
+                    chrome.storage.sync.get({"disneyplusTime": 0}, function(data) {
+                        document.getElementById('disneyplusTime').innerHTML = "Minutes of Disney Plus Visits: " + data["disneyplusTime"];
+                        document.getElementById('disneyplusDiv').dataset.time = (data["disneyplusTime"]).toString();
+                        console.log(document.getElementById('disneyplusDiv').dataset.time);
+                    });
+                    break;
                 case "netflixTime":
-                    // chrome.storage.sync.get({"netflixTime": 0}, function(data) {
-                    //     document.getElementById('netflixTime').innerHTML = "Minutes of Netflix Visits: " + data["netflixTime"];
-                    //     document.getElementById('netflixDiv').dataset.time = (data["netflixTime"]).toString();
-                    //     console.log(document.getElementById('netflixDiv').dataset.time);
-                    // });
-                    // break;
+                    chrome.storage.sync.get({"netflixTime": 0}, function(data) {
+                        document.getElementById('netflixTime').innerHTML = "Minutes of Netflix Visits: " + data["netflixTime"];
+                        document.getElementById('netflixDiv').dataset.time = (data["netflixTime"]).toString();
+                        console.log(document.getElementById('netflixDiv').dataset.time);
+                    });
+                    break;
                 case "huluTime":
                     chrome.storage.sync.get({"huluTime": 0}, function(data) {
                         document.getElementById('huluTime').innerHTML = "Minutes of Hulu Visits: " + data["huluTime"];
@@ -887,13 +777,21 @@ function amazonData() {
     });
 }
 
-// function netflixData() {
-//     document.getElementById('netflixDiv').style.display = 'inline';
-//     chrome.storage.sync.get({"www.netflix.com": 0}, function(data) {
-//         document.getElementById('netflixInfo').innerHTML = "Number of Netflix Visits: " + data["www.netflix.com"];
-//         document.getElementById('netflixDiv').dataset.num = (data["www.netflix.com"]).toString();
-//     });
-// }
+function disneyplusData() {
+    document.getElementById('disneyplusDiv').style.display = 'inline';
+    chrome.storage.sync.get({"www.disneyplus.com": 0}, function(data) {
+        document.getElementById('disneyplusInfo').innerHTML = "Number of Disney Plus Visits: " + data["www.disneyplus.com"];
+        document.getElementById('disneyplusDiv').dataset.num = (data["www.disneyplus.com"]).toString();
+    });
+}
+
+function netflixData() {
+    document.getElementById('netflixDiv').style.display = 'inline';
+    chrome.storage.sync.get({"www.netflix.com": 0}, function(data) {
+        document.getElementById('netflixInfo').innerHTML = "Number of Netflix Visits: " + data["www.netflix.com"];
+        document.getElementById('netflixDiv').dataset.num = (data["www.netflix.com"]).toString();
+    });
+}
 
 function huluData() {
     document.getElementById('huluDiv').style.display = 'inline';

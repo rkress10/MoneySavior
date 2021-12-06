@@ -78,10 +78,20 @@
                     <label for="peacockSelect"><strong>Peacock</strong>:</label>  
                     <select id="peacockSelect">
                         <option value="peacockPremium">Peacock Premium: $4.99</option>
-                        <option value="huluNoAd">Peacock Premium Plus: $9.99</option>
+                        <option value="peacockPremiumPlus">Peacock Premium Plus: $9.99</option>
                         
                     </select>
                     <button id="addPeacock" class="services">Add Peacock</button> <br>
+                </div>
+
+                <div>
+                    <label for="paramountplusSelect"><strong>Paramount Plus</strong>:</label>  
+                    <select id="paramountplusSelect">
+                        <option value="paramountplusEssential">Paramount Plus Essential: $4.99</option>
+                        <option value="paramountplusPremium">Paramount Plus Premium: $9.99</option>
+                        
+                    </select>
+                    <button id="addParamountPlus" class="services">Add Paramount Plus</button> <br>
                 </div>
     
                 <div>
@@ -93,19 +103,31 @@
                     </select>
                     <button id="addHbo" class="services">Add HBO Max</button> <br>
                 </div>
-            </div>
 
-            <!-- <div id="studentDiscountService">
                 <div>
-                    <label for="huluSelect"><strong>Hulu</strong>:</label>  
-                    <select id="huluSelectStudent">
-                        <option value="huluStudent">Hulu (Student Discount): $1.99</option>
+                    <label for="slingSelect"><strong>Sling</strong>:</label>  
+                    <select id="slingSelect">
+                        <option value="slingOrange">Sling Orange: $35.00</option>
+                        <option value="slingBlue">Sling Blue: $35.00</option>
+                        <option value="slingBoth">Sling Orange + Blue: $50.00</option>
+                        
                     </select>
-                    <button id="addHuluStudent" class="services">Add Hulu</button> <br>
-                    <div> Not yet apply for Hulu student discount? Click <a href="https://www.hulu.com/student" target="_blank" >here</a></div>
+                    <button id="addSling" class="services">Add Sling</button> <br>
                 </div>
 
-            </div> -->
+                <div>
+                    <label for="fuboSelect"><strong>Fubo</strong>:</label>  
+                    <select id="fuboSelect">
+                        <option value="fuboStarter">Fubo Starter: $64.99</option>
+                        <option value="fuboPro">Fubo Pro: $69.99</option>
+                        <option value="fuboElite">Fubo Elite: $79.99</option>
+                        <option value="fuboLatino">Fubo Latino Quarterly: $32.99</option>
+                        
+                    </select>
+                    <button id="addFubo" class="services">Add Fubo</button> <br>
+                </div>
+            </div>
+
 
             <div id="otherService">
                 
@@ -118,9 +140,10 @@
                         <div><label >CANCELLATION URL:</label> <input type="text" name="cancel_url" /> <br></div>
                     </form>
                 </div>
-                <p>Format of main url: "www.NAME.com" where NAME must be similar as NAME above for this to work</p>
+                
                 <div><button id="addOtherService" class="btn">Submit</button> </div>
                 
+                <p>At the moment, this app only supports one custom service and the format of the main url is "www.{namehere}.com". We apologize for the inconvinience</p>
             </div>
             
             
@@ -221,6 +244,21 @@
                     </div>
                 </div>
 
+                <div id="paramountplusDiv" data-time="0" data-num="0" class="sort">
+                    <!-- template for what is contained in a subscription service div  -->
+                    <!-- just a rough idea, can change depending on how to implement the javascript for it -->
+                    <div class="serviceHeader" ><span class="serviceTitle">Paramount Plus</span></div>
+                    <div class="infodiv">
+                        <div id="paramountplusPrice" class="infoSpace"></div>
+                        <div id="paramountplusInfo" class="infoSpace"></div>
+                        <div id="paramountplusTime" class="infoSpace"></div>
+                        <div class="infoSpace">
+                            <button  id="paramountplusCancel" class="cancelBtn">Cancel Paramount Plus</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
                 <div id="hbomaxDiv" data-time="0" data-num="0" class="sort">
                     <!-- template for what is contained in a subscription service div  -->
                     <!-- just a rough idea, can change depending on how to implement the javascript for it -->
@@ -231,6 +269,34 @@
                         <div id="hbomaxTime" class="infoSpace"></div>
                         <div  class="infoSpace">
                             <button  id="hbomaxCancel" class="cancelBtn" >Cancel HBO Max</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div id="slingDiv" data-time="0" data-num="0" class="sort">
+                    
+                    <div class="serviceHeader"><span class="serviceTitle">Sling</span></div>
+                    <div class="infodiv">
+                        <div id="slingPrice" class="infoSpace"></div>
+                        <div id="slingInfo" class="infoSpace"></div>
+                        <div id="slingTime" class="infoSpace"></div>
+                        <div  class="infoSpace">
+                            <button  id="slingCancel" class="cancelBtn" >Cancel Sling</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div id="fuboDiv" data-time="0" data-num="0" class="sort">
+                    
+                    <div class="serviceHeader"><span class="serviceTitle">Fubo</span></div>
+                    <div class="infodiv">
+                        <div id="fuboPrice" class="infoSpace"></div>
+                        <div id="fuboInfo" class="infoSpace"></div>
+                        <div id="fuboTime" class="infoSpace"></div>
+                        <div  class="infoSpace">
+                            <button  id="fuboCancel" class="cancelBtn" >Cancel Fubo</button>
                             
                         </div>
                     </div>
@@ -263,9 +329,22 @@
                 <button id="deletepeacocktvYes" class="yesButton">Yes</button>
                 <button id="deletepeacocktvNo" class="noButton">No</button>
             </div>
+            <div id="deleteparamountplusDiv">
+                <button id="deleteparamountplusYes" class="yesButton">Yes</button>
+                <button id="deleteparamountplusNo" class="noButton">No</button>
+            </div>
             <div id="deletehbomaxDiv">
                 <button id="deletehbomaxYes" class="yesButton">Yes</button>
                 <button id="deletehbomaxNo" class="noButton">No</button>
+            </div>
+            <div id="deleteslingDiv">
+                <button id="deleteslingYes" class="yesButton">Yes</button>
+                <button id="deleteslingNo" class="noButton">No</button>
+            </div>
+
+            <div id="deletefuboDiv">
+                <button id="deletefuboYes" class="yesButton">Yes</button>
+                <button id="deletefuboNo" class="noButton">No</button>
             </div>
         </div>
         <button id="deleteData">Erase Data</button>

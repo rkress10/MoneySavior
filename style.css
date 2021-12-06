@@ -130,8 +130,8 @@ button.current {
 
 
 .services {
-    width: 80px;
-    height: 40px;
+    width: 100px;
+    height: 50px;
     background-color: wheat;
 }
 
@@ -266,4 +266,15 @@ button.current {
     height: 100px;
     background-color: green;
     color: white;
+}
+
+#addOtherService {
+    background-color: #87d7e9;
+    color: white;
+    height: 45px;
+    width: 90px;
+}
+
+#intervalSettings {
+    padding-top: 30px;
 }

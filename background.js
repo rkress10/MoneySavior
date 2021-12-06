@@ -10,6 +10,12 @@ setInterval(function() {
         chrome.storage.sync.get({"usingTime":[]}, function(data) {
             if (websiteInFile) {
                 var timeString = taburl.hostname.replace("www.","");
+                if (timeString == "fubo.tv"){
+                    timeString = timeString.replace(".tv","");
+                }
+                else{
+                    timeString = timeString.replace(".com","");
+                }
                 timeString = timeString.replace(".com","");
                 timeString = timeString + 'Time';
                 var obj = {};
@@ -29,8 +35,8 @@ setInterval(function() {
 
 function GetCurrentTab() {
     var services = ["www.netflix.com", "www.hulu.com", "www.peacocktv.com","www.disneyplus.com",
-"www.hbomax.com", "www.paramountplus.com","www.sling.com","www.pluto.tv", "www.fubo.tv",
-"tubitv.com","www.crunchyroll.com","www.sho.com","www.starz.com"];
+    "www.hbomax.com", "www.paramountplus.com","www.sling.com", "www.pluto.tv", "www.fubo.tv",
+    "tubitv.com","www.crunchyroll.com","www.sho.com","www.starz.com"];
     chrome.tabs.query({active:true, currentWindow: true}, function(tabs){
         let taburl = new URL(tabs[0].url);
         chrome.storage.sync.get({"hostnames":[]}, function(data) {

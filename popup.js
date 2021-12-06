@@ -2,6 +2,9 @@ window.onload=function() {
     
     addCustomStreamingService();
     document.getElementById("addServiceDiv").style.display = 'none';
+    document.getElementById('fuboDiv').style.display = 'none';
+    document.getElementById('slingDiv').style.display = 'none';
+    document.getElementById('paramountplusDiv').style.display = 'none';
     document.getElementById('netflixDiv').style.display = 'none';
     document.getElementById('disneyplusDiv').style.display = 'none';
     document.getElementById('huluDiv').style.display = 'none';
@@ -16,6 +19,9 @@ window.onload=function() {
     document.getElementById("deletepeacocktvDiv").style.display = 'none';
     document.getElementById("deletehbomaxDiv").style.display = 'none';
     document.getElementById("deleteamazonDiv").style.display = 'none';
+    document.getElementById("deleteslingDiv").style.display = 'none';
+    document.getElementById("deleteparamountplusDiv").style.display = 'none';
+    document.getElementById("deletefuboDiv").style.display = 'none';
     document.getElementById("otherService").style.display = 'none';
     document.getElementById("deleteAllContainer").style.display = 'none';
 
@@ -485,6 +491,47 @@ function addStreamingService() {
         })
     })
 
+    document.getElementById("addParamountPlus").addEventListener("click", function() {
+        chrome.storage.sync.get({"hostnames":[]}, 
+        function(data) {
+            if (!data["hostnames"].includes("www.paramountplus.com")) {
+                data["hostnames"].push("www.paramountplus.com");
+                
+                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
+                    alert('added Paramount Plus');
+                    document.getElementById('paramountplusDiv').style.display = 'inline';
+                    document.getElementById("paramountplusInfo").innerHTML = 'Number of Paramount Plus Visits: 0';
+                });
+                
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    time["usingTime"].push("paramountplusTime");
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById("paramountplusTime").innerHTML = 'Minutes of Paramount Plus Visits: 0';
+                    });
+                });
+
+                // add cancellation url for peacock tv
+                chrome.storage.sync.get({"cancelUrlDict": {}}, function (d){
+                    
+                    if (!d["cancelUrlDict"]["paramountplusCancel"]) {
+                        d["cancelUrlDict"]["paramountplusCancel"] = ("https://help.paramountplus.com/s/article/PD-How-can-I-cancel-my-Paramount-subscription");
+                        chrome.storage.sync.set({"cancelUrlDict": d["cancelUrlDict"]}, function (){});
+                    }
+                });
+                // add price for peacock
+                var select = document.getElementById('paramountplusSelect');
+				var option = select.options[select.selectedIndex];
+
+                chrome.storage.sync.set({"paramountplusPrice": option.text}, function (){
+                    document.getElementById('paramountplusPrice').innerHTML = option.text; 
+                });
+            }
+            else {
+                alert('already added Paramount Plus');
+            }
+        })
+    })
+
     document.getElementById("addHbo").addEventListener("click", function() {
         chrome.storage.sync.get({"hostnames":[]}, 
         function(data) {
@@ -527,6 +574,91 @@ function addStreamingService() {
         })
     })
 
+    document.getElementById("addSling").addEventListener("click", function() {
+        chrome.storage.sync.get({"hostnames":[]}, 
+        function(data) {
+            if (!data["hostnames"].includes("www.sling.com")) {
+                data["hostnames"].push("www.sling.com");
+                
+                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
+                    alert('added Sling');
+                    document.getElementById('slingDiv').style.display = 'inline';
+                    document.getElementById("slingInfo").innerHTML = 'Number of Sling Visits: 0';
+                });
+                
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    time["usingTime"].push("slingTime");
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById("slingTime").innerHTML = 'Minutes of Sling Visits: 0';
+                    });
+                });
+
+                // add cancellation url for sling
+                chrome.storage.sync.get({"cancelUrlDict": {}}, function (d){
+                    
+                    if (!d["cancelUrlDict"]["slingCancel"]) {
+                        d["cancelUrlDict"]["slingCancel"] = ("https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription#cancel");
+                        chrome.storage.sync.set({"cancelUrlDict": d["cancelUrlDict"]}, function (){});
+                    }
+                });
+
+                // add price for sling
+                var select = document.getElementById('slingSelect');
+				var option = select.options[select.selectedIndex];
+
+                chrome.storage.sync.set({"slingPrice": option.text}, function (){
+                    document.getElementById('slingPrice').innerHTML = option.text; 
+                });
+            }
+            else {
+                alert('already added Sling');
+            }
+        })
+    })
+
+    document.getElementById("addFubo").addEventListener("click", function() {
+        chrome.storage.sync.get({"hostnames":[]}, 
+        function(data) {
+            if (!data["hostnames"].includes("www.fubo.tv")) {
+                data["hostnames"].push("www.fubo.tv");
+                
+                chrome.storage.sync.set({"hostnames": data["hostnames"]}, function (){
+                    alert('added Fubo');
+                    document.getElementById('fuboDiv').style.display = 'inline';
+                    document.getElementById("fuboInfo").innerHTML = 'Number of Fubo Visits: 0';
+                });
+                
+                chrome.storage.sync.get({"usingTime":[]}, function(time) {
+                    time["usingTime"].push("fuboTime");
+                    chrome.storage.sync.set({"usingTime": time["usingTime"]}, function (){
+                        document.getElementById("fuboTime").innerHTML = 'Minutes of Fubo Visits: 0';
+                    });
+                });
+
+                // add cancellation url for sling
+                chrome.storage.sync.get({"cancelUrlDict": {}}, function (d){
+                    
+                    if (!d["cancelUrlDict"]["fuboCancel"]) {
+                        d["cancelUrlDict"]["fuboCancel"] = ("https://support.fubo.tv/hc/en-us/articles/360021527991-How-do-I-cancel-my-fuboTV-subscription-");
+                        chrome.storage.sync.set({"cancelUrlDict": d["cancelUrlDict"]}, function (){});
+                    }
+                });
+
+                // add price for sling
+                var select = document.getElementById('fuboSelect');
+				var option = select.options[select.selectedIndex];
+
+                chrome.storage.sync.set({"fuboPrice": option.text}, function (){
+                    document.getElementById('fuboPrice').innerHTML = option.text; 
+                });
+            }
+            else {
+                alert('already added Fubo');
+            }
+        })
+    })
+
+
     document.getElementById("addOtherService").addEventListener("click", function() {
         // TODO: print out error code if no input is received
         // will get the inputted data from otherService div
@@ -544,6 +676,10 @@ function addStreamingService() {
         var tempDivCancel = tempname +"Cancel";
         var tempNameTime = tempname + "Time";
         console.log(tempname);
+        if(name[0].value == "" || price[0].value == "" || main_url[0].value == "" || cancel_url[0].value == ""){
+            alert("One of the provided textbox is empty. Please fill in all the textboxs.")
+            return;
+        }
         chrome.storage.sync.get({"hostnames":[]}, 
         function(data) {
             if (!data["hostnames"].includes(main_url[0].value)) {
@@ -689,13 +825,30 @@ function showVisitData() {
                         document.getElementById('peacocktvPrice').innerHTML = price["peacocktvPrice"]; 
                     });
                     break;
+                case "www.paramountplus.com":
+                    paramountplusData();
+                    chrome.storage.sync.get(["paramountplusPrice"], function (price){
+                        document.getElementById('paramountplusPrice').innerHTML = price["paramountplusPrice"]; 
+                    });
+                    break;
                 case "www.hbomax.com":
                     hboData();
                     chrome.storage.sync.get(["hbomaxPrice"], function (price){
                         document.getElementById('hbomaxPrice').innerHTML = price["hbomaxPrice"]; 
                     });
                     break;
-                
+                case "www.sling.com":
+                    slingData();
+                    chrome.storage.sync.get(["slingPrice"], function (price){
+                        document.getElementById('slingPrice').innerHTML = price["slingPrice"]; 
+                    });
+                    break;
+                case "www.fubo.tv":
+                    fuboData();
+                    chrome.storage.sync.get(["fuboPrice"], function (price){
+                        document.getElementById('fuboPrice').innerHTML = price["fuboPrice"]; 
+                    });
+                    break;
             }
         }
     })
@@ -754,11 +907,32 @@ function showTimeData() {
                         console.log(document.getElementById('peacocktvDiv').dataset.time);
                     });
                     break;
+                case "paramountplusTime":
+                    chrome.storage.sync.get({"paramountplusTime": 0}, function(data) {
+                        document.getElementById('paramountplusTime').innerHTML = "Minutes of Paramount Plus Visits: " + data["paramountplusTime"];
+                        document.getElementById('paramountplusDiv').dataset.time = (data["paramountplusTime"]).toString();
+                        console.log(document.getElementById('paramountplusDiv').dataset.time);
+                    });
+                    break;
                 case "hbomaxTime":
                     chrome.storage.sync.get({"hbomaxTime": 0}, function(data) {
                         document.getElementById('hbomaxTime').innerHTML = "Minutes of HBO Max Visits: " + data["hbomaxTime"];
                         document.getElementById('hbomaxDiv').dataset.time = (data["hbomaxTime"]).toString();
                         console.log(document.getElementById('hbomaxDiv').dataset.time);
+                    });
+                    break;
+                case "slingTime":
+                    chrome.storage.sync.get({"slingTime": 0}, function(data) {
+                        document.getElementById('slingTime').innerHTML = "Minutes of Sling Visits: " + data["slingTime"];
+                        document.getElementById('slingDiv').dataset.time = (data["slingTime"]).toString();
+                        console.log(document.getElementById('slingDiv').dataset.time);
+                    });
+                    break;
+                case "fuboTime":
+                    chrome.storage.sync.get({"fuboTime": 0}, function(data) {
+                        document.getElementById('fuboTime').innerHTML = "Minutes of Fubo Visits: " + data["fuboTime"];
+                        document.getElementById('fuboDiv').dataset.time = (data["fuboTime"]).toString();
+                        console.log(document.getElementById('fuboDiv').dataset.time);
                     });
                     break;
                 default:
@@ -809,11 +983,35 @@ function peacockData() {
     });
 }
 
+function paramountplusData() {
+    document.getElementById('paramountplusDiv').style.display = 'inline';
+    chrome.storage.sync.get({"www.paramountplus.com": 0}, function(data) {
+        document.getElementById('paramountplusInfo').innerHTML = "Number of Paramount Plus Visits: " + data["www.paramountplus.com"];
+        document.getElementById('paramountplusDiv').dataset.num = (data["www.paramountplus.com"]).toString();
+    });
+}
+
 function hboData() {
     document.getElementById('hbomaxDiv').style.display = 'inline';
     chrome.storage.sync.get({"www.hbomax.com": 0}, function(data) {
         document.getElementById('hbomaxInfo').innerHTML = "Number of HBO Max Visits: " + data["www.hbomax.com"];
         document.getElementById('hbomaxDiv').dataset.num = (data["www.hbomax.com"]).toString();
+    });
+}
+
+function slingData() {
+    document.getElementById('slingDiv').style.display = 'inline';
+    chrome.storage.sync.get({"www.sling.com": 0}, function(data) {
+        document.getElementById('slingInfo').innerHTML = "Number of Sling Visits: " + data["www.sling.com"];
+        document.getElementById('slingDiv').dataset.num = (data["www.sling.com"]).toString();
+    });
+}
+
+function fuboData() {
+    document.getElementById('fuboDiv').style.display = 'inline';
+    chrome.storage.sync.get({"www.fubo.tv": 0}, function(data) {
+        document.getElementById('fuboInfo').innerHTML = "Number of Fubo Visits: " + data["www.fubo.tv"];
+        document.getElementById('fuboDiv').dataset.num = (data["www.fubo.tv"]).toString();
     });
 }
 
@@ -862,7 +1060,14 @@ function deleteOneService(event) {
     name = name.replace("delete","");
     name = name.replace("Yes","");
     name = name.toLowerCase();
-    var hostname = "www." + name + ".com";
+    var hostname = ""
+    if(name == "fubo"){
+        hostname = "www." + name + ".tv";
+    }
+    else {
+        hostname = "www." + name + ".com";
+    }
+    
     var nameTime = name + "Time";
     var nameDiv = name + "Div";
     var nameCancel = name + "Cancel";

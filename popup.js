@@ -63,8 +63,7 @@ function addCustomStreamingService() {
 
     chrome.storage.sync.get(["otherData"], function(data) {
         if(data["otherData"]) {
-            console.log(data["otherdata"]);
-            console.log("look here");
+            
             var name = data["otherData"][0].main_url
             name = name.replace("www.", "")
             name = name.replace(".com", "")
@@ -76,18 +75,17 @@ function addCustomStreamingService() {
             var tempNameTime = name + "Time";
             var tmp = name + "Time";
             console.log(tmp);
-            console.log('shit');
             var objtmp = {};
             objtmp[tmp] = 0;
             var objtmp2 = {};
             var tmpUrl = data["otherData"][0].main_url;
             objtmp2[tmpUrl] = 0;
             chrome.storage.sync.get(objtmp2, function(data3) {
-                console.log('shitbitch');
+                
                 console.log(tmpUrl);
                 console.log(data3[tmpUrl]);
                 chrome.storage.sync.get(objtmp, function(data2) {
-                    console.log('bitch');
+                    
                     console.log(data2);
                     console.log(typeof data2[tempNameTime]);
                     
@@ -174,23 +172,66 @@ function sortByNumberButton() {
 }
 
 function orderDivs(sortedBy) {
-    console.log("time");
+    
     var parentNode = document.getElementById('subscriptionServiceListDiv');
     var div = document.getElementById('subscriptionServiceListDiv').children;
     console.log(div);
-    let a = [].slice.call(div).sort(function(a,b) {
+    let t = [].slice.call(div).sort(function(a,b) {
         if (parseInt(a.dataset[sortedBy]) < parseInt(b.dataset[sortedBy])) { console.log('true'); return -1;}
         else { console.log('false'); return 1; }
     }).forEach(function(val) {
         parentNode.appendChild(val);
     });
-    console.log(parentNode);
+    div = document.getElementById('subscriptionServiceListDiv').children;
+    for (let i = 0; i < div.length; i++){
+        if (div[i].style.display == "inline"){
+            let get_rc_time = div[i].id
+            get_rc_time = get_rc_time.replace("Div", "Time")
+            console.log(get_rc_time)
+            chrome.storage.sync.get("rc_service", function(service) {
+                console.log(service["rc_service"])
+                service = div[i].children[0].innerText
+                console.log(service)
+                chrome.storage.sync.set({"rc_service": service}, function() {});
+            });
+            let tempDict = {}
+            tempDict[get_rc_time] = 0
+
+            chrome.storage.sync.get(tempDict, function(time) {
+                console.log(time[get_rc_time])
+                chrome.storage.sync.get("rc_time", function(temp) {
+                    console.log(temp["rc_time"])
+                    
+                    chrome.storage.sync.set({"rc_time": time[get_rc_time]}, function() {});
+                });
+                
+            });
+            
+            break;
+
+        }
+        
+    }
     
 }
 
 function welcomeMessage() {
     chrome.storage.sync.get(["firstTime"], function(data) {
         if(data["firstTime"]) {
+            chrome.storage.sync.get(["reminderStartTime"], function(time) {
+                console.log(time.reminderStartTime)
+                time["reminderStartTime"] = new Date();
+                console.log(time.reminderStartTime)
+
+                time["reminderStartTime"] = time["reminderStartTime"].getTime()
+                chrome.storage.sync.set({"reminderStartTime": time["reminderStartTime"]}, function() {});
+                    
+            });
+            chrome.storage.sync.get(["reminderInterval"], function(time2) {
+                time2["reminderInterval"] = 30;
+                chrome.storage.sync.set({"reminderInterval": time2["reminderInterval"]}, function() {});
+                    
+            });
             var welcomeDivStr = "<div id='welcomeMessage'>";
             welcomeDivStr += "Welcome to Money Savior. Click the plus button above to add your streaming services!";
             welcomeDivStr += "</div>";
@@ -239,15 +280,33 @@ function addStreamingService() {
     });
 
     document.getElementById("ThreeDays").addEventListener("click", function() {
-        rc_interval = 1000 * 60 * 60 * 24 * 3;
+        // rc_interval = 1000 * 60 * 60 * 24 * 3;
+        chrome.storage.sync.get(["reminderInterval"], function(time2) {
+            time2["reminderInterval"] = 3;
+            chrome.storage.sync.set({"reminderInterval": time2["reminderInterval"]}, function() {});
+                
+        });
+        alert("Setting reminder to cancel a service in 3 days!")
     });
 
     document.getElementById("OneWeek").addEventListener("click", function() {
-        rc_interval = 1000 * 60 * 60 * 24 * 7;
+        // rc_interval = 1000 * 60 * 60 * 24 * 7;
+        chrome.storage.sync.get(["reminderInterval"], function(time2) {
+            time2["reminderInterval"] = 7;
+            chrome.storage.sync.set({"reminderInterval": time2["reminderInterval"]}, function() {});
+                
+        });
+        alert("Setting reminder to cancel a service in 1 week!")
     });
 
     document.getElementById("TwoWeeks").addEventListener("click", function() {
-        rc_interval = 1000 * 60 * 60 * 24 * 14;
+        // rc_interval = 1000 * 60 * 60 * 24 * 14;
+        chrome.storage.sync.get(["reminderInterval"], function(time2) {
+            time2["reminderInterval"] = 14;
+            chrome.storage.sync.set({"reminderInterval": time2["reminderInterval"]}, function() {});
+                
+        });
+        alert("Setting reminder to cancel a service in 2 weeks!")
     });
 
     document.getElementById("backToMain").addEventListener("click", function() {
@@ -865,20 +924,7 @@ function showVisitData() {
             }
         }
     })
-    /*
-    chrome.storage.sync.get({"otherData":[]}, function(data) {
-        for (i in data["otherData"]) {
-            var tempDivId = data["otherData"][i].name +"Div";
-            var tempDivInfo = data["otherData"][i].name +"Info";
-            console.log('balls');
-            console.log(tempDivId);
-            document.getElementById(tempDivId).style.display = 'inline';
-            document.getElementById(tempDivInfo).innerHTML = "Number of " + data["otherData"][i].name + " Visits: " + data["otherData"][i].visitNum;
-            document.getElementById(tempDivId).dataset.num = (data["otherData"][i].visitNum).toString(); 
-            
-        }
-    })
-    */
+    
 }
 
 function showTimeData() {
@@ -1084,7 +1130,6 @@ function deleteOneService(event) {
     var nameTime = name + "Time";
     var nameDiv = name + "Div";
     var nameCancel = name + "Cancel";
-    console.log(hostname)
     chrome.storage.sync.get({"hostnames":[]}, 
     function(data) {
         if (data["hostnames"].includes(hostname)) {
@@ -1157,209 +1202,3 @@ function closeButton() {
     );
 }
 
-// function amazonDeleteHandler() {
-//     document.getElementById("amazonCancel").addEventListener("click", function() {
-//         document.getElementById("sortButtonContainer").style.display = 'none';
-//         document.getElementById("subscriptionServiceListDiv").style.display = 'none';
-//         document.getElementById('deleteMessageContainer').style.display = 'flex';
-//         document.getElementById("deleteamazonDiv").style.display = 'flex';
-//         document.getElementById("deleteAllContainer").style.display = 'none';
-//         document.getElementById("deleteData").style.display = 'none';
-//     });
-//     document.getElementById("deleteamazonNo").addEventListener("click", function() {
-//         window.location.reload();
-//     });
-//     document.getElementById("deleteamazonYes").addEventListener("click", deleteOneService);
-// }
-
-// function netflixDeleteHandler() {
-//     document.getElementById("netflixCancel").addEventListener("click", function() {
-//         document.getElementById("sortButtonContainer").style.display = 'none';
-//         document.getElementById("subscriptionServiceListDiv").style.display = 'none';
-//         document.getElementById('deleteMessageContainer').style.display = 'flex';
-//         document.getElementById("deletenetflixDiv").style.display = 'flex';
-//         document.getElementById("deleteAllContainer").style.display = 'none';
-//         document.getElementById("deleteData").style.display = 'none';
-//     });
-//     document.getElementById("deletenetflixNo").addEventListener("click", function() {
-//         window.location.reload();
-//     });
-//     document.getElementById("deletenetflixYes").addEventListener("click", deleteOneService);
-// }
-
-// function huluDeleteHandler() {
-//     document.getElementById("huluCancel").addEventListener("click", function() {
-//         document.getElementById("sortButtonContainer").style.display = 'none';
-//         document.getElementById("subscriptionServiceListDiv").style.display = 'none';
-//         document.getElementById('deleteMessageContainer').style.display = 'flex';
-//         document.getElementById("deletehuluDiv").style.display = 'flex';
-//         document.getElementById("deleteAllContainer").style.display = 'none';
-//         document.getElementById("deleteData").style.display = 'none';
-//     });
-//     document.getElementById("deletehuluNo").addEventListener("click", function() {
-//         window.location.reload();
-//     });
-//     document.getElementById("deletehuluYes").addEventListener("click", deleteOneService);
-// }
-
-// function peacockDeleteHandler() {
-//     document.getElementById("peacocktvCancel").addEventListener("click", function() {
-//         document.getElementById("sortButtonContainer").style.display = 'none';
-//         document.getElementById("subscriptionServiceListDiv").style.display = 'none';
-//         document.getElementById('deleteMessageContainer').style.display = 'flex';
-//         document.getElementById("deletepeacocktvDiv").style.display = 'flex';
-//         document.getElementById("deleteAllContainer").style.display = 'none';
-//         document.getElementById("deleteData").style.display = 'none';
-//     });
-//     document.getElementById("deletepeacocktvNo").addEventListener("click", function() {
-//         window.location.reload();
-//     });
-//     document.getElementById("deletepeacocktvYes").addEventListener("click", deleteOneService);
-// }
-
-// function hboDeleteHandler() {
-//     document.getElementById("hbomaxCancel").addEventListener("click", function() {
-//         document.getElementById("sortButtonContainer").style.display = 'none';
-//         document.getElementById("subscriptionServiceListDiv").style.display = 'none';
-//         document.getElementById('deleteMessageContainer').style.display = 'flex';
-//         document.getElementById("deletehbomaxDiv").style.display = 'flex';
-//         document.getElementById("deleteAllContainer").style.display = 'none';
-//         document.getElementById("deleteData").style.display = 'none';
-//     });
-//     document.getElementById("deletehbomaxNo").addEventListener("click", function() {
-//         window.location.reload();
-//     });
-//     document.getElementById("deletehbomaxYes").addEventListener("click", deleteOneService);
-// }
-
-// function deleteNetflix() {
-//     chrome.storage.sync.get({"hostnames":[]}, 
-//     function(data) {
-//         if (data["hostnames"].includes("www.netflix.com")) {
-//             console.log(data["hostnames"]);
-//             for (var i = 0; i < data["hostnames"].length; i++){
-//                 if (data["hostnames"][i] == "www.netflix.com") {
-//                     data["hostnames"].splice(i, 1);
-//                     console.log(data["hostnames"]);
-//                     chrome.storage.sync.set({"hostnames":data["hostnames"]}, function(){});
-//                 }
-//             }
-
-//             chrome.storage.sync.get({"usingTime":[]}, function(data) {
-//                 for (var i = 0; i < data["usingTime"].length; i++) {
-//                     if (data["usingTime"][i] == "netflixTime") {
-//                         data["usingTime"].splice(i, 1);
-//                         console.log(data["usingTime"]);
-//                         chrome.storage.sync.set({"usingTime":data["usingTime"]}, function(){});
-//                     }
-//                 }
-//             });
-//             document.getElementById('netflixDiv').style.display = 'none';
-//             window.open("https://help.netflix.com/en/node/407", "_blank");
-//             chrome.storage.sync.set({"www.netflix.com":0}, function() {});
-//             chrome.storage.sync.set({"netflixTime":0}, function() {});
-//         }
-//         else {
-//             console.log("no netflix");
-//         }
-//     })
-// }
-
-// function deleteHulu() {
-//     chrome.storage.sync.get({"hostnames":[]}, 
-//     function(data) {
-//         if (data["hostnames"].includes("www.hulu.com")) {
-//             console.log(data["hostnames"]);
-//             for (var i = 0; i < data["hostnames"].length; i++){
-//                 if (data["hostnames"][i] == "www.hulu.com") {
-//                     data["hostnames"].splice(i, 1);
-//                     console.log(data["hostnames"]);
-//                     chrome.storage.sync.set({"hostnames":data["hostnames"]}, function(){});
-//                 }
-//             }
-
-//             chrome.storage.sync.get({"usingTime":[]}, function(data) {
-//                 for (var i = 0; i < data["usingTime"].length; i++) {
-//                     if (data["usingTime"][i] == "huluTime") {
-//                         data["usingTime"].splice(i, 1);
-//                         console.log(data["usingTime"]);
-//                         chrome.storage.sync.set({"usingTime":data["usingTime"]}, function(){});
-//                     }
-//                 }
-//             });
-//             document.getElementById('huluDiv').style.display = 'none';
-//             window.open("https://help.hulu.com/s/article/cancel-hulu-subscription", "_blank");
-//             chrome.storage.sync.set({"www.hulu.com":0}, function() {});
-//             chrome.storage.sync.set({"huluTime":0}, function() {});
-//         }
-//         else {
-//             console.log("no hulu");
-//         }
-//     })
-// }
-
-// function deletePeacock() {
-//     chrome.storage.sync.get({"hostnames":[]}, 
-//     function(data) {
-//         if (data["hostnames"].includes("www.peacocktv.com")) {
-//             console.log(data["hostnames"]);
-//             for (var i = 0; i < data["hostnames"].length; i++){
-//                 if (data["hostnames"][i] == "www.peacocktv.com") {
-//                     data["hostnames"].splice(i, 1);
-//                     console.log(data["hostnames"]);
-//                     chrome.storage.sync.set({"hostnames":data["hostnames"]}, function(){});
-//                 }
-//             }
-
-//             chrome.storage.sync.get({"usingTime":[]}, function(data) {
-//                 for (var i = 0; i < data["usingTime"].length; i++) {
-//                     if (data["usingTime"][i] == "peacocktvTime") {
-//                         data["usingTime"].splice(i, 1);
-//                         console.log(data["usingTime"]);
-//                         chrome.storage.sync.set({"usingTime":data["usingTime"]}, function(){});
-//                     }
-//                 }
-//             });
-//             document.getElementById('peacocktvDiv').style.display = 'none';
-//             window.open("https://www.peacocktv.com/help/article/cancellation", "_blank");
-//             chrome.storage.sync.set({"www.peacocktv.com":0}, function() {});
-//             chrome.storage.sync.set({"peacocktvTime":0}, function() {});
-//         }
-//         else {
-//             console.log("no peacock tv");
-//         }
-//     })
-// }
-
-// function deleteHbo() {
-//     chrome.storage.sync.get({"hostnames":[]}, 
-//     function(data) {
-//         if (data["hostnames"].includes("www.hbomax.com")) {
-//             console.log(data["hostnames"]);
-//             for (var i = 0; i < data["hostnames"].length; i++){
-//                 if (data["hostnames"][i] == "www.hbomax.com") {
-//                     data["hostnames"].splice(i, 1);
-//                     console.log(data["hostnames"]);
-//                     chrome.storage.sync.set({"hostnames":data["hostnames"]}, function(){});
-//                 }
-//             }
-
-//             chrome.storage.sync.get({"usingTime":[]}, function(data) {
-//                 for (var i = 0; i < data["usingTime"].length; i++) {
-//                     if (data["usingTime"][i] == "hbomaxTime") {
-//                         data["usingTime"].splice(i, 1);
-//                         console.log(data["usingTime"]);
-//                         chrome.storage.sync.set({"usingTime":data["usingTime"]}, function(){});
-//                     }
-//                 }
-//             });
-//             document.getElementById('hbomaxDiv').style.display = 'none';
-//             window.open("https://help.hbomax.com/us/Answer/Detail/000001191", "_blank");
-//             chrome.storage.sync.set({"www.hbomax.com":0}, function() {});
-//             chrome.storage.sync.set({"hbomaxTime":0}, function() {});
-//         }
-//         else {
-//             console.log("no hbomax");
-//         }
-//     })
-// }

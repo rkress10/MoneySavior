@@ -1,6 +1,50 @@
-let rc_interval = 1000 * 60 * 60 * 24 * 7 * 4;
+// let rc_interval = 1000 * 60 * 60 * 24 * 7 * 4;
+let currDate = new Date();
+let tempDict = {}
+tempDict["rc_service"] = 0;
+
 let rc_service, rc_time;
 
+chrome.storage.sync.get(tempDict, function(time) {
+    
+    rc_service = time["rc_service"]
+    console.log(rc_service)
+    
+});
+tempDict = {}
+tempDict["rc_time"] = 0;
+chrome.storage.sync.get(tempDict, function(time) {
+    rc_time = time["rc_time"]
+    
+});
+
+window.onload=(function () {
+    let difference_in_time, reminder_interval;
+    chrome.storage.sync.get(["reminderInterval"], function(time2) {
+        reminder_interval = time2.reminderInterval;    
+    });
+    chrome.storage.sync.get(["reminderStartTime"], function(time) {
+        difference_in_time = currDate.getTime() - time.reminderStartTime 
+        // To calculate the no. of days between two dates
+        var difference_in_days = difference_in_time / (1000 * 3600 * 24);
+        console.log(difference_in_days)
+        if (difference_in_days >= reminder_interval){
+            console.log("surpass reminder interval")
+            var temp = new Date();
+            temp = temp.getTime();
+            chrome.storage.sync.set({"reminderStartTime": temp}, function() {});
+            chrome.notifications.create("remind", {
+                type: 'basic',
+                iconUrl: 'icon16.png',
+                title: 'Money Savior',
+                message: "You only spent " + rc_time + " minutes on " + rc_service + " in the past interval. You might want to cancel that to save money.",
+                priority: 1
+            });
+        }
+        
+    });
+
+});
 // A function that check if the user opens a streaming website every minute
 setInterval(function() {
    chrome.tabs.query({active:true, currentWindow: true}, function(tabs){
@@ -36,9 +80,9 @@ setInterval(function() {
 
 }, 60000); // Test with one seconds, should be one minute
 
-setInterval(function() {
-    confirm("You only spent " + rc_time + " on " + rc_service + " in the past interval. You might want to cancel that to save money.");
-}, rc_interval);
+// setInterval(function() {
+//     confirm("You only spent " + rc_time + " minutes on " + rc_service + " in the past interval. You might want to cancel that to save money.");
+// }, rc_interval);
 
 function GetCurrentTab() {
     var services = ["www.netflix.com", "www.hulu.com", "www.peacocktv.com","www.disneyplus.com",

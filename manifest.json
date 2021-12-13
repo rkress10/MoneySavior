@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Money Savior",
     "description": "Keeps track of your streaming services",
-    "version": "1",
+    "version": "1.0.0",
     "icons":
     {
         "16": "icon16.png"

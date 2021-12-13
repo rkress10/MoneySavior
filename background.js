@@ -1,3 +1,6 @@
+let rc_interval = 1000 * 60 * 60 * 24 * 7 * 4;
+let rc_service, rc_time;
+
 // A function that check if the user opens a streaming website every minute
 setInterval(function() {
    chrome.tabs.query({active:true, currentWindow: true}, function(tabs){
@@ -31,7 +34,11 @@ setInterval(function() {
         }
     )
 
-}, 1000); // Test with one seconds, should be one minute
+}, 60000); // Test with one seconds, should be one minute
+
+setInterval(function() {
+    confirm("You only spent " + rc_time + " on " + rc_service + " in the past interval. You might want to cancel that to save money.");
+}, rc_interval);
 
 function GetCurrentTab() {
     var services = ["www.netflix.com", "www.hulu.com", "www.peacocktv.com","www.disneyplus.com",

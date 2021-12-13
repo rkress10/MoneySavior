@@ -34,6 +34,7 @@ window.onload=function() {
     addStreamingService();
     sortByTimeButton();
     sortByNumberButton();
+
     document.getElementById("app").onmouseenter=function() {
         chrome.storage.sync.get({"sortedBy": "none"}, function(data) {
             if (data["sortedBy"] !== "none") {
@@ -235,6 +236,18 @@ function addStreamingService() {
         document.getElementById("deleteData").style.display = 'none';
         document.getElementById("addButtonDiv").style.display = 'none';
         document.getElementById("intervalSettings").style.display = "flex";
+    });
+
+    document.getElementById("ThreeDays").addEventListener("click", function() {
+        rc_interval = 1000 * 60 * 60 * 24 * 3;
+    });
+
+    document.getElementById("OneWeek").addEventListener("click", function() {
+        rc_interval = 1000 * 60 * 60 * 24 * 7;
+    });
+
+    document.getElementById("TwoWeeks").addEventListener("click", function() {
+        rc_interval = 1000 * 60 * 60 * 24 * 14;
     });
 
     document.getElementById("backToMain").addEventListener("click", function() {
